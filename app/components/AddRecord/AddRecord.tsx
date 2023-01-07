@@ -14,7 +14,7 @@ export const AddRecord = () => {
       className="w-64 rounded-lg border border-gray-100 px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
-      <Spacing size="2" />
+      <Spacing vertical="2" />
       <Input name="account" size="sm" placeholder="Account" />
       <Spacing />
       <Dropdown
@@ -35,7 +35,7 @@ export const AddRecord = () => {
       <Input name="account" size="sm" placeholder="Hello world" />
       <Spacing />
       <Input name="account" size="sm" placeholder="Hello world" />
-      <Spacing size="4" />
+      <Spacing vertical="4" />
       <div className="flex justify-center">
         <Button type="submit" size="sm">
           Add Record
