@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
+import type { TSize } from "../types";
 
 export type InputProps = {
   name: string;
-  size?: "lg" | "md" | "sm";
+  size?: TSize;
   hint?: string;
   error?: string;
   label?: ReactNode;

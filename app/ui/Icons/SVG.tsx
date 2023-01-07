@@ -1,8 +1,9 @@
 import clsx from "clsx";
+import { SVGSizes } from "./classes";
 import type { SVGProps } from "./types";
 
 export const SVG: React.FC<SVGProps> = (props) => {
-  const { size = "5", value, className } = props;
+  const { size = "md", value, className } = props;
 
   return (
     <svg
@@ -10,7 +11,7 @@ export const SVG: React.FC<SVGProps> = (props) => {
       xmlns="http://www.w3.org/2000/svg"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={clsx(className, `h-${size} w-${size}`)}
+      className={clsx(className, SVGSizes[size])}
     >
       {value}
     </svg>

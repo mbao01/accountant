@@ -1,10 +1,11 @@
+import type { TSize } from '../types';
 import type { ButtonProps } from './types';
 
 export const sizes = {
   lg: "rounded-md px-8 py-3 text-sm h-12",
   md: "rounded-md px-6 py-2 text-xs h-10",
   sm: "rounded-md px-4 py-2 text-xs h-8",
-} satisfies Record<NonNullable<ButtonProps['size']>, string>;
+} satisfies Record<TSize, string>;
 
 export const variants = {
     primary: 'bg-purple-500 hover:bg-purple-600 text-white',

@@ -1,7 +1,7 @@
 import { SVG } from "./SVG";
 import type { IconProps } from "./types";
 
-export const PlusIcon: React.FC<IconProps> = (props) => (
+export const ChevronDown: React.FC<IconProps> = (props) => (
   <SVG
     {...props}
     value={
@@ -9,7 +9,7 @@ export const PlusIcon: React.FC<IconProps> = (props) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
-        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+        d="M19 9l-7 7-7-7"
       />
     }
   />
