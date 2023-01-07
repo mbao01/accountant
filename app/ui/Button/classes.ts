@@ -1,6 +1,8 @@
 import type { TSize } from '../types';
 import type { ButtonProps } from './types';
 
+export const buttonClass = "flex items-center shadow-inner transition";
+
 export const sizes = {
   lg: "rounded-md px-8 py-3 text-sm h-12",
   md: "rounded-md px-6 py-2 text-xs h-10",
@@ -23,7 +25,7 @@ export const outlines = {
     warning: 'bg-white text-yellow-500 border border-yellow-500 hover:bg-yellow-100 shadow-current',
 }  satisfies Record<NonNullable<ButtonProps['variant']>, string>;
 
-export const disabledClasses = {
+export const disabledClass = {
     solid: 'bg-gray-400 text-white pointer-events-none cursor-not-allowed',
     outline: 'border border-gray-500 text-gray-500 pointer-events-none cursor-not-allowed',
 }

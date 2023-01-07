@@ -1,17 +1,19 @@
 import type { TSize } from "../types";
 
-export const inputClasses =
+export const inputClass =
   "bg-gray-100 rounded-md text-gray-900 placeholder:text-gray-300 focus:placeholder:text-gray-600";
 
-export const labelClasses = {
+export const labelClass = {
   lg: "text-sm",
   md: "text-sm",
   sm: "text-xs",
 } satisfies Record<TSize, string>;
 
-export const inputWrapperClasses = "flex flex-col gap-1 relative";
+export const inputWrapperClass = "flex flex-col gap-1 relative";
 
-export const infoClasses = {
+export const infoClass = "absolute -bottom-6";
+
+export const infoTypeClass = {
   hint: "text-sm text-blue-500",
   error: "text-sm text-red-500",
 };
@@ -22,4 +24,4 @@ export const sizes = {
   sm: "text-xs px-2 h-8",
 } satisfies Record<TSize, string>;
 
-export const disabledClasses = 'cursor-not-allowed text-gray-300';
+export const disabledClass = 'cursor-not-allowed text-gray-300';

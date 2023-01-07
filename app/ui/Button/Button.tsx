@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { outlines, sizes, variants, disabledClasses } from "./classes";
+import {
+  buttonClass,
+  outlines,
+  sizes,
+  variants,
+  disabledClass,
+} from "./classes";
 import type { ButtonProps } from "./types";
 
 export const Button: React.FC<ButtonProps> = (props) => {
@@ -16,11 +22,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
     <button
       type={type}
       className={clsx(
-        "flex items-center shadow-inner transition",
+        buttonClass,
         sizes[size],
         disabled && {
-          [disabledClasses.solid]: !outline,
-          [disabledClasses.outline]: outline,
+          [disabledClass.solid]: !outline,
+          [disabledClass.outline]: outline,
         },
         !disabled && {
           [variants[variant]]: !outline,

@@ -28,7 +28,7 @@ export const menuItemsContainerClass = 'py-1';
 
 export const menuItemClass = "px-4 py-2 cursor-pointer w-full text-left";
 
-export const transitionClasses = {
+export const transitionClass = {
   enter: "transition ease-out duration-100",
   enterFrom: "transform opacity-0 scale-95",
   enterTo: "transform opacity-100 scale-100",

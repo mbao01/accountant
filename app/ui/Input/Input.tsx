@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import {
   sizes,
-  infoClasses,
-  inputClasses,
-  labelClasses,
-  disabledClasses,
-  inputWrapperClasses,
+  infoClass,
+  infoTypeClass,
+  inputClass,
+  labelClass,
+  disabledClass,
+  inputWrapperClass,
 } from "./classes";
 import type { InputProps } from "./types";
 
@@ -24,13 +25,13 @@ export const Input: React.FC<InputProps> = (props) => {
 
   return (
     <label
-      className={clsx(inputWrapperClasses, {
-        [disabledClasses]: disabled,
+      className={clsx(inputWrapperClass, {
+        [disabledClass]: disabled,
       })}
       htmlFor={name}
     >
       <div
-        className={clsx(labelClasses[size], {
+        className={clsx(labelClass[size], {
           "text-gray-600": !disabled,
         })}
       >
@@ -43,14 +44,14 @@ export const Input: React.FC<InputProps> = (props) => {
         disabled={disabled}
         required={required}
         placeholder={placeholder}
-        className={clsx(inputClasses, sizes[size], {
-          [disabledClasses]: disabled,
+        className={clsx(inputClass, sizes[size], {
+          [disabledClass]: disabled,
         })}
       />
       <div
-        className={clsx("absolute -bottom-6", {
-          [infoClasses.error]: error,
-          [infoClasses.hint]: !error,
+        className={clsx(infoClass, {
+          [infoTypeClass.error]: error,
+          [infoTypeClass.hint]: !error,
         })}
       >
         {info}

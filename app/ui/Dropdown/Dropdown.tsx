@@ -7,7 +7,7 @@ import {
   menuItemsClass,
   menuItemsContainerClass,
   sizes,
-  transitionClasses,
+  transitionClass,
   triggerClass,
   variants,
 } from "./classes";
@@ -44,7 +44,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
         )}
       </Menu.Button>
 
-      <Transition as={Fragment} {...transitionClasses}>
+      <Transition as={Fragment} {...transitionClass}>
         <Menu.Items className={menuItemsClass}>
           <div className={menuItemsContainerClass}>
             {items.map(createMenuItem)}
