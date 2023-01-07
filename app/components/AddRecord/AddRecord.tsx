@@ -1,9 +1,19 @@
+import { Button } from "~/ui/Button";
+
 export const AddRecord = () => {
   const shades = [...Array(9).fill(0)];
   const colors = ["gray", "yellow", "red", "blue", "green", "purple"];
+  const variants: any = {
+    gray: "primary",
+    yellow: "warning",
+    red: "danger",
+    blue: "secondary",
+    green: "success",
+    purple: "primary",
+  };
 
   return (
-    <div>
+    <div className="py-5">
       <h2 className="my-8 text-xl font-bold">Accountant - Color Palette</h2>
       {colors.map((color) => (
         <div key={color} className="mb-10">
@@ -21,11 +31,55 @@ export const AddRecord = () => {
               );
             })}
           </div>
-          <button
-            className={`rounded-lg bg-${color}-500 px-6 py-3 text-xs uppercase text-white`}
-          >
-            Add Record
-          </button>
+          <div className="mb-2 flex items-end gap-6">
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="sm"
+            >
+              Add Record
+            </Button>
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="md"
+            >
+              Add Record
+            </Button>
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="lg"
+            >
+              Add Record
+            </Button>
+          </div>
+          <div className="mb-2 flex items-end gap-6">
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="sm"
+              outline
+            >
+              Add Record
+            </Button>
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="md"
+              outline
+            >
+              Add Record
+            </Button>
+            <Button
+              variant={variants[color]}
+              disabled={color === "gray"}
+              size="lg"
+              outline
+            >
+              Add Record
+            </Button>
+          </div>
         </div>
       ))}
     </div>
