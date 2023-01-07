@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { outlines, sizes, variants, disabledClasses } from "./constant";
+import { outlines, sizes, variants, disabledClasses } from "./classes";
 import type { ButtonProps } from "./types";
 
 export const Button: React.FC<ButtonProps> = (props) => {

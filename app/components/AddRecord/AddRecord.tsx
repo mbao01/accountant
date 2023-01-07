@@ -1,4 +1,5 @@
-import { Button } from "~/ui/Button";
+import { Button, type ButtonProps } from "~/ui/Button";
+import { Input } from "~/ui/Input";
 
 export const AddRecord = () => {
   const shades = [...Array(9).fill(0)];
@@ -11,6 +12,8 @@ export const AddRecord = () => {
     green: "success",
     purple: "primary",
   };
+  const sizes: ButtonProps["size"][] = ["sm", "md", "lg"];
+  const outlines = [false, true];
 
   return (
     <div className="py-5">
@@ -31,54 +34,46 @@ export const AddRecord = () => {
               );
             })}
           </div>
-          <div className="mb-2 flex items-end gap-6">
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
-              size="sm"
-            >
-              Add Record
-            </Button>
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
-              size="md"
-            >
-              Add Record
-            </Button>
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
+          {outlines.map((outline) => (
+            <div key={String(outline)} className="mb-2 flex items-end gap-6">
+              {sizes.map((size) => (
+                <Button
+                  key={size}
+                  variant={variants[color]}
+                  disabled={color === "gray"}
+                  size={size}
+                  outline={outline}
+                >
+                  Add Record
+                </Button>
+              ))}
+            </div>
+          ))}
+          <div className="mb-8">
+            <Input
+              name="hss"
               size="lg"
-            >
-              Add Record
-            </Button>
+              label="Hello World"
+              placeholder="My place"
+            />
           </div>
-          <div className="mb-2 flex items-end gap-6">
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
-              size="sm"
-              outline
-            >
-              Add Record
-            </Button>
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
+          <div className="mb-8">
+            <Input
+              disabled
+              name="hss"
               size="md"
-              outline
-            >
-              Add Record
-            </Button>
-            <Button
-              variant={variants[color]}
-              disabled={color === "gray"}
-              size="lg"
-              outline
-            >
-              Add Record
-            </Button>
+              label="Hello World"
+              placeholder="My place"
+            />
+          </div>
+          <div className="mb-10">
+            <Input
+              name="hi"
+              size="sm"
+              label="Hello World"
+              placeholder="My place"
+              required
+            />
           </div>
         </div>
       ))}
