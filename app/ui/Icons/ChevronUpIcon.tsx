@@ -1,7 +1,7 @@
 import { SVG } from "./SVG";
 import type { IconProps } from "./types";
 
-export const ChevronDown: React.FC<IconProps> = (props) => (
+export const ChevronUpIcon: React.FC<IconProps> = (props) => (
   <SVG
     {...props}
     value={
@@ -9,7 +9,7 @@ export const ChevronDown: React.FC<IconProps> = (props) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
-        d="M19 9l-7 7-7-7"
+        d="M5 15l7-7 7 7"
       />
     }
   />

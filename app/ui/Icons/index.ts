@@ -1,3 +1,4 @@
 export { PlusIcon } from "./PlusIcon";
-export { ChevronUp } from "./ChevronUp";
-export { ChevronDown } from "./ChevronDown";
+export { CheckIcon } from "./CheckIcon";
+export { ChevronUpIcon } from "./ChevronUpIcon";
+export { ChevronDownIcon } from "./ChevronDownIcon";
