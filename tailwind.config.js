@@ -96,7 +96,7 @@ module.exports = {
   plugins: [],
   safelist: [
     {
-      pattern: /^(bg-|border-|text-)/,
+      pattern: /^(bg-|border-|text-|h-|w-|m-|mx-|my-|p-|px-|py-|)/,
       variants: ["hover", "active"],
     },
   ],

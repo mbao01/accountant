@@ -16,7 +16,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     <button
       type={type}
       className={clsx(
-        "uppercase shadow-inner transition",
+        "flex items-center shadow-inner transition",
         sizes[size],
         disabled && {
           [disabledClasses.solid]: !outline,

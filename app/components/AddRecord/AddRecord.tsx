@@ -1,82 +1,32 @@
-import { Button, type ButtonProps } from "~/ui/Button";
+import { Form, useLocation } from "@remix-run/react";
+import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
+import { Spacing } from "~/ui/Spacing";
 
 export const AddRecord = () => {
-  const shades = [...Array(9).fill(0)];
-  const colors = ["gray", "yellow", "red", "blue", "green", "purple"];
-  const variants: any = {
-    gray: "primary",
-    yellow: "warning",
-    red: "danger",
-    blue: "secondary",
-    green: "success",
-    purple: "primary",
-  };
-  const sizes: ButtonProps["size"][] = ["sm", "md", "lg"];
-  const outlines = [false, true];
+  const location = useLocation();
 
   return (
-    <div className="py-5">
-      <h2 className="my-8 text-xl font-bold">Accountant - Color Palette</h2>
-      {colors.map((color) => (
-        <div key={color} className="mb-10">
-          <div className="my-4 flex flex-row gap-6">
-            {shades.map((_, i) => {
-              const level = (i + 1) * 100;
-              return (
-                <div key={i} className="text-center">
-                  <span className="text-sm">{level}</span>
-                  <div
-                    className={`bg-${color}-${level} h-8 w-8 rounded-lg`}
-                    style={{ printColorAdjust: "exact" }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          {outlines.map((outline) => (
-            <div key={String(outline)} className="mb-2 flex items-end gap-6">
-              {sizes.map((size) => (
-                <Button
-                  key={size}
-                  variant={variants[color]}
-                  disabled={color === "gray"}
-                  size={size}
-                  outline={outline}
-                >
-                  Add Record
-                </Button>
-              ))}
-            </div>
-          ))}
-          <div className="mb-8">
-            <Input
-              name="hss"
-              size="lg"
-              label="Hello World"
-              placeholder="My place"
-            />
-          </div>
-          <div className="mb-8">
-            <Input
-              disabled
-              name="hss"
-              size="md"
-              label="Hello World"
-              placeholder="My place"
-            />
-          </div>
-          <div className="mb-10">
-            <Input
-              name="hi"
-              size="sm"
-              label="Hello World"
-              placeholder="My place"
-              required
-            />
-          </div>
-        </div>
-      ))}
-    </div>
+    <Form
+      method="post"
+      action={`/records/add?redirect=${location.pathname}`}
+      className="w-64 rounded-lg border border-gray-100 px-6 py-4"
+    >
+      <h4 className="my-0 text-lg font-bold">Add Record</h4>
+      <Spacing size="2" />
+      <Input name="account" size="sm" placeholder="Account" />
+      <Spacing />
+      <Input name="account" size="sm" placeholder="Category type" />
+      <Spacing />
+      <Input name="account" size="sm" placeholder="Hello world" />
+      <Spacing />
+      <Input name="account" size="sm" placeholder="Hello world" />
+      <Spacing size="4" />
+      <div className="flex justify-center">
+        <Button type="submit" size="sm">
+          Add Record
+        </Button>
+      </div>
+    </Form>
   );
 };
