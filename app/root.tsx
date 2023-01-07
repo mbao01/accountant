@@ -9,16 +9,20 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import rootStylesheetUrl from "./styles/root.css";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: rootStylesheetUrl },
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Accountant App",
   viewport: "width=device-width,initial-scale=1",
 });
 
