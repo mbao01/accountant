@@ -71,11 +71,28 @@ export const AddRecord = ({ account }: AddRecordProps) => {
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
       <Spacing />
-      {!account && <Select name="account" size="sm" options={accounts} />}
+      {!account && (
+        <Select
+          name="account"
+          size="sm"
+          options={accounts}
+          isInvalid={validator.fields.get("account")?.isInvalid}
+        />
+      )}
       <Spacing />
-      <Select name="type" size="sm" options={categories} />
+      <Select
+        name="type"
+        size="sm"
+        options={categories}
+        isInvalid={validator.fields.get("type")?.isInvalid}
+      />
       <Spacing />
-      <Select name="category" size="sm" options={categories} />
+      <Select
+        name="category"
+        size="sm"
+        options={categories}
+        isInvalid={validator.fields.get("category")?.isInvalid}
+      />
       <Spacing />
       <div className="grid grid-cols-3 items-center gap-2">
         <Link
@@ -89,20 +106,25 @@ export const AddRecord = ({ account }: AddRecordProps) => {
           <CurrencyInput
             size="sm"
             name="amount"
-            label="Amount"
             currencyCode={CurrencyCode.NGN}
+            isInvalid={validator.fields.get("amount")?.isInvalid}
           />
         </div>
       </div>
       {showNoteInput && (
         <>
           <Spacing />
-          <Textarea name="note" size="sm" placeholder="Put a note in here." />
+          <Textarea
+            name="note"
+            size="sm"
+            placeholder="Put a note in here."
+            isInvalid={validator.fields.get("note")?.isInvalid}
+          />
         </>
       )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm" disabled={validator.result.isInvalid}>
+        <Button type="submit" size="sm" disabled={validator.isInvalid}>
           Add Record
         </Button>
       </div>

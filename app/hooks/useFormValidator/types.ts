@@ -1,8 +1,6 @@
 import type { z, ZodSchema } from "zod";
 
-declare type allKeys<T> = T extends any ? keyof T : never;
-
-type TFieldValidation = {
+export type TFieldValidation = {
   errors: string[];
   isValid?: boolean;
   isDirty?: boolean;
@@ -10,7 +8,7 @@ type TFieldValidation = {
 };
 
 export type ValidationState<T> = Omit<TFieldValidation, "errors"> & {
-  fields: Record<string, TFieldValidation>;
+  fields: Map<string, TFieldValidation>;
   errors: {
     [P in keyof T]?: string[];
   };
