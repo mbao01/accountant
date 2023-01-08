@@ -1,6 +1,7 @@
 import type { TSize } from "../types";
 
 export type TOption = {
+  id: string;
   label: string;
   type?: string;
   value?: string;
@@ -9,6 +10,7 @@ export type TOption = {
 };
 
 export type SelectProps = {
+  name?: string;
   size?: TSize;
   outline?: boolean;
   disabled?: boolean;

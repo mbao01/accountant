@@ -10,6 +10,7 @@ export type TOption = {
 };
 
 export type AutocompleteProps = {
+  name?: string;
   size?: TSize;
   outline?: boolean;
   disabled?: boolean;

@@ -60,12 +60,12 @@ export const AddRecord = () => {
       <Select
         size="sm"
         options={[
-          { label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { label: "Arlene Mccoy" },
-          { label: "Devon Webb" },
-          { label: "Tom Cook" },
-          { label: "Tanya Fox" },
-          { label: "Hellen Schmidt" },
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
         ]}
       />
       <Spacing />
@@ -73,12 +73,12 @@ export const AddRecord = () => {
         size="md"
         disabled
         options={[
-          { label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { label: "Arlene Mccoy" },
-          { label: "Devon Webb" },
-          { label: "Tom Cook" },
-          { label: "Tanya Fox" },
-          { label: "Hellen Schmidt" },
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
         ]}
       />
       <Spacing />
@@ -86,12 +86,12 @@ export const AddRecord = () => {
         size="lg"
         outline
         options={[
-          { label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { label: "Arlene Mccoy" },
-          { label: "Devon Webb" },
-          { label: "Tom Cook" },
-          { label: "Tanya Fox" },
-          { label: "Hellen Schmidt" },
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
         ]}
       />
       <Spacing />

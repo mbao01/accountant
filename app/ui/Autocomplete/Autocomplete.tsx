@@ -18,7 +18,7 @@ import type { AutocompleteProps, TOption } from "./types";
 import { ChevronUpDownIcon } from "../Icons";
 
 export const Autocomplete = (props: AutocompleteProps) => {
-  const { disabled, size = "md", outline, options } = props;
+  const { name, size = "md", outline, options, disabled } = props;
   const [selected, setSelected] = useState(options[0]);
   const [query, setQuery] = useState("");
 
@@ -34,6 +34,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   return (
     <Combobox value={selected} disabled={disabled} onChange={setSelected}>
+      {name && <input name={name} type="hidden" value={selected?.id} />}
       <div className={containerClass}>
         <div className={autocompleteClass}>
           <Combobox.Input

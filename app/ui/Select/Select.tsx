@@ -16,11 +16,12 @@ import type { SelectProps } from "./types";
 import { Options } from "./Option";
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { disabled, size = "md", outline, options } = props;
+  const { name, size = "md", outline, options, disabled } = props;
   const [selected, setSelected] = useState(options[0]);
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
+      {name && <input name={name} type="hidden" value={selected?.id} />}
       <div className={selectContainerClass}>
         <Listbox.Button
           className={clsx(
@@ -50,8 +51,8 @@ export const Select: React.FC<SelectProps> = (props) => {
         </Listbox.Button>
         <Transition as={Fragment} {...transitionClass}>
           <Listbox.Options className={optionsContainerClass}>
-            {options.map((option, optionIdx) => (
-              <Options key={optionIdx} option={option} />
+            {options.map((option) => (
+              <Options key={option.id} option={option} />
             ))}
           </Listbox.Options>
         </Transition>
