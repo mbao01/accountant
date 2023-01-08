@@ -1,6 +1,6 @@
 import type { InputProps } from "../Input/types";
 
-export type CurrencyInputProps = Omit<InputProps, "type"> & {
+export type CurrencyInputProps = Omit<InputProps, "type" | "step"> & {
   currencyCode: CurrencyCode;
 };
 

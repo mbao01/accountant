@@ -14,6 +14,7 @@ import type { InputProps } from "./types";
 export const Input: React.FC<InputProps> = (props) => {
   const {
     name,
+    step,
     size = "md",
     hint,
     type = "text",
@@ -23,6 +24,7 @@ export const Input: React.FC<InputProps> = (props) => {
     required,
     isInvalid,
     placeholder,
+    className,
   } = props;
   const info = hint || error;
 
@@ -45,11 +47,12 @@ export const Input: React.FC<InputProps> = (props) => {
       <input
         id={name}
         name={name}
+        step={step}
         type={type}
         disabled={disabled}
         required={required}
         placeholder={placeholder}
-        className={clsx(inputClass, sizes[size], {
+        className={clsx(className, inputClass, sizes[size], {
           [disabledClass]: disabled,
           [errorClasses.border]: !disabled && isInvalid,
         })}

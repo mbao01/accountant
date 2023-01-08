@@ -32,7 +32,7 @@ export const autocompleteClass =
   "flex w-full items-center justify-between gap-2";
 
 export const inputClass =
-  "flex w-full items-center justify-between pr-10";
+  "flex w-full items-center justify-between pr-10 focus:outline-none focus:ring-1";
 
 export const containerClass = "relative mt-1";
 

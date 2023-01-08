@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { TSize } from "../types";
 
-export type InputProps = {
+export type InputProps = Pick<HTMLInputElement, "step"> & {
   name: string;
   type?: "text" | "hidden" | "number";
   size?: TSize;
@@ -10,6 +10,7 @@ export type InputProps = {
   label?: ReactNode;
   disabled?: boolean;
   required?: boolean;
+  className?: string;
   isInvalid?: boolean;
   placeholder?: string;
 };

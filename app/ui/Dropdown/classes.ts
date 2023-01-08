@@ -12,7 +12,7 @@ export const disabledClass = {
     "border border-gray-300 text-gray-500 pointer-events-none cursor-not-allowed",
 };
 
-export const triggerClass = "flex w-full items-center justify-between gap-2";
+export const triggerClass = "flex w-full items-center justify-between gap-2 focus:outline-none focus:ring-1";
 
 export const variants = {
   solid: "bg-gray-100 text-gray-900",

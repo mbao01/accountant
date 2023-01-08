@@ -1,6 +1,6 @@
 import type { TSize, TVariant } from '../types';
 
-export const buttonClass = "flex items-center shadow-inner transition";
+export const buttonClass = "flex items-center shadow-inner transition focus:outline-none focus:ring-1";
 
 export const sizes = {
   lg: "rounded-md px-8 py-3 text-sm h-12",

@@ -28,7 +28,7 @@ export const optionStateClass = {
   default: "text-gray-900",
 };
 
-export const selectClass = "flex w-full items-center justify-between gap-2";
+export const selectClass = "flex w-full items-center justify-between gap-2 focus:outline-none focus:ring-1";
 
 export const selectOptionClass = "block truncate";
 

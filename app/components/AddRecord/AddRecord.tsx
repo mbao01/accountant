@@ -1,6 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { Autocomplete } from "~/ui/Autocomplete";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { CurrencyCode } from "~/ui/CurrencyInput.tsx/types";
@@ -80,7 +81,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
         />
       )}
       <Spacing />
-      <Select
+      <Autocomplete
         name="type"
         size="sm"
         options={categories}

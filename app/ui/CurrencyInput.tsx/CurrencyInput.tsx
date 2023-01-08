@@ -19,8 +19,10 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
     <div className="relative flex">
       <div className="w-full">
         <Input
+          step="any"
           type="number"
           size={size}
+          className="pr-12"
           placeholder={placeholder}
           {...inputProps}
         />
