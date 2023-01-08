@@ -12,7 +12,8 @@ export type TOption = {
 export type AutocompleteProps = {
   name?: string;
   size?: TSize;
+  options: TOption[];
   outline?: boolean;
   disabled?: boolean;
-  options: TOption[];
+  isInvalid?: boolean;
 };

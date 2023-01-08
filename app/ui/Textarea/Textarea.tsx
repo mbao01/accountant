@@ -7,6 +7,7 @@ import {
   labelClass,
   disabledClass,
   textareaWrapperClass,
+  errorClasses,
 } from "./classes";
 import type { TextareaProps } from "./types";
 
@@ -20,6 +21,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
     error,
     disabled,
     required,
+    isInvalid,
     placeholder,
   } = props;
   const info = hint || error;
@@ -34,6 +36,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
       <div
         className={clsx(labelClass[size], {
           "text-gray-600": !disabled,
+          [errorClasses.text]: !disabled && isInvalid,
         })}
       >
         {label}
@@ -48,6 +51,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
         placeholder={placeholder}
         className={clsx(textareaClass, sizes[size], {
           [disabledClass]: disabled,
+          [errorClasses.border]: !disabled && isInvalid,
         })}
       />
       <div

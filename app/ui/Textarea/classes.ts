@@ -25,3 +25,8 @@ export const sizes = {
 } satisfies Record<TSize, string>;
 
 export const disabledClass = 'cursor-not-allowed text-gray-300';
+
+export const errorClasses = {
+  text: 'text-red-500',
+  border: "ring-1 ring-red-400",
+}

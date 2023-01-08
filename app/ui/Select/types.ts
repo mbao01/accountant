@@ -12,8 +12,9 @@ export type TOption = {
 export type SelectProps = {
   name?: string;
   size?: TSize;
+  options: TOption[];
   outline?: boolean;
   disabled?: boolean;
-  options: TOption[];
+  isInvalid?: boolean;
   className?: string;
 };

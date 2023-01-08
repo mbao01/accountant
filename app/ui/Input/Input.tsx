@@ -7,6 +7,7 @@ import {
   labelClass,
   disabledClass,
   inputWrapperClass,
+  errorClasses,
 } from "./classes";
 import type { InputProps } from "./types";
 
@@ -20,6 +21,7 @@ export const Input: React.FC<InputProps> = (props) => {
     error,
     disabled,
     required,
+    isInvalid,
     placeholder,
   } = props;
   const info = hint || error;
@@ -34,6 +36,7 @@ export const Input: React.FC<InputProps> = (props) => {
       <div
         className={clsx(labelClass[size], {
           "text-gray-600": !disabled,
+          [errorClasses.text]: !disabled && isInvalid,
         })}
       >
         {label}
@@ -48,6 +51,7 @@ export const Input: React.FC<InputProps> = (props) => {
         placeholder={placeholder}
         className={clsx(inputClass, sizes[size], {
           [disabledClass]: disabled,
+          [errorClasses.border]: !disabled && isInvalid,
         })}
       />
       <div

@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
 import {
   disabledClass,
+  errorClass,
   optionsContainerClass,
   selectClass,
   selectContainerClass,
@@ -17,7 +18,15 @@ import { Options } from "./Option";
 import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const { name, size = "md", outline, options, disabled, className } = props;
+  const {
+    name,
+    size = "md",
+    outline,
+    options,
+    disabled,
+    isInvalid,
+    className,
+  } = props;
 
   const [selected, setSelected] = useState(options[0]);
   const value = selected?.id ?? selected.label;
@@ -39,6 +48,7 @@ export const Select: React.FC<SelectProps> = (props) => {
               : {
                   [variants.solid]: !outline,
                   [variants.outline]: outline,
+                  [errorClass]: isInvalid,
                 }
           )}
         >

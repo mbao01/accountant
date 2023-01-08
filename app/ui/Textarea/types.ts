@@ -10,5 +10,6 @@ export type TextareaProps = {
   label?: ReactNode;
   disabled?: boolean;
   required?: boolean;
+  isInvalid?: boolean;
   placeholder?: string;
 };

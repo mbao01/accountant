@@ -39,3 +39,5 @@ export const transitionClass = {
   leaveFrom: "opacity-100",
   leaveTo: "opacity-0",
 };
+
+export const errorClass = "ring-1 ring-red-400";

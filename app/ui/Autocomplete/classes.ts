@@ -48,3 +48,5 @@ export const transitionClass = {
 export const emptyStateClass = "relative cursor-default select-none py-2 px-4 text-gray-700";
 
 export const comboboxButtonClass = "absolute inset-y-0 right-0 flex items-center pr-2";
+
+export const errorClass = "ring-1 ring-red-400";

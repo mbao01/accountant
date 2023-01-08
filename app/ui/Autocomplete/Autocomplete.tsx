@@ -8,6 +8,7 @@ import {
   containerClass,
   disabledClass,
   emptyStateClass,
+  errorClass,
   inputClass,
   optionsContainerClass,
   sizes,
@@ -19,7 +20,7 @@ import { ChevronUpDownIcon } from "../Icons";
 import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Autocomplete = (props: AutocompleteProps) => {
-  const { name, size = "md", outline, options, disabled } = props;
+  const { name, size = "md", outline, options, disabled, isInvalid } = props;
 
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(options[0]);
@@ -53,6 +54,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                 : {
                     [variants.solid]: !outline,
                     [variants.outline]: outline,
+                    [errorClass]: isInvalid,
                   }
             )}
             displayValue={(option: TOption) => option.label}

@@ -10,5 +10,6 @@ export type InputProps = {
   label?: ReactNode;
   disabled?: boolean;
   required?: boolean;
+  isInvalid?: boolean;
   placeholder?: string;
 };

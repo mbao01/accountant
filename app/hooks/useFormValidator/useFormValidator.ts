@@ -15,6 +15,8 @@ export const useFormValidator = <T extends ZodRawShape>(
   const [validation, setValidation] = useState<ValidationState<T>>({
     fields: {},
     errors: {},
+    isValid: false,
+    isInvalid: true,
   });
 
   const zod = useMemo(() => {
@@ -22,7 +24,7 @@ export const useFormValidator = <T extends ZodRawShape>(
   }, [schema]);
 
   const validate: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
+    (e, ...d) => {
       if (zod) {
         const { name, value } = e.target as HTMLInputElement;
         valuesRef.current = { ...valuesRef.current, [name]: value };
@@ -34,25 +36,35 @@ export const useFormValidator = <T extends ZodRawShape>(
         const fields = Object.values(zod.keys).reduce((acc, key) => {
           const fieldError = errors?.[key] ?? [];
           const isValid = fieldError.length === 0;
+          // const value = valuesRef.current[key];
           acc[key] = {
             isValid,
             errors: fieldError,
-            isInvalid: !isValid,
+            isInvalid: isValid === false,
             isDirty: valuesRef.current[key] !== undefined,
           };
           return acc;
         }, {} as ValidationState<T>["fields"]);
 
-        setValidation({
+        const result = {
           fields,
           errors,
-          isValid: c.success,
-          isInvalid: !c.success,
-        });
+          isValid: c.success === true,
+          isInvalid: c.success === false,
+        };
+        setValidation(result);
       }
     },
     [zod]
   );
 
+  // useEffect(() => {
+  //   const formEl = formRef.current;
+  //   formEl?.addEventListener("focusout", validate as any, true);
+  //   return () => {
+  //     formEl?.removeEventListener("focusout", validate as any);
+  //   };
+  // }, [validate]);
+
   return { result: validation, validate };
-};
+};;

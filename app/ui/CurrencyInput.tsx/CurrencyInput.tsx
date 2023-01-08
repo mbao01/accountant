@@ -25,7 +25,7 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
           {...inputProps}
         />
       </div>
-      <div className="absolute right-0">
+      <div className="absolute right-0 bottom-0">
         <Select
           size={size}
           options={currencies}

@@ -89,6 +89,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
           <CurrencyInput
             size="sm"
             name="amount"
+            label="Amount"
             currencyCode={CurrencyCode.NGN}
           />
         </div>
@@ -101,7 +102,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm">
+        <Button type="submit" size="sm" disabled={validator.result.isInvalid}>
           Add Record
         </Button>
       </div>
