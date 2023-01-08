@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import type { TSize } from "../types";
 
-export type InputProps = {
+export type TextareaProps = {
   name: string;
-  type?: "text" | "hidden" | "number";
+  rows?: number;
   size?: TSize;
   hint?: string;
   error?: string;

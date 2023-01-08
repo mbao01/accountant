@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const colors = {
   /*
@@ -91,7 +91,12 @@ module.exports = {
   theme: {
     colors,
     fontFamily,
-    extend: {},
+    extend: {
+      minHeight: {
+        ...defaultTheme.spacing,
+        ...defaultTheme.minHeight,
+      },
+    },
   },
   plugins: [],
   safelist: [

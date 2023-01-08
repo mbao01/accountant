@@ -1,13 +1,64 @@
 import { Form, useLocation } from "@remix-run/react";
-import { Autocomplete } from "~/ui/Autocomplete";
+import { useState } from "react";
 import { Button } from "~/ui/Button";
-import { Dropdown } from "~/ui/Dropdown";
+import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
+import { CurrencyCode } from "~/ui/CurrencyInput.tsx/types";
 import { Input } from "~/ui/Input";
+import { Link } from "~/ui/Link";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
+import { Textarea } from "~/ui/Textarea";
+import type { AddRecordProps } from "./types";
 
-export const AddRecord = () => {
+export const AddRecord = ({ account }: AddRecordProps) => {
   const location = useLocation();
+  const [showNoteInput, setShowNoteInput] = useState(false);
+
+  const accounts = [
+    {
+      id: "monzo",
+      label: "Monzo UK",
+    },
+    {
+      id: "barclays",
+      label: "Barclays",
+    },
+    {
+      id: "gtb-naira",
+      label: "GTB Naira",
+    },
+    {
+      id: "gtb-dollar",
+      label: "GTB Dollar",
+    },
+    {
+      id: "gtb-dollar-card",
+      label: "GTB Dollar Card",
+    },
+    {
+      id: "access-naira",
+      label: "Access Naira",
+    },
+    {
+      id: "access-dollar",
+      label: "Access Dollar",
+    },
+  ];
+
+  const categories = [
+    {
+      id: "income",
+      label: "Income",
+    },
+    {
+      id: "expense",
+      label: "Expense",
+    },
+    {
+      id: "miscellaneous",
+      label: "Miscellaneous",
+    },
+  ];
 
   return (
     <Form
@@ -16,103 +67,35 @@ export const AddRecord = () => {
       className="w-64 rounded-lg border border-gray-100 px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
-      <Spacing vertical="2" />
-      <Input name="account" size="sm" placeholder="Account" />
       <Spacing />
-      <Autocomplete
-        size="sm"
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
+      {!account && <Select name="account" size="sm" options={accounts} />}
       <Spacing />
-      <Autocomplete
-        size="md"
-        disabled
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
+      <Select name="category" size="sm" options={categories} />
       <Spacing />
-      <Autocomplete
-        size="lg"
-        outline
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
+      <Select name="category" size="sm" options={categories} />
       <Spacing />
-      <Select
-        size="sm"
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
-      <Spacing />
-      <Select
-        size="md"
-        disabled
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
-      <Spacing />
-      <Select
-        size="lg"
-        outline
-        options={[
-          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
-          { id: "2", label: "Arlene Mccoy" },
-          { id: "3", label: "Devon Webb" },
-          { id: "4", label: "Tom Cook" },
-          { id: "5", label: "Tanya Fox" },
-          { id: "6", label: "Hellen Schmidt" },
-        ]}
-      />
-      <Spacing />
-      <Dropdown
-        size="sm"
-        items={[
-          { label: "Account settings" },
-          { label: "Support" },
-          { label: "License" },
-          { label: "Sign out" },
-        ]}
-      />
-      <Spacing />
-      <Dropdown size="md" outline items={[{ label: "Any" }]} />
-      <Spacing />
-      <Dropdown size="lg" items={[{ label: "Any" }]} />
-      <Input name="account" size="sm" placeholder="Category type" />
-      <Spacing />
-      <Input name="account" size="sm" placeholder="Hello world" />
-      <Spacing />
-      <Input name="account" size="sm" placeholder="Hello world" />
+      <div className="grid grid-cols-3 items-center gap-2">
+        <Link
+          underline
+          className="text-xs"
+          onClick={() => setShowNoteInput((b) => !b)}
+        >
+          Add note
+        </Link>
+        <div className="col-span-2">
+          <CurrencyInput
+            name="amount"
+            size="sm"
+            currencyCode={CurrencyCode.NGN}
+          />
+        </div>
+      </div>
+      {showNoteInput && (
+        <>
+          <Spacing />
+          <Textarea name="note" size="sm" placeholder="Put a note in here." />
+        </>
+      )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
         <Button type="submit" size="sm">

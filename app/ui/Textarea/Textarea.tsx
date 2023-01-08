@@ -3,19 +3,19 @@ import {
   sizes,
   infoClass,
   infoTypeClass,
-  inputClass,
+  textareaClass,
   labelClass,
   disabledClass,
-  inputWrapperClass,
+  textareaWrapperClass,
 } from "./classes";
-import type { InputProps } from "./types";
+import type { TextareaProps } from "./types";
 
-export const Input: React.FC<InputProps> = (props) => {
+export const Textarea: React.FC<TextareaProps> = (props) => {
   const {
     name,
     size = "md",
+    rows = 2,
     hint,
-    type = "text",
     label,
     error,
     disabled,
@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = (props) => {
 
   return (
     <label
-      className={clsx(inputWrapperClass, {
+      className={clsx(textareaWrapperClass, {
         [disabledClass]: disabled,
       })}
       htmlFor={name}
@@ -39,14 +39,14 @@ export const Input: React.FC<InputProps> = (props) => {
         {label}
         {required && "*"}
       </div>
-      <input
+      <textarea
         id={name}
+        rows={rows}
         name={name}
-        type={type}
         disabled={disabled}
         required={required}
         placeholder={placeholder}
-        className={clsx(inputClass, sizes[size], {
+        className={clsx(textareaClass, sizes[size], {
           [disabledClass]: disabled,
         })}
       />

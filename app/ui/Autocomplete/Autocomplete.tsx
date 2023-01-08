@@ -34,7 +34,13 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   return (
     <Combobox value={selected} disabled={disabled} onChange={setSelected}>
-      {name && <input name={name} type="hidden" value={selected?.id} />}
+      {name && (
+        <input
+          name={name}
+          type="hidden"
+          value={selected?.id ?? selected?.label}
+        />
+      )}
       <div className={containerClass}>
         <div className={autocompleteClass}>
           <Combobox.Input
@@ -73,7 +79,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
               <div className={emptyStateClass}>Nothing found.</div>
             ) : (
               filteredOptions.map((option) => (
-                <Option key={option.id} option={option} />
+                <Option key={option.id ?? option.label} option={option} />
               ))
             )}
           </Combobox.Options>

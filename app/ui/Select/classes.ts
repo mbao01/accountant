@@ -21,7 +21,7 @@ export const optionsContainerClass =
   "absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none";
 
 export const optionClass =
-  "relative block cursor-pointer select-none truncate py-2 pl-8 pr-2";
+  "relative block cursor-pointer select-none truncate p-2";
 
 export const optionStateClass = {
   active: "bg-gray-100 text-gray-900",
@@ -33,9 +33,6 @@ export const selectClass = "flex w-full items-center justify-between gap-2";
 export const selectOptionClass = "block truncate";
 
 export const selectContainerClass = "relative mt-1";
-
-export const selectedIconClass =
-  "text-amber-600 absolute inset-y-0 left-0 flex items-center pl-3";
 
 export const transitionClass = {
   leave: "transition ease-in duration-100",

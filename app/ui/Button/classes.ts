@@ -1,5 +1,4 @@
-import type { TSize } from '../types';
-import type { ButtonProps } from './types';
+import type { TSize, TVariant } from '../types';
 
 export const buttonClass = "flex items-center shadow-inner transition";
 
@@ -15,7 +14,7 @@ export const variants = {
     danger: 'bg-red-500 hover:bg-red-600 text-white',
     success: 'bg-green-500 hover:bg-green-600 text-white',
     warning: 'bg-yellow-500 hover:bg-yellow-600 text-white',
-}  satisfies Record<NonNullable<ButtonProps['variant']>, string>;
+}  satisfies Record<TVariant, string>;
 
 export const outlines = {
     primary: 'bg-white text-purple-500 border border-purple-500 hover:bg-purple-100 shadow-current',
@@ -23,7 +22,7 @@ export const outlines = {
     danger: 'bg-white text-red-500 border border-red-500 hover:bg-red-100 shadow-current',
     success: 'bg-white text-green-500 border border-green-500 hover:bg-green-100 shadow-current',
     warning: 'bg-white text-yellow-500 border border-yellow-500 hover:bg-yellow-100 shadow-current',
-}  satisfies Record<NonNullable<ButtonProps['variant']>, string>;
+}  satisfies Record<TVariant, string>;
 
 export const disabledClass = {
     solid: 'bg-gray-400 text-white pointer-events-none cursor-not-allowed',

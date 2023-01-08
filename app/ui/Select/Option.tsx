@@ -1,8 +1,7 @@
 import { Listbox } from "@headlessui/react";
 import clsx from "clsx";
 import React from "react";
-import { CheckIcon } from "../Icons";
-import { optionClass, optionStateClass, selectedIconClass } from "./classes";
+import { optionClass, optionStateClass } from "./classes";
 import type { TOption } from "./types";
 
 const _Option: React.FC<{ option: TOption }> = ({ option }) => (
@@ -16,16 +15,7 @@ const _Option: React.FC<{ option: TOption }> = ({ option }) => (
       })
     }
   >
-    {({ selected }) => (
-      <>
-        {option.label}
-        {selected ? (
-          <span className={selectedIconClass}>
-            <CheckIcon size="sm" />
-          </span>
-        ) : null}
-      </>
-    )}
+    {option.label}
   </Listbox.Option>
 );
 
