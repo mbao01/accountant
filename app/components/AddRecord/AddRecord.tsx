@@ -2,6 +2,7 @@ import { Form, useLocation } from "@remix-run/react";
 import { Button } from "~/ui/Button";
 import { Dropdown } from "~/ui/Dropdown";
 import { Input } from "~/ui/Input";
+import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
 
 export const AddRecord = () => {
@@ -16,6 +17,44 @@ export const AddRecord = () => {
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
       <Spacing vertical="2" />
       <Input name="account" size="sm" placeholder="Account" />
+      <Spacing />
+      <Select
+        size="sm"
+        options={[
+          { label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { label: "Arlene Mccoy" },
+          { label: "Devon Webb" },
+          { label: "Tom Cook" },
+          { label: "Tanya Fox" },
+          { label: "Hellen Schmidt" },
+        ]}
+      />
+
+      <Select
+        size="md"
+        disabled
+        options={[
+          { label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { label: "Arlene Mccoy" },
+          { label: "Devon Webb" },
+          { label: "Tom Cook" },
+          { label: "Tanya Fox" },
+          { label: "Hellen Schmidt" },
+        ]}
+      />
+
+      <Select
+        size="lg"
+        outline
+        options={[
+          { label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { label: "Arlene Mccoy" },
+          { label: "Devon Webb" },
+          { label: "Tom Cook" },
+          { label: "Tanya Fox" },
+          { label: "Hellen Schmidt" },
+        ]}
+      />
       <Spacing />
       <Dropdown
         size="sm"

@@ -1,7 +1,7 @@
 import { Menu } from "@headlessui/react";
 import { clsx } from "clsx";
 import { createElement } from "react";
-import { menuItemClass } from "./classes";
+import { menuItemClass, menuItemStateClass } from "./classes";
 import type { TMenuItem } from "./types";
 
 export const createMenuItem = (item: TMenuItem) => {
@@ -11,6 +11,7 @@ export const createMenuItem = (item: TMenuItem) => {
     label,
     value,
     onClick,
+    disabled,
     className,
     ...props
   } = typeof item === "string"
@@ -19,6 +20,7 @@ export const createMenuItem = (item: TMenuItem) => {
         type: undefined,
         value: undefined,
         onClick: undefined,
+        disabled: false,
         className: undefined,
       }
     : item;
@@ -30,7 +32,13 @@ export const createMenuItem = (item: TMenuItem) => {
       as,
       type: normType,
       key: value ?? label,
-      className: clsx(menuItemClass, className),
+      disabled,
+      className: ({ active }: { active: boolean }) =>
+        clsx(menuItemClass, className, {
+          [menuItemStateClass.active]: active,
+          [menuItemStateClass.default]: !active,
+          [menuItemStateClass.disabled]: disabled,
+        }),
       onClick: onClick ? () => onClick(value) : undefined,
       ...props,
     },

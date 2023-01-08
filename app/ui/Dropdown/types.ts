@@ -7,6 +7,7 @@ type TMenuItemObject<T = ElementType> = {
   type?: string;
   value?: string;
   className?: string;
+  disabled?: boolean;
   onClick?: (value: TMenuItemObject["value"]) => void;
 } & React.HTMLProps<T>;
 

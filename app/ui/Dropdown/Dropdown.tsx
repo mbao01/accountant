@@ -11,7 +11,7 @@ import {
   triggerClass,
   variants,
 } from "./classes";
-import { ChevronDown, ChevronUp } from "../Icons";
+import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
 import type { DropdownProps } from "./types";
 import { createMenuItem } from "./utils";
 
@@ -39,7 +39,11 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
         {({ open }) => (
           <>
             Options{" "}
-            {open ? <ChevronUp size={size} /> : <ChevronDown size={size} />}
+            {open ? (
+              <ChevronUpIcon size={size} />
+            ) : (
+              <ChevronDownIcon size={size} />
+            )}
           </>
         )}
       </Menu.Button>
