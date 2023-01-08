@@ -20,7 +20,7 @@ export const Select: React.FC<SelectProps> = (props) => {
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} disabled={disabled} onChange={setSelected}>
       <div className={selectContainerClass}>
         <Listbox.Button
           className={clsx(

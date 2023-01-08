@@ -1,6 +1,7 @@
 import type { TSize } from "../types";
 
 export type TOption = {
+  id: string;
   label: string;
   type?: string;
   value?: string;
@@ -8,7 +9,7 @@ export type TOption = {
   className?: string;
 };
 
-export type SelectProps = {
+export type AutocompleteProps = {
   size?: TSize;
   outline?: boolean;
   disabled?: boolean;

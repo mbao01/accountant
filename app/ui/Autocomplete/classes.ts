@@ -28,11 +28,13 @@ export const optionStateClass = {
   default: "text-gray-900",
 };
 
-export const selectClass = "flex w-full items-center justify-between gap-2";
+export const autocompleteClass =
+  "flex w-full items-center justify-between gap-2";
 
-export const selectOptionClass = "block truncate";
+export const inputClass =
+  "flex w-full items-center justify-between pr-10";
 
-export const selectContainerClass = "relative mt-1";
+export const containerClass = "relative mt-1";
 
 export const selectedIconClass =
   "text-amber-600 absolute inset-y-0 left-0 flex items-center pl-3";
@@ -42,3 +44,7 @@ export const transitionClass = {
   leaveFrom: "opacity-100",
   leaveTo: "opacity-0",
 };
+
+export const emptyStateClass = "relative cursor-default select-none py-2 px-4 text-gray-700";
+
+export const comboboxButtonClass = "absolute inset-y-0 right-0 flex items-center pr-2";

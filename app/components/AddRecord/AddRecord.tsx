@@ -1,4 +1,5 @@
 import { Form, useLocation } from "@remix-run/react";
+import { Autocomplete } from "~/ui/Autocomplete";
 import { Button } from "~/ui/Button";
 import { Dropdown } from "~/ui/Dropdown";
 import { Input } from "~/ui/Input";
@@ -18,6 +19,44 @@ export const AddRecord = () => {
       <Spacing vertical="2" />
       <Input name="account" size="sm" placeholder="Account" />
       <Spacing />
+      <Autocomplete
+        size="sm"
+        options={[
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
+        ]}
+      />
+      <Spacing />
+      <Autocomplete
+        size="md"
+        disabled
+        options={[
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
+        ]}
+      />
+      <Spacing />
+      <Autocomplete
+        size="lg"
+        outline
+        options={[
+          { id: "1", label: "Wade Cooper Wade Cooper Wade Cooper" },
+          { id: "2", label: "Arlene Mccoy" },
+          { id: "3", label: "Devon Webb" },
+          { id: "4", label: "Tom Cook" },
+          { id: "5", label: "Tanya Fox" },
+          { id: "6", label: "Hellen Schmidt" },
+        ]}
+      />
+      <Spacing />
       <Select
         size="sm"
         options={[
@@ -29,7 +68,7 @@ export const AddRecord = () => {
           { label: "Hellen Schmidt" },
         ]}
       />
-
+      <Spacing />
       <Select
         size="md"
         disabled
@@ -42,7 +81,7 @@ export const AddRecord = () => {
           { label: "Hellen Schmidt" },
         ]}
       />
-
+      <Spacing />
       <Select
         size="lg"
         outline
