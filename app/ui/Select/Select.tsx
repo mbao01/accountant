@@ -14,21 +14,19 @@ import {
 } from "./classes";
 import type { SelectProps } from "./types";
 import { Options } from "./Option";
+import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Select: React.FC<SelectProps> = (props) => {
   const { name, size = "md", outline, options, disabled, className } = props;
+
   const [selected, setSelected] = useState(options[0]);
+  const value = selected?.id ?? selected.label;
+  const inputRef = useDispatchInputEvent(value);
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
-      {name && (
-        <input
-          name={name}
-          type="hidden"
-          value={selected?.id ?? selected?.label}
-        />
-      )}
       <div className={clsx(selectContainerClass, className)}>
+        {name && <input ref={inputRef} name={name} type="hidden" />}
         <Listbox.Button
           className={clsx(
             sizes[size],

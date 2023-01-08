@@ -16,11 +16,15 @@ import {
 } from "./classes";
 import type { AutocompleteProps, TOption } from "./types";
 import { ChevronUpDownIcon } from "../Icons";
+import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Autocomplete = (props: AutocompleteProps) => {
   const { name, size = "md", outline, options, disabled } = props;
-  const [selected, setSelected] = useState(options[0]);
+
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState(options[0]);
+  const value = selected?.id ?? selected.label;
+  const inputRef = useDispatchInputEvent(value);
 
   const filteredOptions =
     query === ""
@@ -34,13 +38,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   return (
     <Combobox value={selected} disabled={disabled} onChange={setSelected}>
-      {name && (
-        <input
-          name={name}
-          type="hidden"
-          value={selected?.id ?? selected?.label}
-        />
-      )}
+      {name && <input ref={inputRef} name={name} type="hidden" />}
       <div className={containerClass}>
         <div className={autocompleteClass}>
           <Combobox.Input
