@@ -1,18 +1,20 @@
 import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
+import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { CurrencyCode } from "~/ui/CurrencyInput.tsx/types";
-import { Input } from "~/ui/Input";
 import { Link } from "~/ui/Link";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
 import { Textarea } from "~/ui/Textarea";
+import { NewRecordSchema } from "~/validation";
 import type { AddRecordProps } from "./types";
 
 export const AddRecord = ({ account }: AddRecordProps) => {
   const location = useLocation();
   const [showNoteInput, setShowNoteInput] = useState(false);
+  const validator = useFormValidator(NewRecordSchema);
 
   const accounts = [
     {
@@ -65,12 +67,13 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       method="post"
       action={`/records/add?redirect=${location.pathname}`}
       className="w-64 rounded-lg border border-gray-100 px-6 py-4"
+      onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
       <Spacing />
       {!account && <Select name="account" size="sm" options={accounts} />}
       <Spacing />
-      <Select name="category" size="sm" options={categories} />
+      <Select name="type" size="sm" options={categories} />
       <Spacing />
       <Select name="category" size="sm" options={categories} />
       <Spacing />
@@ -84,8 +87,8 @@ export const AddRecord = ({ account }: AddRecordProps) => {
         </Link>
         <div className="col-span-2">
           <CurrencyInput
-            name="amount"
             size="sm"
+            name="amount"
             currencyCode={CurrencyCode.NGN}
           />
         </div>

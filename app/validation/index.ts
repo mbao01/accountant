@@ -1,0 +1,1 @@
+export { NewRecordSchema } from "./newRecordSchema";

@@ -1,3 +1,3 @@
 export type AddRecordProps = {
-  account: any;
+  account?: any;
 };
