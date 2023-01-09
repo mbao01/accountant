@@ -18,6 +18,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
   const validator = useFormValidator(
     RecordObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
   );
+  const fields = validator.fields;
 
   const accounts = [
     {
@@ -77,24 +78,24 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       {!account && (
         <Select
           size="sm"
-          name="accountId"
           options={accounts}
-          isInvalid={validator.fields.get("account")?.isInvalid}
+          name={fields.accountId.name}
+          isInvalid={fields.accountId.isInvalid}
         />
       )}
       <Spacing />
       <Autocomplete
         size="sm"
-        name="recordTypeId"
         options={categories}
-        isInvalid={validator.fields.get("type")?.isInvalid}
+        name={fields.recordTypeId.name}
+        isInvalid={fields.recordTypeId.isInvalid}
       />
       <Spacing />
       <Select
         size="sm"
-        name="recordCategoryId"
         options={categories}
-        isInvalid={validator.fields.get("category")?.isInvalid}
+        name={fields.recordCategoryId.name}
+        isInvalid={fields.recordCategoryId.isInvalid}
       />
       <Spacing />
       <div className="grid grid-cols-3 items-center gap-2">
@@ -108,9 +109,9 @@ export const AddRecord = ({ account }: AddRecordProps) => {
         <div className="col-span-2">
           <CurrencyInput
             size="sm"
-            name="amount"
+            name={fields.amount.name}
             currencyCode={CurrencyCode.NGN}
-            isInvalid={validator.fields.get("amount")?.isInvalid}
+            isInvalid={fields.amount.isInvalid}
           />
         </div>
       </div>
@@ -121,7 +122,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
             name="note"
             size="sm"
             placeholder="Put a note in here."
-            isInvalid={validator.fields.get("note")?.isInvalid}
+            isInvalid={fields.note.isInvalid}
           />
         </>
       )}

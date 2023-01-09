@@ -1,20 +1,30 @@
 import type { z, ZodSchema } from "zod";
 
-type allKeys<T> = T extends any ? keyof T : never;
-
-export type TFieldValidation = {
+export type TFieldValidation<T> = {
+  name: keyof T;
   value?: unknown;
-  errors: string[];
+  errors: readonly string[];
   isValid?: boolean;
   isDirty?: boolean;
   isInvalid?: boolean;
 };
 
-export type ValidationState<T> = Omit<TFieldValidation, "errors"> & {
-  fields: Map<string, TFieldValidation>;
+export type TField<T> = TFieldValidation<T>["name"];
+
+export type ValidationState<T> = {
+  isValid?: boolean;
+  isDirty?: boolean;
+  isInvalid?: boolean;
+  fields: {
+    readonly [K in TField<T>]-?: TFieldValidation<T>;
+  };
   errors: {
-    [P in string]?: string[];
+    readonly [K in TField<T>]-?: string[] | undefined;
   };
 };
+
+export type TFields<T> = ValidationState<T>["fields"];
+
+export type TErrors<T> = ValidationState<T>["errors"];
 
 export type Schema<T extends ZodSchema> = z.infer<T>;

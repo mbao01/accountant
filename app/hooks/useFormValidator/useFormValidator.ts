@@ -1,20 +1,20 @@
-import type { ZodType } from "zod";
+import type { ZodObject, ZodRawShape } from "zod";
 import { type FormEventHandler, useState, useCallback, useRef } from "react";
-import type { TFieldValidation, ValidationState } from "./types";
+import type { TErrors, ValidationState } from "./types";
 
-export const useFormValidator = <T>(schema: ZodType<T>) => {
+export const useFormValidator = <T extends ZodRawShape>(
+  schema: ZodObject<T>
+) => {
+  console.log("X: ", schema.keyof().enum);
   const valuesRef = useRef<Record<string, unknown>>({});
   const [validation, setValidation] = useState<ValidationState<T>>({
-    fields: new Map(
-      Object.keys((schema as any).keyof().enum).map((key) => [
-        key,
-        {} as TFieldValidation,
-      ])
+    fields: Object.fromEntries(
+      Object.keys(schema.keyof().enum).map((key) => [key, { name: key }])
     ),
     errors: {},
     isValid: false,
     isInvalid: true,
-  });
+  } as ValidationState<T>);
 
   const validate: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
@@ -24,12 +24,13 @@ export const useFormValidator = <T>(schema: ZodType<T>) => {
         const c = schema.safeParse(valuesRef.current);
         const errors = (
           !c.success ? c.error.formErrors.fieldErrors : {}
-        ) as ValidationState<T>["errors"];
+        ) as TErrors<T>;
 
         const fieldError = errors?.[name] ?? [];
         const isValid = fieldError.length === 0;
 
         const field = {
+          name,
           value,
           isValid,
           errors: fieldError,
@@ -39,7 +40,7 @@ export const useFormValidator = <T>(schema: ZodType<T>) => {
 
         setValidation((v) => ({
           errors,
-          fields: v.fields.set(name, field),
+          fields: { ...v.fields, [name]: field },
           isValid: c.success === true,
           isInvalid: c.success === false,
         }));
