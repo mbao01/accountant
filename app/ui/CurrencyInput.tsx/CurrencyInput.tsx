@@ -1,8 +1,8 @@
-import { currencySelectorClass } from "./classes";
-import { Input } from "../Input";
-import { CurrencyCode, type CurrencyInputProps, CurrencySign } from "./types";
 import { useState } from "react";
+import { Input } from "../Input";
 import { Select } from "../Select";
+import { currencySelectorClass } from "./classes";
+import { CurrencyCode, type CurrencyInputProps, CurrencySign } from "./types";
 
 export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
   const { currencyCode, size, placeholder = "0.00", ...inputProps } = props;

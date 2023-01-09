@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,14 +8,14 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Account   Account[]
+  Password  Password?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+  @@map("users")
 }
 
 model Password {
@@ -23,16 +23,111 @@ model Password {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+
+  @@map("passwords")
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model Account {
+  id              String       @id @unique @default(cuid())
+  name            String
+  number          String       @unique
+  sortCode        String?
+  currency        Currency     @relation(fields: [currencyId], references: [id])
+  currencyId      String
+  startingBalance Int
+  bankName        String
+  bankAddress     String?
+  bankCountry     String
+  tag             TagPattern?  @default(DOTTED)
+  createdAt       DateTime?    @default(now())
+  updatedAt       DateTime?    @updatedAt
+  Record          Record[]
+  RecordType      RecordType[]
+  user            User         @relation(fields: [userId], references: [id])
+  userId          String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@map("accounts")
+}
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+model Currency {
+  id        String       @id @unique @default(cuid())
+  code      CurrencyCode @unique
+  sign      CurrencySign @unique
+  createdAt DateTime?    @default(now())
+  updatedAt DateTime?    @updatedAt
+  Account   Account[]
+
+  @@map("currencies")
+}
+
+model RecordType {
+  id          String           @id @unique @default(cuid())
+  name        String
+  description String
+  tag         TagColor?        @default(BLUE)
+  Account     Account[]
+  category    RecordCategory[]
+  createdAt   DateTime?        @default(now())
+  updatedAt   DateTime?        @updatedAt
+  Record      Record[]
+
+  @@map("record_types")
+}
+
+model RecordCategory {
+  id           String      @id @unique @default(cuid())
+  name         String
+  description  String
+  createdAt    DateTime?   @default(now())
+  updatedAt    DateTime?   @updatedAt
+  RecordType   RecordType? @relation(fields: [recordTypeId], references: [id])
+  recordTypeId String?
+  Record       Record[]
+
+  @@map("record_categories")
+}
+
+model Record {
+  id               String         @id @unique @default(cuid())
+  amount           Int
+  type             RecordType     @relation(fields: [recordTypeId], references: [id])
+  category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
+  account          Account        @relation(fields: [accountId], references: [id])
+  currency         CurrencyCode
+  note             String?
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @updatedAt
+  recordTypeId     String
+  recordCategoryId String
+  accountId        String
+
+  @@map("records")
+}
+
+enum CurrencyCode {
+  USD
+  NGN
+  EUR
+  RUB
+  GBP
+  CNY
+}
+
+enum CurrencySign {
+  USD @map("$")
+  GBP @map("£")
+  CNY @map("¥")
+  RUB @map("₽")
+  NGN @map("₦")
+  EUR @map("€")
+}
+
+enum TagColor {
+  BLUE  @map("Blue,HSL(80deg 50% 50%)")
+  GREEN @map("Green,HSL(40deg 50% 50%)")
+}
+
+enum TagPattern {
+  DOTTED  @map("dotted")
+  CIRCLES @map("circles")
 }
