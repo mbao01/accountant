@@ -3,6 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
 import {
+  containerClass,
   disabledClass,
   errorClasses,
   labelClass,
@@ -37,54 +38,56 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
-      {label && (
-        <label
-          htmlFor={name}
-          className={clsx(labelClass[size], {
-            "text-gray-600": !disabled,
-            [errorClasses.text]: !disabled && isInvalid,
-          })}
-        >
-          {label}
-          {required && "*"}
-        </label>
-      )}
-      <div className={clsx(selectContainerClass, className)}>
-        {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
-        <Listbox.Button
-          className={clsx(
-            sizes[size],
-            selectClass,
-            disabled
-              ? {
-                  [disabledClass.solid]: !outline,
-                  [disabledClass.outline]: outline,
-                }
-              : {
-                  [variants.solid]: !outline,
-                  [variants.outline]: outline,
-                  [errorClasses.border]: isInvalid,
-                }
-          )}
-        >
-          {({ open, value }) => (
-            <>
-              <span className={selectOptionClass}>{value.label}</span>
-              {open ? (
-                <ChevronUpIcon size={size} />
-              ) : (
-                <ChevronDownIcon size={size} />
-              )}
-            </>
-          )}
-        </Listbox.Button>
-        <Transition as={Fragment} {...transitionClass}>
-          <Listbox.Options className={optionsContainerClass}>
-            {options.map((option) => (
-              <Options key={option.id ?? option.label} option={option} />
-            ))}
-          </Listbox.Options>
-        </Transition>
+      <div className={containerClass}>
+        {label && (
+          <label
+            htmlFor={name}
+            className={clsx(labelClass[size], {
+              "text-gray-600": !disabled,
+              [errorClasses.text]: !disabled && isInvalid,
+            })}
+          >
+            {label}
+            {required && "*"}
+          </label>
+        )}
+        <div className={clsx(selectContainerClass, className)}>
+          {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
+          <Listbox.Button
+            className={clsx(
+              sizes[size],
+              selectClass,
+              disabled
+                ? {
+                    [disabledClass.solid]: !outline,
+                    [disabledClass.outline]: outline,
+                  }
+                : {
+                    [variants.solid]: !outline,
+                    [variants.outline]: outline,
+                    [errorClasses.border]: isInvalid,
+                  }
+            )}
+          >
+            {({ open, value }) => (
+              <>
+                <span className={selectOptionClass}>{value.label}</span>
+                {open ? (
+                  <ChevronUpIcon size={size} />
+                ) : (
+                  <ChevronDownIcon size={size} />
+                )}
+              </>
+            )}
+          </Listbox.Button>
+          <Transition as={Fragment} {...transitionClass}>
+            <Listbox.Options className={optionsContainerClass}>
+              {options.map((option) => (
+                <Options key={option.id ?? option.label} option={option} />
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
       </div>
     </Listbox>
   );

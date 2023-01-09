@@ -23,6 +23,8 @@ export const variants = {
   outline: "border border-gray-500 text-gray-900",
 };
 
+export const containerClass = "flex flex-col gap-1";
+
 export const optionsContainerClass =
   "absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none";
 
@@ -34,13 +36,13 @@ export const optionStateClass = {
   default: "text-gray-900",
 };
 
-export const autocompleteClass =
+export const comboboxClass =
   "flex w-full items-center justify-between gap-2";
 
 export const inputClass =
   "flex w-full items-center justify-between pr-10 focus:outline-none focus:ring-1";
 
-export const containerClass = "relative";
+export const comboboxContainerClass = "relative";
 
 export const selectedIconClass =
   "text-amber-600 absolute inset-y-0 left-0 flex items-center pl-3";

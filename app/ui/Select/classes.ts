@@ -7,9 +7,9 @@ export const sizes = {
 } satisfies Record<TSize, string>;
 
 export const labelClass = {
-  lg: "text-sm mb-1",
-  md: "text-sm mb-1",
-  sm: "text-xs mb-1",
+  lg: "text-sm",
+  md: "text-sm",
+  sm: "text-xs",
 } satisfies Record<TSize, string>;
 
 export const disabledClass = {
@@ -22,6 +22,8 @@ export const variants = {
   solid: "bg-gray-100 text-gray-900",
   outline: "border border-gray-500 text-gray-900",
 };
+
+export const containerClass = "flex flex-col gap-1";
 
 export const optionsContainerClass =
   "absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none";

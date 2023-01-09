@@ -30,31 +30,38 @@ export const NewAccount = () => {
     <Form
       method="post"
       action={`/accounts/new?redirect=${location.pathname}`}
-      className="w-64 rounded-lg border border-gray-100 px-6 py-4"
+      className="w-96 rounded-lg border border-gray-100 px-6 py-4"
       onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">New Account</h4>
       <Spacing />
-      <Input size="sm" label="Account name" {...fields.name} />
+      <div className="grid grid-cols-2 gap-4">
+        <Input size="sm" label="Account name" {...fields.name} />
+        <Input size="sm" label="Account number" {...fields.number} />
+      </div>
       <Spacing />
-      <Input size="sm" label="Account number" {...fields.number} />
+      <div className="grid grid-cols-2 gap-4">
+        <Input size="sm" label="Sort code" {...fields.sortCode} />
+        <CurrencyInput
+          size="sm"
+          label="Starting balance"
+          {...fields.startingBalance}
+          currencyProps={fields.currencyId}
+        />
+      </div>
       <Spacing />
-      <Input size="sm" label="Sort code" {...fields.sortCode} />
+      <div className="grid grid-cols-2 gap-4">
+        <Select label="Tag" options={categories} size="sm" {...fields.tag} />
+      </div>
+      <hr className="my-5" />
+      <div className="grid grid-cols-2 gap-4">
+        <Input label="Bank name" size="sm" {...fields.bankName} />
+        <Input label="Bank address" size="sm" {...fields.bankAddress} />
+      </div>
       <Spacing />
-      <CurrencyInput
-        size="sm"
-        label="Starting balance"
-        {...fields.startingBalance}
-        currencyProps={fields.currencyId}
-      />
-      <Spacing />
-      <Select label="Tag" options={categories} size="sm" {...fields.tag} />
-      <Spacing />
-      <Input label="Bank name" size="sm" {...fields.bankName} />
-      <Spacing />
-      <Input label="Bank address" size="sm" {...fields.bankAddress} />
-      <Spacing />
-      <Input label="Bank country" size="sm" {...fields.bankCountry} />
+      <div className="grid grid-cols-2 gap-4">
+        <Input label="Bank country" size="sm" {...fields.bankCountry} />
+      </div>
       <Spacing vertical="4" />
       <div className="flex justify-center">
         <Button type="submit" size="sm" disabled={validator.isInvalid}>
