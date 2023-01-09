@@ -1,6 +1,9 @@
 import type { z, ZodSchema } from "zod";
 
+type allKeys<T> = T extends any ? keyof T : never;
+
 export type TFieldValidation = {
+  value?: unknown;
   errors: string[];
   isValid?: boolean;
   isDirty?: boolean;
@@ -10,7 +13,7 @@ export type TFieldValidation = {
 export type ValidationState<T> = Omit<TFieldValidation, "errors"> & {
   fields: Map<string, TFieldValidation>;
   errors: {
-    [P in keyof T]?: string[];
+    [P in string]?: string[];
   };
 };
 

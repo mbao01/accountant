@@ -1,14 +1,12 @@
-import type { ZodObject, ZodRawShape } from "zod";
+import type { ZodType } from "zod";
 import { type FormEventHandler, useState, useCallback, useRef } from "react";
 import type { TFieldValidation, ValidationState } from "./types";
 
-export const useFormValidator = <T extends ZodRawShape>(
-  schema: ZodObject<T>
-) => {
+export const useFormValidator = <T>(schema: ZodType<T>) => {
   const valuesRef = useRef<Record<string, unknown>>({});
   const [validation, setValidation] = useState<ValidationState<T>>({
     fields: new Map(
-      Object.keys(schema.keyof().enum).map((key) => [
+      Object.keys((schema as any).keyof().enum).map((key) => [
         key,
         {} as TFieldValidation,
       ])
@@ -32,10 +30,11 @@ export const useFormValidator = <T extends ZodRawShape>(
         const isValid = fieldError.length === 0;
 
         const field = {
+          value,
           isValid,
           errors: fieldError,
           isInvalid: isValid === false,
-          isDirty: valuesRef.current[name] !== undefined,
+          isDirty: value !== undefined,
         };
 
         setValidation((v) => ({
@@ -50,4 +49,4 @@ export const useFormValidator = <T extends ZodRawShape>(
   );
 
   return { ...validation, validate };
-};;
+};

@@ -24,7 +24,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(options[0]);
-  const value = selected?.id ?? selected.label;
+  const value = selected?.id ?? selected?.value ?? selected.label;
   const inputRef = useDispatchInputEvent(value);
 
   const filteredOptions =

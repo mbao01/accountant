@@ -1,5 +1,6 @@
 import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
+import { RecordObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Autocomplete } from "~/ui/Autocomplete";
 import { Button } from "~/ui/Button";
@@ -9,13 +10,14 @@ import { Link } from "~/ui/Link";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
 import { Textarea } from "~/ui/Textarea";
-import { NewRecordSchema } from "~/validation";
 import type { AddRecordProps } from "./types";
 
 export const AddRecord = ({ account }: AddRecordProps) => {
   const location = useLocation();
   const [showNoteInput, setShowNoteInput] = useState(false);
-  const validator = useFormValidator(NewRecordSchema);
+  const validator = useFormValidator(
+    RecordObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
+  );
 
   const accounts = [
     {
@@ -74,23 +76,23 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       <Spacing />
       {!account && (
         <Select
-          name="account"
           size="sm"
+          name="accountId"
           options={accounts}
           isInvalid={validator.fields.get("account")?.isInvalid}
         />
       )}
       <Spacing />
       <Autocomplete
-        name="type"
         size="sm"
+        name="recordTypeId"
         options={categories}
         isInvalid={validator.fields.get("type")?.isInvalid}
       />
       <Spacing />
       <Select
-        name="category"
         size="sm"
+        name="recordCategoryId"
         options={categories}
         isInvalid={validator.fields.get("category")?.isInvalid}
       />

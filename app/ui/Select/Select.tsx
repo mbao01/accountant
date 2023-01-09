@@ -29,7 +29,7 @@ export const Select: React.FC<SelectProps> = (props) => {
   } = props;
 
   const [selected, setSelected] = useState(options[0]);
-  const value = selected?.id ?? selected.label;
+  const value = selected?.id ?? selected?.value ?? selected.label;
   const inputRef = useDispatchInputEvent(value);
 
   return (
