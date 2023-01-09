@@ -7,6 +7,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider              = "zod-prisma"
+  output                = "../app/generated/schemas"
+  relationModel         = true
+  modelCase             = "PascalCase"
+  modelSuffix            = "ObjectSchema"
+  useDecimalJs          = true // represent the prisma Decimal type using Decimal.js (as Prisma does)
+  imports               = null
+
+  // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-by-null-values
+  prismaJsonNullability = false // (default) uses prisma's scheme for JSON field nullability
+}
+
 model User {
   id        String    @id @default(cuid())
   email     String    @unique
