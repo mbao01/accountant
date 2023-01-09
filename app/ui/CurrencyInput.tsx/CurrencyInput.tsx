@@ -6,8 +6,8 @@ import { currencySelectorClass } from "./classes";
 import { type CurrencyInputProps, CurrencySign } from "./types";
 
 export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
-  const { currencyCode, size, placeholder = "0.00", ...inputProps } = props;
-  const [currency, setCurrency] = useState(currencyCode);
+  const { code, size, placeholder = "0.00", ...inputProps } = props;
+  const [currency, setCurrency] = useState(code);
   const currencies = [
     { label: CurrencySign.NGN, value: CurrencyCode.NGN },
     { label: CurrencySign.GBP, value: CurrencyCode.GBP },

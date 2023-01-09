@@ -76,27 +76,12 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
       <Spacing />
       {!account && (
-        <Select
-          size="sm"
-          options={accounts}
-          name={fields.accountId.name}
-          isInvalid={fields.accountId.isInvalid}
-        />
+        <Select size="sm" options={accounts} {...fields.accountId} />
       )}
       <Spacing />
-      <Autocomplete
-        size="sm"
-        options={categories}
-        name={fields.recordTypeId.name}
-        isInvalid={fields.recordTypeId.isInvalid}
-      />
+      <Autocomplete size="sm" options={categories} {...fields.recordTypeId} />
       <Spacing />
-      <Select
-        size="sm"
-        options={categories}
-        name={fields.recordCategoryId.name}
-        isInvalid={fields.recordCategoryId.isInvalid}
-      />
+      <Select size="sm" options={categories} {...fields.recordCategoryId} />
       <Spacing />
       <div className="grid grid-cols-3 items-center gap-2">
         <Link
@@ -107,22 +92,16 @@ export const AddRecord = ({ account }: AddRecordProps) => {
           Add note
         </Link>
         <div className="col-span-2">
-          <CurrencyInput
-            size="sm"
-            name={fields.amount.name}
-            currencyCode={CurrencyCode.NGN}
-            isInvalid={fields.amount.isInvalid}
-          />
+          <CurrencyInput size="sm" code={CurrencyCode.NGN} {...fields.amount} />
         </div>
       </div>
       {showNoteInput && (
         <>
           <Spacing />
           <Textarea
-            name="note"
             size="sm"
             placeholder="Put a note in here."
-            isInvalid={fields.note.isInvalid}
+            {...fields.note}
           />
         </>
       )}

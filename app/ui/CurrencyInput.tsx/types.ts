@@ -1,7 +1,7 @@
 import type { InputProps } from "../Input/types";
 
 export type CurrencyInputProps = Omit<InputProps, "type" | "step"> & {
-  currencyCode: CurrencyCode;
+  code: CurrencyCode;
 };
 
 export enum CurrencyCode {

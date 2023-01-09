@@ -5,7 +5,6 @@ import type { TErrors, ValidationState } from "./types";
 export const useFormValidator = <T extends ZodRawShape>(
   schema: ZodObject<T>
 ) => {
-  console.log("X: ", schema.keyof().enum);
   const valuesRef = useRef<Record<string, unknown>>({});
   const [validation, setValidation] = useState<ValidationState<T>>({
     fields: Object.fromEntries(
