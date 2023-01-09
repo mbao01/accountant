@@ -1,3 +1,4 @@
+import { CurrencyCode } from "@prisma/client";
 import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
 import { RecordObjectSchema } from "~/generated/schemas";
@@ -5,7 +6,6 @@ import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Autocomplete } from "~/ui/Autocomplete";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
-import { CurrencyCode } from "~/ui/CurrencyInput.tsx/types";
 import { Link } from "~/ui/Link";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";

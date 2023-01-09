@@ -4,7 +4,8 @@ import clsx from "clsx";
 import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
 import {
   disabledClass,
-  errorClass,
+  errorClasses,
+  labelClass,
   optionsContainerClass,
   selectClass,
   selectContainerClass,
@@ -21,9 +22,11 @@ export const Select: React.FC<SelectProps> = (props) => {
   const {
     name,
     size = "md",
+    label,
     outline,
     options,
     disabled,
+    required,
     isInvalid,
     className,
   } = props;
@@ -34,8 +37,20 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
+      {label && (
+        <label
+          htmlFor={name}
+          className={clsx(labelClass[size], {
+            "text-gray-600": !disabled,
+            [errorClasses.text]: !disabled && isInvalid,
+          })}
+        >
+          {label}
+          {required && "*"}
+        </label>
+      )}
       <div className={clsx(selectContainerClass, className)}>
-        {name && <input ref={inputRef} name={name} type="hidden" />}
+        {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
         <Listbox.Button
           className={clsx(
             sizes[size],
@@ -48,7 +63,7 @@ export const Select: React.FC<SelectProps> = (props) => {
               : {
                   [variants.solid]: !outline,
                   [variants.outline]: outline,
-                  [errorClass]: isInvalid,
+                  [errorClasses.border]: isInvalid,
                 }
           )}
         >

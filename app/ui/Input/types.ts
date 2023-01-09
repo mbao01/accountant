@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { TSize } from "../types";
 
-export type InputProps = Pick<HTMLInputElement, "step"> & {
+export type InputProps = Partial<Pick<HTMLInputElement, "step">> & {
   name: string;
   type?: "text" | "hidden" | "number";
   size?: TSize;

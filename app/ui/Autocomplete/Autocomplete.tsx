@@ -8,8 +8,9 @@ import {
   containerClass,
   disabledClass,
   emptyStateClass,
-  errorClass,
+  errorClasses,
   inputClass,
+  labelClass,
   optionsContainerClass,
   sizes,
   transitionClass,
@@ -20,7 +21,16 @@ import { ChevronUpDownIcon } from "../Icons";
 import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Autocomplete = (props: AutocompleteProps) => {
-  const { name, size = "md", outline, options, disabled, isInvalid } = props;
+  const {
+    name,
+    size = "md",
+    label,
+    outline,
+    options,
+    disabled,
+    required,
+    isInvalid,
+  } = props;
 
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(options[0]);
@@ -39,7 +49,19 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   return (
     <Combobox value={selected} disabled={disabled} onChange={setSelected}>
-      {name && <input ref={inputRef} name={name} type="hidden" />}
+      {label && (
+        <label
+          htmlFor={name}
+          className={clsx(labelClass[size], {
+            "text-gray-600": !disabled,
+            [errorClasses.text]: !disabled && isInvalid,
+          })}
+        >
+          {label}
+          {required && "*"}
+        </label>
+      )}
+      {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
       <div className={containerClass}>
         <div className={autocompleteClass}>
           <Combobox.Input
@@ -54,7 +76,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                 : {
                     [variants.solid]: !outline,
                     [variants.outline]: outline,
-                    [errorClass]: isInvalid,
+                    [errorClasses.border]: isInvalid,
                   }
             )}
             displayValue={(option: TOption) => option.label}

@@ -28,20 +28,22 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
 
   return (
     <label
+      htmlFor={name}
       className={clsx(textareaWrapperClass, {
         [disabledClass]: disabled,
       })}
-      htmlFor={name}
     >
-      <div
-        className={clsx(labelClass[size], {
-          "text-gray-600": !disabled,
-          [errorClasses.text]: !disabled && isInvalid,
-        })}
-      >
-        {label}
-        {required && "*"}
-      </div>
+      {label && (
+        <div
+          className={clsx(labelClass[size], {
+            "text-gray-600": !disabled,
+            [errorClasses.text]: !disabled && isInvalid,
+          })}
+        >
+          {label}
+          {required && "*"}
+        </div>
+      )}
       <textarea
         id={name}
         rows={rows}

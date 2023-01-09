@@ -1,9 +1,11 @@
-import { AddRecord } from "~/components/AddRecord";
+// import { AddRecord } from "~/components/AddRecord";
+import { NewAccount } from "~/components/NewAccount";
 
 export default function Index() {
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
-      <AddRecord />
+      {/* <AddRecord /> */}
+      <NewAccount />
     </main>
   );
 }

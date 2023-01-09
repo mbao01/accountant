@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { TSize } from "../types";
 
 export type TOption = {
@@ -12,8 +13,10 @@ export type TOption = {
 export type AutocompleteProps = {
   name?: string;
   size?: TSize;
+  label?: ReactNode;
   options: TOption[];
   outline?: boolean;
   disabled?: boolean;
+  required?: boolean;
   isInvalid?: boolean;
 };

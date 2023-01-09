@@ -30,20 +30,22 @@ export const Input: React.FC<InputProps> = (props) => {
 
   return (
     <label
+      htmlFor={name}
       className={clsx(inputWrapperClass, {
         [disabledClass]: disabled,
       })}
-      htmlFor={name}
     >
-      <div
-        className={clsx(labelClass[size], {
-          "text-gray-600": !disabled,
-          [errorClasses.text]: !disabled && isInvalid,
-        })}
-      >
-        {label}
-        {required && "*"}
-      </div>
+      {label && (
+        <div
+          className={clsx(labelClass[size], {
+            "text-gray-600": !disabled,
+            [errorClasses.text]: !disabled && isInvalid,
+          })}
+        >
+          {label}
+          {required && "*"}
+        </div>
+      )}
       <input
         id={name}
         name={name}

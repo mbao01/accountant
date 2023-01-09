@@ -1,20 +1,19 @@
-import { CurrencyCode } from "@prisma/client";
 import { useState } from "react";
 import { Input } from "../Input";
 import { Select } from "../Select";
 import { currencySelectorClass } from "./classes";
-import { type CurrencyInputProps, CurrencySign } from "./types";
+import { currencyOptions } from "./constant";
+import { type CurrencyInputProps } from "./types";
 
 export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
-  const { code, size, placeholder = "0.00", ...inputProps } = props;
+  const {
+    code,
+    size,
+    placeholder = "0.00",
+    currencyProps,
+    ...inputProps
+  } = props;
   const [currency, setCurrency] = useState(code);
-  const currencies = [
-    { label: CurrencySign.NGN, value: CurrencyCode.NGN },
-    { label: CurrencySign.GBP, value: CurrencyCode.GBP },
-    { label: CurrencySign.USD, value: CurrencyCode.USD },
-    { label: CurrencySign.EUR, value: CurrencyCode.EUR },
-    { label: CurrencySign.CNY, value: CurrencyCode.CNY },
-  ];
 
   return (
     <div className="relative flex">
@@ -31,9 +30,9 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
       <div className="absolute right-0 bottom-0">
         <Select
           size={size}
-          name="currency"
-          options={currencies}
+          options={currencyOptions}
           className={currencySelectorClass}
+          {...currencyProps}
         />
       </div>
     </div>

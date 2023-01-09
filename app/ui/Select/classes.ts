@@ -6,6 +6,12 @@ export const sizes = {
   sm: "rounded-md px-2 py-2 text-xs h-8",
 } satisfies Record<TSize, string>;
 
+export const labelClass = {
+  lg: "text-sm mb-1",
+  md: "text-sm mb-1",
+  sm: "text-xs mb-1",
+} satisfies Record<TSize, string>;
+
 export const disabledClass = {
   solid: "bg-gray-100 text-gray-500 pointer-events-none cursor-not-allowed",
   outline:
@@ -32,7 +38,7 @@ export const selectClass = "flex w-full items-center justify-between gap-2 focus
 
 export const selectOptionClass = "block truncate";
 
-export const selectContainerClass = "relative mt-1";
+export const selectContainerClass = "relative";
 
 export const transitionClass = {
   leave: "transition ease-in duration-100",
@@ -40,4 +46,7 @@ export const transitionClass = {
   leaveTo: "opacity-0",
 };
 
-export const errorClass = "ring-1 ring-red-400";
+export const errorClasses = {
+  text: 'text-red-500',
+  border: "ring-1 ring-red-400",
+}

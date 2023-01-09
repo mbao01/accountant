@@ -6,6 +6,12 @@ export const sizes = {
   sm: "rounded-md px-2 py-2 text-xs h-8",
 } satisfies Record<TSize, string>;
 
+export const labelClass = {
+  lg: "text-sm mb-1",
+  md: "text-sm mb-1",
+  sm: "text-xs mb-1",
+} satisfies Record<TSize, string>;
+
 export const disabledClass = {
   solid: "bg-gray-100 text-gray-500 pointer-events-none cursor-not-allowed",
   outline:
@@ -34,7 +40,7 @@ export const autocompleteClass =
 export const inputClass =
   "flex w-full items-center justify-between pr-10 focus:outline-none focus:ring-1";
 
-export const containerClass = "relative mt-1";
+export const containerClass = "relative";
 
 export const selectedIconClass =
   "text-amber-600 absolute inset-y-0 left-0 flex items-center pl-3";
@@ -49,4 +55,7 @@ export const emptyStateClass = "relative cursor-default select-none py-2 px-4 te
 
 export const comboboxButtonClass = "absolute inset-y-0 right-0 flex items-center pr-2";
 
-export const errorClass = "ring-1 ring-red-400";
+export const errorClasses = {
+  text: 'text-red-500',
+  border: "ring-1 ring-red-400",
+}

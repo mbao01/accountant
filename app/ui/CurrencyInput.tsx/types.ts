@@ -1,21 +1,7 @@
+import type { CurrencyCode } from "@prisma/client";
 import type { InputProps } from "../Input/types";
 
 export type CurrencyInputProps = Omit<InputProps, "type" | "step"> & {
-  code: CurrencyCode;
+  code?: CurrencyCode;
+  currencyProps?: any;
 };
-
-export enum CurrencyCode {
-  NGN = "NGN",
-  GBP = "GBP",
-  USD = "USD",
-  EUR = "EUR",
-  CNY = "CNY",
-}
-
-export enum CurrencySign {
-  NGN = "₦",
-  GBP = "£",
-  USD = "$",
-  EUR = "€",
-  CNY = "¥",
-}
