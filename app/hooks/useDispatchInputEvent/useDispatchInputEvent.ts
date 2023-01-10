@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export const useDispatchInputEvent = (value: string) => {
+export const useDispatchInputEvent = (value: string | undefined) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export const useDispatchInputEvent = (value: string) => {
           bubbles: true,
           cancelable: true,
         });
-        inputEl.value = value;
+        inputEl.value = value ?? "";
         inputEl.dispatchEvent(event);
       }
     }

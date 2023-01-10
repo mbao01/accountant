@@ -10,4 +10,4 @@ export const popoverTransition = {
 export const popoverClass = "relative";
 
 export const popoverPanelClass =
-  "absolute left-1/2 z-10 mt-3 w-auto -translate-x-1/2 transform overflow-hidden rounded-lg shadow-lg";
+  "absolute left-1/2 z-10 mt-3 w-auto -translate-x-1/2 transform rounded-lg shadow-lg bg-transparent";

@@ -30,11 +30,14 @@ export const Select: React.FC<SelectProps> = (props) => {
     required,
     isInvalid,
     className,
+    defaultValue,
   } = props;
 
-  const [selected, setSelected] = useState(options[0]);
-  const value = selected?.id ?? selected?.value ?? selected.label;
-  const inputRef = useDispatchInputEvent(value);
+  const [selected, setSelected] = useState(() =>
+    options.find((option) => option.value === defaultValue)
+  );
+  const inputValue = selected?.value ?? selected?.label;
+  const inputRef = useDispatchInputEvent(inputValue);
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
@@ -71,7 +74,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           >
             {({ open, value }) => (
               <>
-                <span className={selectOptionClass}>{value.label}</span>
+                <span className={selectOptionClass}>{value?.label}</span>
                 {open ? (
                   <ChevronUpIcon size={size} />
                 ) : (

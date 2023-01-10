@@ -20,4 +20,5 @@ export type SelectProps = {
   required?: boolean;
   isInvalid?: boolean;
   className?: string;
+  defaultValue?: TOption["value"];
 };

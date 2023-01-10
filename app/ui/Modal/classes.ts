@@ -24,7 +24,7 @@ export const dialogPanelContainerClass =
   "fixed inset-0 flex items-center justify-center p-4";
 
 export const dialogPanelClass =
-  "w-auto transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all";
+  "w-auto transform rounded-2xl bg-transparent text-left align-middle shadow-xl transition-all";
 
 export const dialogTitleClass =
   "text-sm uppercase leading-7 text-gray-600 pl-6 pr-9 mt-6";
