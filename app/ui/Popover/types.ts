@@ -1,13 +1,13 @@
-import type { MutableRefObject, ReactNode } from "react";
-
-type RenderFunction = (props?: {
-  open: boolean;
-  closePopover: (
-    ref?: MutableRefObject<HTMLElement | null> | HTMLElement
-  ) => void;
-}) => ReactNode;
+import type { MutableRefObject, ReactElement, ReactNode } from "react";
 
 export type PopoverProps = {
-  trigger: ReactNode | RenderFunction;
-  children: ReactNode | RenderFunction;
+  trigger: ReactNode | ((props?: { open: boolean }) => ReactElement);
+  children:
+    | ReactNode
+    | ((props?: {
+        open: boolean;
+        close: (
+          focusableElement?: HTMLElement | MutableRefObject<HTMLElement | null>
+        ) => void;
+      }) => ReactElement);
 };
