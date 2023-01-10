@@ -3,7 +3,6 @@ import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
 import { RecordObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
-import { Autocomplete } from "~/ui/Autocomplete";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Link } from "~/ui/Link";
@@ -79,7 +78,7 @@ export const AddRecord = ({ account }: AddRecordProps) => {
         <Select size="sm" options={accounts} {...fields.accountId} />
       )}
       <Spacing />
-      <Autocomplete size="sm" options={categories} {...fields.recordTypeId} />
+      <Select size="sm" options={categories} {...fields.recordTypeId} />
       <Spacing />
       <Select size="sm" options={categories} {...fields.recordCategoryId} />
       <Spacing />

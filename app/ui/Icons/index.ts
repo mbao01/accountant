@@ -1,5 +1,6 @@
 export { PlusIcon } from "./PlusIcon";
 export { CheckIcon } from "./CheckIcon";
+export { XCircleIcon } from "./XCircleIcon";
 export { ChevronUpIcon } from "./ChevronUpIcon";
 export { ChevronDownIcon } from "./ChevronDownIcon";
 export { ChevronUpDownIcon } from "./ChevronUpDownIcon";
