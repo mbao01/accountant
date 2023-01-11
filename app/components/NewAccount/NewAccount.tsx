@@ -7,6 +7,7 @@ import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
+import { Tag } from "~/ui/Tag";
 
 export const NewAccount = () => {
   const location = useLocation();
@@ -41,9 +42,13 @@ export const NewAccount = () => {
       <Spacing />
       <div className="grid grid-cols-2 gap-4">
         <Select
-          label="Tag"
-          options={TAG_PATTERN_OPTIONS}
           size="sm"
+          label="Tag"
+          options={TAG_PATTERN_OPTIONS.map((option) => ({
+            ...option,
+            label: <Tag name={option.label} full />,
+          }))}
+          defaultValue={TAG_PATTERN_OPTIONS[0].value}
           {...fields.tag}
         />
       </div>

@@ -22,12 +22,12 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
 
   const recordTypes = [
     {
-      id: TagColor.BLUE,
-      label: TagColor.BLUE,
+      id: "expense",
+      label: "Expense",
     },
     {
-      id: TagColor.GREEN,
-      label: TagColor.GREEN,
+      id: "income",
+      label: "Income",
     },
   ];
 
