@@ -16,7 +16,7 @@ import {
   variants,
 } from "./classes";
 import type { SelectProps } from "./types";
-import { Options } from "./Option";
+import { Option } from "./Option";
 import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Select: React.FC<SelectProps> = (props) => {
@@ -33,10 +33,10 @@ export const Select: React.FC<SelectProps> = (props) => {
     defaultValue,
   } = props;
 
-  const [selected, setSelected] = useState(() =>
-    options.find((option) => option.value === defaultValue)
+  const [selected, setSelected] = useState(
+    () => options.find((option) => option.value === defaultValue) // when `value` is available in option and `defaultValue` is not set, this acts like a typical dropdown
   );
-  const inputValue = selected?.value ?? selected?.label;
+  const inputValue = selected?.value ?? selected?.id;
   const inputRef = useDispatchInputEvent(inputValue);
 
   return (
@@ -86,7 +86,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           <Transition as={Fragment} {...transitionClass}>
             <Listbox.Options className={optionsContainerClass}>
               {options.map((option) => (
-                <Options key={option.id ?? option.label} option={option} />
+                <Option key={option.value ?? option.id} option={option} />
               ))}
             </Listbox.Options>
           </Transition>

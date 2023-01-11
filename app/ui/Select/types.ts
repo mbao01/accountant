@@ -3,7 +3,7 @@ import type { TSize } from "../types";
 
 export type TOption = {
   id?: string;
-  label: string;
+  label: ReactNode | string;
   type?: string;
   value?: string;
   disabled?: boolean;

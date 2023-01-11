@@ -1,11 +1,12 @@
-import { TagColor } from "@prisma/client";
 import { Form, useLocation } from "@remix-run/react";
 import { RecordTypeObjectSchema } from "~/generated/schemas";
+import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";
 import { Spacing } from "~/ui/Spacing";
+import { Tag } from "~/ui/Tag";
 import { Textarea } from "~/ui/Textarea";
 import type { CreateRecordTypeProps } from "./types";
 
@@ -15,19 +16,6 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
     RecordTypeObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
   );
   const fields = validator.fields;
-
-  const categories = [
-    {
-      id: TagColor.BLUE,
-      label: TagColor.BLUE,
-      value: TagColor.BLUE,
-    },
-    {
-      id: TagColor.GREEN,
-      label: TagColor.GREEN,
-      value: TagColor.GREEN,
-    },
-  ];
 
   return (
     <Form
@@ -46,8 +34,11 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
       <Spacing />
       <Select
         label="Tag"
-        options={categories}
-        defaultValue={TagColor.GREEN}
+        options={TAG_COLOR_OPTIONS.map((option) => ({
+          ...option,
+          label: <Tag name={option.value} full />,
+        }))}
+        defaultValue={TAG_COLOR_OPTIONS[0].value}
         size="sm"
         {...fields.tag}
       />

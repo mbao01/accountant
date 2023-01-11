@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "../Input";
 import { Select } from "../Select";
 import { currencySelectorClass } from "./classes";
-import { currencyOptions } from "./constant";
+import { CURRENCY_OPTIONS } from "./constant";
 import { type CurrencyInputProps } from "./types";
 
 export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
@@ -30,7 +30,8 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = (props) => {
       <div className="absolute right-0 bottom-0">
         <Select
           size={size}
-          options={currencyOptions}
+          options={CURRENCY_OPTIONS}
+          defaultValue={currency}
           className={currencySelectorClass}
           {...currencyProps}
         />

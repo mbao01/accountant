@@ -6,7 +6,6 @@ import type { TOption } from "./types";
 
 const _Option: React.FC<{ option: TOption }> = ({ option }) => (
   <Listbox.Option
-    key={option.label}
     value={option}
     className={({ active }) =>
       clsx(optionClass, {
@@ -19,4 +18,4 @@ const _Option: React.FC<{ option: TOption }> = ({ option }) => (
   </Listbox.Option>
 );
 
-export const Options = React.memo(_Option);
+export const Option = React.memo(_Option);

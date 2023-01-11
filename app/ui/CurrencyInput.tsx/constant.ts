@@ -1,9 +1,10 @@
-import { CurrencyCode, CurrencySign } from "@prisma/client";
+import { CurrencyCode } from "@prisma/client";
 
-export const currencyOptions = [
-  { label: CurrencySign.NGN, value: CurrencyCode.NGN },
-  { label: CurrencySign.GBP, value: CurrencyCode.GBP },
-  { label: CurrencySign.USD, value: CurrencyCode.USD },
-  { label: CurrencySign.EUR, value: CurrencyCode.EUR },
-  { label: CurrencySign.CNY, value: CurrencyCode.CNY },
+export const CURRENCY_OPTIONS = [
+  { label: "₦", value: CurrencyCode.NGN },
+  { label: "$", value: CurrencyCode.USD },
+  { label: "£", value: CurrencyCode.GBP },
+  { label: "€", value: CurrencyCode.EUR },
+  { label: "₽", value: CurrencyCode.RUB },
+  { label: "¥", value: CurrencyCode.CNY },
 ];

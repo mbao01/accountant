@@ -1,6 +1,6 @@
-import { TagPattern } from "@prisma/client";
 import { Form, useLocation } from "@remix-run/react";
 import { AccountObjectSchema } from "~/generated/schemas";
+import { TAG_PATTERN_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
@@ -14,17 +14,6 @@ export const NewAccount = () => {
     AccountObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
   );
   const fields = validator.fields;
-
-  const categories = [
-    {
-      id: TagPattern.DOTTED,
-      label: TagPattern.DOTTED,
-    },
-    {
-      id: TagPattern.CIRCLES,
-      label: TagPattern.CIRCLES,
-    },
-  ];
 
   return (
     <Form
@@ -51,7 +40,12 @@ export const NewAccount = () => {
       </div>
       <Spacing />
       <div className="grid grid-cols-2 gap-4">
-        <Select label="Tag" options={categories} size="sm" {...fields.tag} />
+        <Select
+          label="Tag"
+          options={TAG_PATTERN_OPTIONS}
+          size="sm"
+          {...fields.tag}
+        />
       </div>
       <hr className="my-5" />
       <div className="grid grid-cols-2 gap-4">
