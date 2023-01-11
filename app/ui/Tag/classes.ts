@@ -1,5 +1,6 @@
 import { TagPattern } from '@prisma/client';
 import { TagColor } from '@prisma/client';
+import type { TSize } from '../types';
 import type { TagProps } from "./types";
 
 export const tagContainerClass = "flex flex-row items-center flex-nowrap gap-1.5";
@@ -14,3 +15,9 @@ export const tagTypeClasses = {
 } satisfies Record<TagProps['name'], string>;
 
 export const tagLabelClass = "";
+
+export const labelClass = {
+    lg: "text-sm",
+    md: "text-sm",
+    sm: "text-xs",
+  } satisfies Record<TSize, string>;

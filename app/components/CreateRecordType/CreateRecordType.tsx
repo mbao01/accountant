@@ -36,7 +36,7 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
         label="Tag"
         options={TAG_COLOR_OPTIONS.map((option) => ({
           ...option,
-          label: <Tag name={option.value} full />,
+          label: <Tag name={option.value} size="sm" full />,
         }))}
         defaultValue={TAG_COLOR_OPTIONS[0].value}
         size="sm"

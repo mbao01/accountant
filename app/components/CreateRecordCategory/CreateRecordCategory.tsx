@@ -1,4 +1,3 @@
-import { TagColor } from "@prisma/client";
 import { Form, useLocation } from "@remix-run/react";
 import { RecordCategoryObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
