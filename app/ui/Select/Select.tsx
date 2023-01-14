@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
@@ -24,6 +24,7 @@ export const Select: React.FC<SelectProps> = (props) => {
     name,
     size = "md",
     label,
+    onBlur,
     outline,
     options,
     disabled,
@@ -38,6 +39,16 @@ export const Select: React.FC<SelectProps> = (props) => {
   );
   const inputValue = selected?.value ?? selected?.id;
   const inputRef = useDispatchInputEvent(inputValue);
+
+  const handleBlur = useCallback(
+    (e: any) => {
+      if (onBlur) {
+        e.target = inputRef.current;
+        onBlur(e);
+      }
+    },
+    [inputRef, onBlur]
+  );
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
@@ -84,7 +95,10 @@ export const Select: React.FC<SelectProps> = (props) => {
             )}
           </Listbox.Button>
           <Transition as={Fragment} {...transitionClass}>
-            <Listbox.Options className={optionsContainerClass}>
+            <Listbox.Options
+              onBlur={handleBlur}
+              className={optionsContainerClass}
+            >
               {options.map((option) => (
                 <Option key={option.value ?? option.id} option={option} />
               ))}

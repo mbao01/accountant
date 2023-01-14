@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { FocusEventHandler, ReactNode } from "react";
 import type { TSize } from "../types";
 
 export type TOption = {
@@ -21,4 +21,5 @@ export type SelectProps = {
   isInvalid?: boolean;
   className?: string;
   defaultValue?: TOption["value"];
+  onBlur?: FocusEventHandler<HTMLUListElement>;
 };

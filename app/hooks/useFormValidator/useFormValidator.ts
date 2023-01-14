@@ -1,21 +1,12 @@
 import type { ZodObject, ZodRawShape } from "zod";
-import { type FormEventHandler, useState, useCallback, useRef } from "react";
-import type { TErrors, ValidationState } from "./types";
+import { useState, useCallback, useRef } from "react";
+import type { TErrors, TValidator, ValidationState } from "./types";
 
 export const useFormValidator = <T extends ZodRawShape>(
   schema: ZodObject<T>
 ) => {
   const valuesRef = useRef<Record<string, unknown>>({});
-  const [validation, setValidation] = useState<ValidationState<T>>({
-    fields: Object.fromEntries(
-      Object.keys(schema.keyof().enum).map((key) => [key, { name: key }])
-    ),
-    errors: {},
-    isValid: false,
-    isInvalid: true,
-  } as ValidationState<T>);
-
-  const validate: FormEventHandler<HTMLFormElement> = useCallback(
+  const validate: TValidator = useCallback(
     (e) => {
       if (schema) {
         const { name, value } = e.target as HTMLInputElement;
@@ -37,16 +28,33 @@ export const useFormValidator = <T extends ZodRawShape>(
           isDirty: value !== undefined,
         };
 
-        setValidation((v) => ({
-          errors,
-          fields: { ...v.fields, [name]: field },
-          isValid: c.success === true,
-          isInvalid: c.success === false,
-        }));
+        setValidation((v) => {
+          const normField = { ...v.fields[name], ...field };
+          return {
+            errors,
+            fields: { ...v.fields, [name]: normField },
+            isValid: c.success === true,
+            isInvalid: c.success === false,
+          };
+        });
       }
     },
     [schema]
   );
+
+  const [validation, setValidation] = useState<ValidationState<T>>({
+    fields: Object.fromEntries(
+      Object.keys(schema.keyof().enum).map((key) => [
+        key,
+        { name: key, onBlur: validate },
+      ])
+    ),
+    errors: {},
+    isValid: false,
+    isInvalid: true,
+  } as ValidationState<T>);
+
+  console.log("Fields: ");
 
   return { ...validation, validate };
 };

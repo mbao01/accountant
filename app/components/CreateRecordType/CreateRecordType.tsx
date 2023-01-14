@@ -20,9 +20,8 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
   return (
     <Form
       method="post"
-      action={`/records/add?redirect=${location.pathname}`}
+      action={`/records/type/add?redirect=${location.pathname}`}
       className="w-64 rounded-lg border border-gray-100 bg-white px-6 py-4"
-      onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">
         Create Record Type
@@ -33,18 +32,18 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
       <Textarea size="sm" placeholder="Description" {...fields.description} />
       <Spacing />
       <Select
+        size="sm"
         label="Tag"
         options={TAG_COLOR_OPTIONS.map((option) => ({
           ...option,
           label: <Tag name={option.value} size="sm" full />,
         }))}
         defaultValue={TAG_COLOR_OPTIONS[0].value}
-        size="sm"
         {...fields.tag}
       />
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm" disabled={validator.isInvalid}>
+        <Button size="sm" type="submit" disabled={validator.isInvalid}>
           Create Type
         </Button>
       </div>

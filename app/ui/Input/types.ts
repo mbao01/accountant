@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { FocusEventHandler, ReactNode } from "react";
 import type { TSize } from "../types";
 
 export type InputProps = Partial<Pick<HTMLInputElement, "step">> & {
@@ -13,4 +13,5 @@ export type InputProps = Partial<Pick<HTMLInputElement, "step">> & {
   className?: string;
   isInvalid?: boolean;
   placeholder?: string;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 };

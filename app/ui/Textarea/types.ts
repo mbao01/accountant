@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { FocusEventHandler, ReactNode } from "react";
 import type { TSize } from "../types";
 
 export type TextareaProps = {
@@ -12,4 +12,5 @@ export type TextareaProps = {
   required?: boolean;
   isInvalid?: boolean;
   placeholder?: string;
+  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
 };

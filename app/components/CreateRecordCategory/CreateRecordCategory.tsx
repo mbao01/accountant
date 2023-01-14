@@ -1,4 +1,5 @@
-import { Form, useLocation } from "@remix-run/react";
+import { Form, useFetcher, useLocation } from "@remix-run/react";
+import { useEffect } from "react";
 import { RecordCategoryObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Button } from "~/ui/Button";
@@ -10,6 +11,7 @@ import type { CreateRecordCategoryProps } from "./types";
 
 export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const location = useLocation();
+  const fetcher = useFetcher();
   const validator = useFormValidator(
     RecordCategoryObjectSchema.omit({
       id: true,
@@ -19,23 +21,22 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   );
   const fields = validator.fields;
 
-  const recordTypes = [
-    {
-      id: "expense",
-      label: "Expense",
-    },
-    {
-      id: "income",
-      label: "Income",
-    },
-  ];
+  useEffect(() => {
+    fetcher.load("/records/type?index");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const recordTypes = (fetcher.data?.data ?? []).map(({ id, name }: any) => ({
+    id,
+    label: name,
+    value: id,
+  }));
 
   return (
     <Form
       method="post"
       action={`/records/add?redirect=${location.pathname}`}
       className="w-64 rounded-lg border border-gray-100 bg-white px-6 py-4"
-      onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">
         Create Record Category

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { Option } from "./Option";
@@ -26,6 +26,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     name,
     size = "md",
     label,
+    onBlur,
     outline,
     options,
     disabled,
@@ -47,6 +48,16 @@ export const Autocomplete = (props: AutocompleteProps) => {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
+  const handleBlur = useCallback(
+    (e: any) => {
+      if (onBlur) {
+        e.target = inputRef.current;
+        onBlur(e);
+      }
+    },
+    [inputRef, onBlur]
+  );
 
   return (
     <Combobox value={selected} disabled={disabled} onChange={setSelected}>
@@ -98,7 +109,10 @@ export const Autocomplete = (props: AutocompleteProps) => {
             {...transitionClass}
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className={optionsContainerClass}>
+            <Combobox.Options
+              className={optionsContainerClass}
+              onBlur={handleBlur}
+            >
               {filteredOptions.length === 0 && query !== "" ? (
                 <div className={emptyStateClass}>Nothing found.</div>
               ) : (

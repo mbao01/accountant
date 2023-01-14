@@ -1,4 +1,13 @@
+import type { FormEventHandler } from "react";
 import type { z, ZodSchema } from "zod";
+
+export type TValidator = FormEventHandler<
+  | HTMLFormElement
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLButtonElement
+  | HTMLUListElement
+>;
 
 export type TFieldValidation<T> = {
   name: keyof T;
@@ -7,6 +16,7 @@ export type TFieldValidation<T> = {
   isValid?: boolean;
   isDirty?: boolean;
   isInvalid?: boolean;
+  onBlur?: TValidator;
 };
 
 export type TField<T> = TFieldValidation<T>["name"];

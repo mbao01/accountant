@@ -70,7 +70,6 @@ export const AddRecord = ({ account }: AddRecordProps) => {
       method="post"
       action={`/records/add?redirect=${location.pathname}`}
       className="w-64 rounded-lg border border-gray-100 bg-white px-6 py-4"
-      onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
       <Spacing />

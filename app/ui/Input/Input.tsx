@@ -20,6 +20,7 @@ export const Input: React.FC<InputProps> = (props) => {
     type = "text",
     label,
     error,
+    onBlur,
     disabled,
     required,
     isInvalid,
@@ -51,6 +52,7 @@ export const Input: React.FC<InputProps> = (props) => {
         name={name}
         step={step}
         type={type}
+        onBlur={onBlur}
         disabled={disabled}
         required={required}
         placeholder={placeholder}

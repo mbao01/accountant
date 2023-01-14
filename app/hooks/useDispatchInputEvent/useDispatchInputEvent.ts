@@ -7,7 +7,7 @@ export const useDispatchInputEvent = (value: string | undefined) => {
     if (inputRef.current) {
       const inputEl = inputRef.current;
       if (inputEl.value !== value) {
-        const event = new Event("input", {
+        const event = new Event("change", {
           bubbles: true,
           cancelable: true,
         });

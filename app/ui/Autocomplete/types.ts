@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { FocusEventHandler, ReactNode } from "react";
 import type { TSize } from "../types";
 
 export type TOption = {
@@ -19,4 +19,5 @@ export type AutocompleteProps = {
   disabled?: boolean;
   required?: boolean;
   isInvalid?: boolean;
+  onBlur?: FocusEventHandler<HTMLUListElement>;
 };
