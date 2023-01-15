@@ -46,7 +46,7 @@ export const NewAccount = () => {
           label="Tag"
           options={TAG_PATTERN_OPTIONS.map((option) => ({
             ...option,
-            label: <Tag name={option.label} size="sm" full />,
+            label: <Tag name={option.value} size="sm" full />,
           }))}
           defaultValue={TAG_PATTERN_OPTIONS[0].value}
           {...fields.tag}

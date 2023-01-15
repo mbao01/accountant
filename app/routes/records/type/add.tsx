@@ -20,6 +20,6 @@ export const action: ActionFunction = ({ request }) =>
     >;
 
     CreateRecordTypeObjectSchema.parse(data);
-    const res = await prisma.recordCategory.create({ data });
+    const res = await prisma.recordType.create({ data });
     return json({ success: true, data: res }, httpStatus.OK);
   });
