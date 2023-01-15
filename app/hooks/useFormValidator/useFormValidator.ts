@@ -54,7 +54,5 @@ export const useFormValidator = <T extends ZodRawShape>(
     isInvalid: true,
   } as ValidationState<T>);
 
-  console.log("Fields: ");
-
   return { ...validation, validate };
 };

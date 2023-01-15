@@ -1,5 +1,5 @@
 import { Form, useFetcher, useLocation } from "@remix-run/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { CreateRecordCategoryObjectSchema } from "~/schemas/record-category";
 import { Button } from "~/ui/Button";
@@ -20,11 +20,17 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const recordTypes = (fetcher.data?.data ?? []).map(({ id, name }: any) => ({
-    id,
-    label: name,
-    value: id,
-  }));
+  const recordTypes = useMemo(
+    () =>
+      (fetcher.data?.data ?? []).map(({ id, name }: any) => ({
+        id,
+        label: name,
+        value: id,
+      })),
+    [fetcher.data]
+  );
+
+  console.log("Submit: ", fields.recordTypeId);
 
   return (
     <Form

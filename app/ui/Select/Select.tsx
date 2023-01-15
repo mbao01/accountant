@@ -50,6 +50,8 @@ export const Select: React.FC<SelectProps> = (props) => {
     [inputRef, onBlur]
   );
 
+  console.log("Input value: ", inputRef.current?.value);
+
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
       <div className={containerClass}>

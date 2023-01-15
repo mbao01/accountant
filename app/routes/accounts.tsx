@@ -1,9 +1,5 @@
 import { Outlet } from "@remix-run/react";
 
-export const loader = () => {
-  return null;
-};
-
 const Accounts = () => {
   return (
     <div>
