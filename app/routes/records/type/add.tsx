@@ -1,22 +1,25 @@
 import { type RecordType } from "@prisma/client";
-import { json, type ActionArgs } from "@remix-run/server-runtime";
-import { redirectRequest } from "~/helpers/api";
+import {
+  type ActionFunction,
+  json,
+  type LoaderFunction,
+} from "@remix-run/server-runtime";
+import httpStatus from "http-status";
 import { prisma } from "~/db.server";
+import { redirectRequest, safeAction } from "~/helpers/api";
+import { CreateRecordTypeObjectSchema } from "~/schemas/record-type";
 
-export const loader = async ({ request }: ActionArgs) =>
-  redirectRequest(request);
+export const loader: LoaderFunction = ({ request }) => redirectRequest(request);
 
-export async function action({ request }: ActionArgs) {
-  let formData = await request.formData();
-  const values = Object.fromEntries(formData) as Omit<
-    RecordType,
-    "id" | "createdAt" | "updatedAt"
-  >;
-  console.log("Values: ", values);
+export const action: ActionFunction = ({ request }) =>
+  safeAction(async () => {
+    let formData = await request.formData();
+    const data = Object.fromEntries(formData) as Omit<
+      RecordType,
+      "id" | "createdAt" | "updatedAt"
+    >;
 
-  const res = await prisma.recordType.create({ data: values });
-
-  console.log("Response: ", res);
-
-  return json({ success: true, input: values, output: res }, 200);
-}
+    CreateRecordTypeObjectSchema.parse(data);
+    const res = await prisma.recordCategory.create({ data });
+    return json({ success: true, data: res }, httpStatus.OK);
+  });

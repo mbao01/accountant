@@ -1,7 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
-import { RecordTypeObjectSchema } from "~/generated/schemas";
 import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { CreateRecordTypeObjectSchema } from "~/schemas/record-type";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";
@@ -12,9 +12,7 @@ import type { CreateRecordTypeProps } from "./types";
 
 export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
   const location = useLocation();
-  const validator = useFormValidator(
-    RecordTypeObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
-  );
+  const validator = useFormValidator(CreateRecordTypeObjectSchema);
   const fields = validator.fields;
 
   return (

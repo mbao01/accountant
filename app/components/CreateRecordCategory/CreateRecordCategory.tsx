@@ -1,7 +1,7 @@
 import { Form, useFetcher, useLocation } from "@remix-run/react";
 import { useEffect } from "react";
-import { RecordCategoryObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { CreateRecordCategoryObjectSchema } from "~/schemas/record-category";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";
@@ -12,13 +12,7 @@ import type { CreateRecordCategoryProps } from "./types";
 export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const location = useLocation();
   const fetcher = useFetcher();
-  const validator = useFormValidator(
-    RecordCategoryObjectSchema.omit({
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-    })
-  );
+  const validator = useFormValidator(CreateRecordCategoryObjectSchema);
   const fields = validator.fields;
 
   useEffect(() => {
