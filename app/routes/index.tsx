@@ -3,6 +3,7 @@ import { CreateRecordCategory } from "~/components/CreateRecordCategory";
 import { CreateRecordType } from "~/components/CreateRecordType";
 import { ModalId } from "~/hooks/useModalController/types";
 import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
+import { Route } from "~/routes.enum";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 
@@ -22,7 +23,7 @@ export default function Index() {
       </Button>
       <Button
         size="lg"
-        onClick={() => openModal(ModalId.CREATE_ACCOUNT, "/accounts")}
+        onClick={() => openModal(ModalId.CREATE_ACCOUNT, Route.ACCOUNTS)}
       >
         Create Account
       </Button>

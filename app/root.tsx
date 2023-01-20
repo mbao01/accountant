@@ -1,5 +1,4 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,7 +10,9 @@ import {
 
 import rootStylesheetUrl from "./styles/root.css";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { getUser, requireUserId } from "./session.server";
+import { requireUserId } from "./session.server";
+import { Layout } from "./components/Layout";
+import { Route } from "./routes.enum";
 
 export const links: LinksFunction = () => {
   return [
@@ -29,7 +30,7 @@ export const meta: MetaFunction = () => ({
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
 
-  if (!["/login", "/logout"].includes(url.pathname))
+  if (!["", Route.LOGIN, Route.LOGOUT].includes(url.pathname))
     await requireUserId(request);
 
   return null;
@@ -43,10 +44,12 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <Layout>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </Layout>
       </body>
     </html>
   );

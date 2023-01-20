@@ -3,6 +3,7 @@ import invariant from "tiny-invariant";
 
 import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
+import { Route } from "./routes.enum";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
@@ -89,7 +90,7 @@ export async function createUserSession({
 
 export async function logout(request: Request) {
   const session = await getSession(request);
-  return redirect("/", {
+  return redirect(Route.ROOT, {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },

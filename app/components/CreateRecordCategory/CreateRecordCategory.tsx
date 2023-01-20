@@ -1,6 +1,7 @@
 import { Form, useFetcher, useLocation } from "@remix-run/react";
 import { useEffect, useMemo } from "react";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { Route } from "~/routes.enum";
 import { CreateRecordCategoryObjectSchema } from "~/schemas/record-category";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
@@ -17,7 +18,7 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const fields = validator.fields;
 
   useEffect(() => {
-    fetcher.load("/records/type?index");
+    fetcher.load(`${Route.RECORD_TYPE}?index`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

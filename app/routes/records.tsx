@@ -1,12 +1,7 @@
 import { Outlet } from "@remix-run/react";
-import { Layout } from "~/components/Layout";
 
 const Records = () => {
-  return (
-    <Layout>
-      <Outlet />
-    </Layout>
-  );
+  return <Outlet />;
 };
 
 export default Records;

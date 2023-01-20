@@ -3,11 +3,12 @@ import { type ActionArgs, redirect, json } from "@remix-run/server-runtime";
 import { type AnyZodObject, type z, ZodError } from "zod";
 import httpStatus, { type HttpStatus } from "http-status";
 import type { TServerError } from "./types";
+import { Route } from "~/routes.enum";
 
 export const redirectRequest = ({ request }: ActionArgs) => {
   const url = new URL(request.url);
   const params = new URLSearchParams(url.search);
-  const redirectUrl = params.get("redirect") ?? "/";
+  const redirectUrl = params.get("redirect") ?? Route.ROOT;
   params.delete("redirect"); // delete redirect path
 
   const fullRedirectUrl = `${redirectUrl}?${params.toString()}`;
