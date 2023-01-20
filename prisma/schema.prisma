@@ -35,7 +35,7 @@ model User {
 model Password {
   hash String
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
 
   @@map("passwords")
@@ -46,7 +46,7 @@ model Account {
   name            String       /// @zod.min(3)
   number          String       @unique  /// @zod.min(3)
   sortCode        String?
-  currency        Currency     @relation(fields: [currencyId], references: [id])
+  Currency        Currency     @relation(fields: [currencyId], references: [id])
   currencyId      String
   startingBalance Float        /// @zod.custom(z.coerce.number())
   bankName        String       /// @zod.min(3)
@@ -57,7 +57,7 @@ model Account {
   updatedAt       DateTime?    @updatedAt
   Record          Record[]
   RecordType      RecordType[]
-  user            User         @relation(fields: [userId], references: [id])
+  User            User         @relation(fields: [userId], references: [id])
   userId          String
 
   @@map("accounts")
@@ -80,7 +80,7 @@ model RecordType {
   description String
   tag         TagColor?        @default(BLUE)
   Account     Account[]
-  category    RecordCategory[]
+  Category    RecordCategory[]
   createdAt   DateTime?        @default(now())
   updatedAt   DateTime?        @updatedAt
   Record      Record[]
@@ -94,8 +94,8 @@ model RecordCategory {
   description  String
   createdAt    DateTime?   @default(now())
   updatedAt    DateTime?   @updatedAt
-  RecordType   RecordType? @relation(fields: [recordTypeId], references: [id])
-  recordTypeId String?
+  RecordType   RecordType @relation(fields: [recordTypeId], references: [id])
+  recordTypeId String
   Record       Record[]
 
   @@map("record_categories")
@@ -104,10 +104,10 @@ model RecordCategory {
 model Record {
   id               String         @id @unique @default(cuid())
   amount           Int
-  type             RecordType     @relation(fields: [recordTypeId], references: [id])
-  category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
-  account          Account        @relation(fields: [accountId], references: [id])
-  currency         CurrencyCode
+  Type             RecordType     @relation(fields: [recordTypeId], references: [id])
+  Category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
+  Account          Account        @relation(fields: [accountId], references: [id])
+  currencyCode     CurrencyCode
   note             String?
   createdAt        DateTime?      @default(now())
   updatedAt        DateTime?      @updatedAt
