@@ -1,5 +1,6 @@
 import * as z from "zod"
 import * as imports from "../../../prisma/null"
+import { Role } from "@prisma/client"
 import { CompleteAccount, RelatedAccountObjectSchema, CompletePassword, RelatedPasswordObjectSchema } from "./index"
 
 export const UserObjectSchema = z.object({
@@ -8,6 +9,7 @@ export const UserObjectSchema = z.object({
   firstname: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  role: z.nativeEnum(Role),
 })
 
 export interface CompleteUser extends z.infer<typeof UserObjectSchema> {

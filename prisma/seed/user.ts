@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@prisma/client";
+import { type PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 export default async function seedUser(prisma: PrismaClient) {
@@ -15,6 +15,7 @@ export default async function seedUser(prisma: PrismaClient) {
     data: {
       email,
       firstname: "Ayomide",
+      role: Role.OWNER,
       Password: {
         create: {
           hash: hashedPassword,
