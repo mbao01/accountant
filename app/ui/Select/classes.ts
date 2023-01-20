@@ -13,13 +13,13 @@ export const labelClass = {
 } satisfies Record<TSize, string>;
 
 export const disabledClass = {
-  solid: "bg-gray-100 text-gray-500 pointer-events-none cursor-not-allowed",
+  solid: "bg-gray-200 text-gray-500 pointer-events-none cursor-not-allowed",
   outline:
     "border border-gray-300 text-gray-500 pointer-events-none cursor-not-allowed",
 };
 
 export const variants = {
-  solid: "bg-gray-100 text-gray-900",
+  solid: "bg-gray-200 text-gray-900",
   outline: "border border-gray-500 text-gray-900",
 };
 
@@ -32,7 +32,7 @@ export const optionClass =
   "relative block cursor-pointer select-none truncate p-2";
 
 export const optionStateClass = {
-  active: "bg-gray-100 text-gray-900",
+  active: "bg-gray-200 text-gray-900",
   default: "text-gray-900",
 };
 

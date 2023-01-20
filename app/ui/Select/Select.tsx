@@ -70,7 +70,7 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
             })}
           >
             {label}
-            {required && "*"}
+            {required && " *"}
           </label>
         )}
         <div className={clsx(selectContainerClass, className)}>

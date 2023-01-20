@@ -1,3 +1,5 @@
+import type { FunctionComponent } from "react";
+
 type TSpacing =
   | "0"
   | "px"
@@ -36,7 +38,7 @@ type TSpacing =
   | "96";
 
 export type SpacingProps = {
-  as?: keyof HTMLElementTagNameMap;
+  as?: keyof HTMLElementTagNameMap | FunctionComponent;
   vertical?: TSpacing;
   horizontal?: TSpacing;
 };

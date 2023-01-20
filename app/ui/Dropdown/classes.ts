@@ -7,7 +7,7 @@ export const sizes = {
 } satisfies Record<TSize, string>;
 
 export const disabledClass = {
-  solid: "bg-gray-100 text-gray-500 pointer-events-none cursor-not-allowed",
+  solid: "bg-gray-200 text-gray-500 pointer-events-none cursor-not-allowed",
   outline:
     "border border-gray-300 text-gray-500 pointer-events-none cursor-not-allowed",
 };
@@ -15,7 +15,7 @@ export const disabledClass = {
 export const triggerClass = "flex w-full items-center justify-between gap-2 focus:outline-none focus:ring-1";
 
 export const variants = {
-  solid: "bg-gray-100 text-gray-900",
+  solid: "bg-gray-200 text-gray-900",
   outline: "border border-gray-500 text-gray-900",
 };
 
@@ -29,7 +29,7 @@ export const menuItemsContainerClass = 'py-1';
 export const menuItemClass = "px-4 py-2 cursor-pointer w-full text-left text-sm";
 
 export const menuItemStateClass = {
-  active: "bg-gray-100 text-gray-900",
+  active: "bg-gray-200 text-gray-900",
   default: "text-gray-900",
   disabled: "text-gray-500 pointer-events-none cursor-not-allowed",
 };

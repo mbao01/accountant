@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { AddRecord } from "~/components/AddRecord";
 import { CreateRecordCategory } from "~/components/CreateRecordCategory";
 import { CreateRecordType } from "~/components/CreateRecordType";
@@ -11,16 +12,16 @@ export default function Index() {
   const openModal = useOpenModal();
 
   return (
-    <main className="relative mt-40 flex flex-wrap justify-center gap-8 bg-white">
+    <div className="relative mt-40 flex flex-wrap justify-center gap-8 bg-white">
       <Popover trigger={() => <Button size="lg">New record type</Button>}>
         <CreateRecordType />
       </Popover>
       <Popover trigger={() => <Button size="lg">New record category</Button>}>
         <CreateRecordCategory />
       </Popover>
-      <Button size="lg" onClick={() => openModal(ModalId.CREATE_USER)}>
-        Add User
-      </Button>
+      <Link to={Route.REGISTER}>
+        <Button size="lg">Add User</Button>
+      </Link>
       <Button
         size="lg"
         onClick={() => openModal(ModalId.CREATE_ACCOUNT, Route.ACCOUNTS)}
@@ -30,6 +31,6 @@ export default function Index() {
       <Popover trigger={() => <Button size="lg">Add record</Button>}>
         <AddRecord />
       </Popover>
-    </main>
+    </div>
   );
 }

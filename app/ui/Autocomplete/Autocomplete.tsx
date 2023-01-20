@@ -71,7 +71,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             })}
           >
             {label}
-            {required && "*"}
+            {required && " *"}
           </label>
         )}
         {name && <input ref={inputRef} id={name} name={name} type="hidden" />}

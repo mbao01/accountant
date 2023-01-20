@@ -1,7 +1,7 @@
 import type { TSize } from "../types";
 
 export const textareaClass =
-  "max-h-48 min-h-12 bg-gray-100 rounded-md text-gray-900 placeholder:text-gray-300 focus:placeholder:text-gray-600 focus:outline-none focus:ring-1";
+  "max-h-48 min-h-12 bg-gray-200 rounded-md text-gray-900 placeholder:text-gray-300 focus:placeholder:text-gray-600 focus:outline-none focus:ring-1";
 
 export const labelClass = {
   lg: "text-sm",

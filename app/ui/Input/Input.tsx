@@ -24,6 +24,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
     onBlur,
     disabled,
     required,
+    autoFocus,
     isInvalid,
     placeholder,
     className,
@@ -45,7 +46,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
           })}
         >
           {label}
-          {required && "*"}
+          {required && " *"}
         </div>
       )}
       <input
@@ -56,6 +57,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
         onBlur={onBlur}
         disabled={disabled}
         required={required}
+        autoFocus={autoFocus}
         placeholder={placeholder}
         className={clsx(className, inputClass, sizes[size], {
           [disabledClass]: disabled,

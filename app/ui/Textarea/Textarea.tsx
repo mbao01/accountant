@@ -42,7 +42,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
           })}
         >
           {label}
-          {required && "*"}
+          {required && " *"}
         </div>
       )}
       <textarea

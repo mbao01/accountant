@@ -7,8 +7,8 @@ export const Layout = (props: LayoutProps) => {
   const location = useLocation();
 
   return (
-    <main className="relative bg-white">
-      {location.pathname === Route.ROOT && <div>AAAA</div>}
+    <main className="relative h-full bg-white px-4">
+      {location.pathname === Route.ROOT && <div>Root Page Header</div>}
       {children}
     </main>
   );
