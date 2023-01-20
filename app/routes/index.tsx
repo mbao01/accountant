@@ -1,42 +1,34 @@
-import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import { useState } from "react";
 import { AddRecord } from "~/components/AddRecord";
 import { CreateRecordCategory } from "~/components/CreateRecordCategory";
 import { CreateRecordType } from "~/components/CreateRecordType";
-import { NewAccount } from "~/components/NewAccount";
-import { prisma } from "~/db.server";
-import { Modal } from "~/ui/Modal";
+import { ModalId } from "~/hooks/useModalController/types";
+import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
+import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 
-export const loader = async () => {
-  const recordTypes = await prisma.recordType.findMany();
-  return json({ success: true, data: recordTypes }, 200);
-};
-
 export default function Index() {
-  const [open, setOpen] = useState(false);
-  const { data } = useLoaderData<typeof loader>();
+  const openModal = useOpenModal();
 
   return (
-    <div>
-      <data>{JSON.stringify(data, null, 2)}</data>
-
-      <main className="relative mt-11 gap-6 bg-white sm:flex sm:items-center sm:justify-center">
-        <button onClick={() => setOpen(true)}>Create account</button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <NewAccount />
-        </Modal>
-        <Popover trigger="Create record type">
-          <CreateRecordType />
-        </Popover>
-        <Popover trigger="Create record category">
-          <CreateRecordCategory />
-        </Popover>
-        <Popover trigger="Add record">
-          <AddRecord />
-        </Popover>
-      </main>
-    </div>
+    <main className="relative mt-40 flex flex-wrap justify-center gap-8 bg-white">
+      <Popover trigger={() => <Button size="lg">New record type</Button>}>
+        <CreateRecordType />
+      </Popover>
+      <Popover trigger={() => <Button size="lg">New record category</Button>}>
+        <CreateRecordCategory />
+      </Popover>
+      <Button size="lg" onClick={() => openModal(ModalId.CREATE_USER)}>
+        Add User
+      </Button>
+      <Button
+        size="lg"
+        onClick={() => openModal(ModalId.CREATE_ACCOUNT, "/accounts")}
+      >
+        Create Account
+      </Button>
+      <Popover trigger={() => <Button size="lg">Add record</Button>}>
+        <AddRecord />
+      </Popover>
+    </main>
   );
 }

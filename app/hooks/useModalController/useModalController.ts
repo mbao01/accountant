@@ -16,8 +16,19 @@ export const useModalController = <T extends string>(modalIds: T[]) => {
     });
   }, [setSearchParams]);
 
+  const openModal = useCallback(
+    (modalId: string) => {
+      setSearchParams((s) => ({
+        ...s,
+        modal: modalId,
+      }));
+    },
+    [setSearchParams]
+  );
+
   return {
     modals,
+    openModal,
     onCloseModal,
   };
 };

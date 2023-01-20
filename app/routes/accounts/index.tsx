@@ -1,4 +1,4 @@
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -6,6 +6,8 @@ import { AddRecord } from "~/components/AddRecord";
 import { prisma } from "~/db.server";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
+import { ModalId } from "~/hooks/useModalController/types";
+import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
@@ -23,7 +25,7 @@ export const loader: LoaderFunction = async () => {
 
 const AccountsIndex = () => {
   const { data: accounts } = useLoaderData<typeof loader>();
-  const [, setSearchParams] = useSearchParams();
+  const openModal = useOpenModal();
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<typeof accounts>();
@@ -85,12 +87,7 @@ const AccountsIndex = () => {
             <Button
               outline
               size="sm"
-              onClick={() =>
-                setSearchParams((s) => ({
-                  ...Object.fromEntries(s),
-                  modal: "create_account",
-                }))
-              }
+              onClick={() => openModal(ModalId.CREATE_ACCOUNT)}
             >
               Create
             </Button>
