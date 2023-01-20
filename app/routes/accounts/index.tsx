@@ -79,26 +79,24 @@ const AccountsIndex = () => {
   }, []);
 
   return (
-    <>
-      <div className="py-6 px-6">
-        <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
-          <h2 className="text-xl font-semibold leading-tight">Accounts</h2>
-          <div className="flex gap-6">
-            <Button
-              outline
-              size="sm"
-              onClick={() => openModal(ModalId.CREATE_ACCOUNT)}
-            >
-              Create
-            </Button>
-            <Popover trigger={() => <Button size="sm">Add Record</Button>}>
-              <AddRecord />
-            </Popover>
-          </div>
+    <div className="py-6 px-6">
+      <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
+        <h2 className="text-xl font-semibold leading-tight">Accounts</h2>
+        <div className="flex gap-6">
+          <Button
+            outline
+            size="sm"
+            onClick={() => openModal(ModalId.CREATE_ACCOUNT)}
+          >
+            Create
+          </Button>
+          <Popover trigger={() => <Button size="sm">Add Record</Button>}>
+            <AddRecord />
+          </Popover>
         </div>
-        <Table columns={columns as any} data={accounts} />
       </div>
-    </>
+      <Table columns={columns as any} data={accounts} />
+    </div>
   );
 };
 
