@@ -31,6 +31,7 @@ export const useFormValidator = <T extends ZodRawShape>(
         setValidation((v) => {
           const normField = { ...v.fields[name], ...field };
           return {
+            ...v,
             errors,
             fields: { ...v.fields, [name]: normField },
             isValid: c.success === true,

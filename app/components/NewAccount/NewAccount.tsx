@@ -1,7 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
-import { AccountObjectSchema } from "~/generated/schemas";
 import { TAG_PATTERN_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { CreateAccountObjectSchema } from "~/schemas/account";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Input } from "~/ui/Input";
@@ -11,9 +11,7 @@ import { Tag } from "~/ui/Tag";
 
 export const NewAccount = () => {
   const location = useLocation();
-  const validator = useFormValidator(
-    AccountObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
-  );
+  const validator = useFormValidator(CreateAccountObjectSchema);
   const fields = validator.fields;
 
   return (
@@ -21,7 +19,6 @@ export const NewAccount = () => {
       method="post"
       action={`/accounts/new?redirect=${location.pathname}`}
       className="w-96 rounded-lg border border-gray-100 bg-white px-6 py-4"
-      onInput={validator.validate}
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">New Account</h4>
       <Spacing />
@@ -52,7 +49,7 @@ export const NewAccount = () => {
           {...fields.tag}
         />
       </div>
-      <hr className="my-5" />
+      <Spacing as="hr" vertical="5" />
       <div className="grid grid-cols-2 gap-4">
         <Input label="Bank name" size="sm" {...fields.bankName} />
         <Input label="Bank address" size="sm" {...fields.bankAddress} />

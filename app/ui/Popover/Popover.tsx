@@ -9,7 +9,11 @@ export const Popover: React.FC<PopoverProps> = (props) => {
   return (
     <HeadlessPopover className={popoverClass}>
       <>
-        <HeadlessPopover.Button>{trigger}</HeadlessPopover.Button>
+        <HeadlessPopover.Button
+          as={typeof trigger === "function" ? "div" : "button"}
+        >
+          {trigger}
+        </HeadlessPopover.Button>
         <Transition as={Fragment} {...popoverTransition}>
           <HeadlessPopover.Panel className={popoverPanelClass}>
             {children}

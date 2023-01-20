@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon, ChevronUpIcon } from "../Icons";
@@ -19,7 +19,7 @@ import type { SelectProps } from "./types";
 import { Option } from "./Option";
 import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
-export const Select: React.FC<SelectProps> = (props) => {
+export const Select: React.FC<SelectProps> = React.memo((props) => {
   const {
     name,
     size = "md",
@@ -50,7 +50,13 @@ export const Select: React.FC<SelectProps> = (props) => {
     [inputRef, onBlur]
   );
 
-  console.log("Input value: ", inputRef.current?.value);
+  useEffect(() => {
+    // validate if default value is set
+    if (defaultValue) {
+      onBlur?.({ target: inputRef.current } as any);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Listbox value={selected} disabled={disabled} onChange={setSelected}>
@@ -68,7 +74,15 @@ export const Select: React.FC<SelectProps> = (props) => {
           </label>
         )}
         <div className={clsx(selectContainerClass, className)}>
-          {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
+          {name && (
+            <input
+              ref={inputRef}
+              id={name}
+              name={name}
+              type="hidden"
+              defaultValue={defaultValue}
+            />
+          )}
           <Listbox.Button
             className={clsx(
               sizes[size],
@@ -102,7 +116,11 @@ export const Select: React.FC<SelectProps> = (props) => {
               className={optionsContainerClass}
             >
               {options.map((option) => (
-                <Option key={option.value ?? option.id} option={option} />
+                <Option
+                  key={option.value ?? option.id}
+                  option={option}
+                  className={labelClass[size]}
+                />
               ))}
             </Listbox.Options>
           </Transition>
@@ -110,4 +128,4 @@ export const Select: React.FC<SelectProps> = (props) => {
       </div>
     </Listbox>
   );
-};
+});

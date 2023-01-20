@@ -36,6 +36,7 @@ type TSpacing =
   | "96";
 
 export type SpacingProps = {
+  as?: keyof HTMLElementTagNameMap;
   vertical?: TSpacing;
   horizontal?: TSpacing;
 };

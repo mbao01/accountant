@@ -23,6 +23,7 @@ generator zod {
 model User {
   id        String    @id @default(cuid())
   email     String    @unique
+  firstname  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Account   Account[]
@@ -42,15 +43,15 @@ model Password {
 
 model Account {
   id              String       @id @unique @default(cuid())
-  name            String
-  number          String       @unique
+  name            String       /// @zod.min(3)
+  number          String       @unique  /// @zod.min(3)
   sortCode        String?
   currency        Currency     @relation(fields: [currencyId], references: [id])
   currencyId      String
-  startingBalance Int
-  bankName        String
+  startingBalance Float        /// @zod.custom(z.coerce.number())
+  bankName        String       /// @zod.min(3)
   bankAddress     String?
-  bankCountry     String
+  bankCountry     String       /// @zod.min(3)
   tag             TagPattern?  @default(DOTTED)
   createdAt       DateTime?    @default(now())
   updatedAt       DateTime?    @updatedAt

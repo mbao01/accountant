@@ -1,58 +1,107 @@
-import type { Account } from "@prisma/client";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { AddRecord } from "~/components/AddRecord";
 import { prisma } from "~/db.server";
+import { formatCurrency } from "~/helpers/currency";
+import { formatDate } from "~/helpers/date";
+import { Button } from "~/ui/Button";
+import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
+import { Tag } from "~/ui/Tag";
 
 export const loader: LoaderFunction = async () => {
-  const accounts = await prisma.account.findMany();
+  const accounts = await prisma.account.findMany({
+    include: {
+      currency: true,
+      user: true,
+    },
+  });
   return json({ success: true, data: accounts });
 };
 
 const AccountsIndex = () => {
   const { data: accounts } = useLoaderData<typeof loader>();
+  const [, setSearchParams] = useSearchParams();
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Account>();
+    const columnHelper = createColumnHelper<typeof accounts>();
 
     return [
-      columnHelper.accessor("id", {
-        id: "id",
-        cell: (info) => <i>{info.getValue()}</i>,
-        header: () => <span>Last Name</span>,
-        footer: (info) => info.column.id,
-      }),
       columnHelper.accessor("name", {
-        cell: (info) => info.getValue(),
-        footer: (info) => info.column.id,
+        cell: (info) => {
+          const name = info.getValue();
+          const { tag } = info.row.original;
+          return (
+            <div className="flex items-center gap-2">
+              {tag && <Tag name={tag} />}
+              {name}
+            </div>
+          );
+        },
       }),
       columnHelper.accessor("number", {
         header: "Number",
-        cell: (info) => info.renderValue(),
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("sortCode", {
-        header: "Sort code",
-        footer: (info) => info.column.id,
+        cell: (info) => {
+          const number = info.getValue();
+          const { sortCode } = info.row.original;
+          return (
+            <div className="flex flex-col text-blue-500">
+              {number}
+              {sortCode && <span className="text-xs">{sortCode}</span>}
+            </div>
+          );
+        },
       }),
       columnHelper.accessor("startingBalance", {
-        header: "Starting balance",
-        footer: (info) => info.column.id,
+        header: "Opening balance",
+        cell: (info) => {
+          const startingBalance = info.getValue();
+          const { currency } = info.row.original;
+          return (
+            <div className="w-10">
+              {formatCurrency(startingBalance, currency.code)}
+            </div>
+          );
+        },
       }),
-      columnHelper.accessor("tag", {
-        header: "Tag",
-        footer: (info) => info.column.id,
+      columnHelper.accessor((info) => info.user.email, {
+        header: "Owner",
+      }),
+      columnHelper.accessor("createdAt", {
+        header: "Created",
+        cell: (info) => formatDate(info.getValue()),
       }),
     ];
   }, []);
 
   return (
-    <div>
-      <h3>Accounts Index</h3>
-      <Table columns={columns as any} data={accounts} />
-    </div>
+    <>
+      <div className="py-6 px-6">
+        <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
+          <h2 className="text-xl font-semibold leading-tight">Accounts</h2>
+          <div className="flex gap-6">
+            <Button
+              outline
+              size="sm"
+              onClick={() =>
+                setSearchParams((s) => ({
+                  ...Object.fromEntries(s),
+                  modal: "create_account",
+                }))
+              }
+            >
+              Create
+            </Button>
+            <Popover trigger={() => <Button size="sm">Add Record</Button>}>
+              <AddRecord />
+            </Popover>
+          </div>
+        </div>
+        <Table columns={columns as any} data={accounts} />
+      </div>
+    </>
   );
 };
 

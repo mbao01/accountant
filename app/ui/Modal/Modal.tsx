@@ -18,7 +18,6 @@ export const Modal: React.FC<ModalProps> = (props) => {
   const { open, title, onClose, children, description } = props;
 
   const onCloseModal = () => {
-    console.log("On Close");
     onClose?.();
   };
 

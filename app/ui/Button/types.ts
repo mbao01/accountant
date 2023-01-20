@@ -8,4 +8,5 @@ export type ButtonProps = {
   outline?: boolean;
   disabled?: boolean;
   children: ReactNode;
+  onClick?: () => void;
 };

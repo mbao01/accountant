@@ -1,4 +1,4 @@
-import type { FormEventHandler } from "react";
+import type { FormEventHandler, MutableRefObject } from "react";
 import type { z, ZodSchema } from "zod";
 
 export type TValidator = FormEventHandler<
@@ -25,6 +25,7 @@ export type ValidationState<T> = {
   isValid?: boolean;
   isDirty?: boolean;
   isInvalid?: boolean;
+  formRef: MutableRefObject<any>;
   fields: {
     readonly [K in TField<T>]-?: TFieldValidation<T>;
   };

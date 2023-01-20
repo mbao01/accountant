@@ -30,8 +30,6 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
     [fetcher.data]
   );
 
-  console.log("Submit: ", fields.recordTypeId);
-
   return (
     <Form
       method="post"

@@ -1,17 +1,34 @@
-import { json, redirect, type ActionArgs } from "@remix-run/server-runtime";
+import type { CurrencyCode } from "@prisma/client";
+import {
+  type ActionFunction,
+  json,
+  type LoaderFunction,
+} from "@remix-run/server-runtime";
+import httpStatus from "http-status";
+import { prisma } from "~/db.server";
+import { redirectRequest, safeAction, validatePayload } from "~/helpers/api";
+import { CreateAccountObjectSchema } from "~/schemas/account";
+import { requireUserId } from "~/session.server";
 
-export async function loader({ request }: ActionArgs) {
-  const url = new URL(request.url);
-  const params = new URLSearchParams(url.search);
-  const redirectUrl = params.get("redirect") ?? "/";
-  params.delete("redirect"); // delete redirect path
+export const loader: LoaderFunction = redirectRequest;
 
-  const fullRedirectUrl = `${redirectUrl}?${params.toString()}`;
-  return redirect(fullRedirectUrl);
-}
+export const action: ActionFunction = ({ request }) =>
+  safeAction(async () => {
+    const userId = await requireUserId(request);
+    const formData = await request.formData();
+    const data = validatePayload(
+      CreateAccountObjectSchema,
+      Object.fromEntries(formData)
+    );
+    // get currencyId
+    const currency = await prisma.currency.findFirst({
+      where: {
+        code: data.currencyId as CurrencyCode,
+      },
+    });
 
-export async function action({ request }: ActionArgs) {
-  let formData = await request.formData();
-  const values = Object.fromEntries(formData);
-  return json({ success: true, ...values }, 200);
-}
+    const res = await prisma.account.create({
+      data: { ...data, userId, currencyId: currency?.id! },
+    });
+    return json({ success: true, data: res }, httpStatus.OK);
+  });

@@ -13,6 +13,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     size = "md",
     type = "button",
     variant = "primary",
+    onClick,
     outline,
     disabled,
     children,
@@ -34,6 +35,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
         }
       )}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
     </button>

@@ -1,10 +1,10 @@
 import { PrismaClientValidationError } from "@prisma/client/runtime";
 import { type ActionArgs, redirect, json } from "@remix-run/server-runtime";
-import { ZodError } from "zod";
+import { type AnyZodObject, type z, ZodError } from "zod";
 import httpStatus, { type HttpStatus } from "http-status";
 import type { TServerError } from "./types";
 
-export const redirectRequest = (request: ActionArgs["request"]) => {
+export const redirectRequest = ({ request }: ActionArgs) => {
   const url = new URL(request.url);
   const params = new URLSearchParams(url.search);
   const redirectUrl = params.get("redirect") ?? "/";
@@ -37,4 +37,15 @@ export const safeAction = async (callback: () => Promise<unknown>) => {
     const res = handleError(e);
     return json(res, res.status);
   }
+};
+
+export const validatePayload = <T extends AnyZodObject, D>(
+  Schema: T,
+  data: D
+) => {
+  const result = Schema.safeParse(data);
+  if (result.success) {
+    return result.data as z.infer<typeof Schema>;
+  }
+  throw result.error;
 };

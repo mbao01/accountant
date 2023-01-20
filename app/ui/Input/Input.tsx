@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 import {
   sizes,
   infoClass,
@@ -11,7 +12,7 @@ import {
 } from "./classes";
 import type { InputProps } from "./types";
 
-export const Input: React.FC<InputProps> = (props) => {
+export const Input: React.FC<InputProps> = React.memo((props) => {
   const {
     name,
     step,
@@ -60,6 +61,7 @@ export const Input: React.FC<InputProps> = (props) => {
           [disabledClass]: disabled,
           [errorClasses.border]: !disabled && isInvalid,
         })}
+        autoComplete="chrome-off"
       />
       <div
         className={clsx(infoClass, {
@@ -71,4 +73,4 @@ export const Input: React.FC<InputProps> = (props) => {
       </div>
     </label>
   );
-};
+});

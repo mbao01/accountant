@@ -9,6 +9,9 @@ module.exports = {
   env: {
     "cypress/globals": true,
   },
+  rules: {
+    "react/display-name": "off",
+  },
   plugins: ["cypress"],
   // we're using vitest which has a very similar API to jest
   // (so the linting plugins work nicely), but it means we have to explicitly

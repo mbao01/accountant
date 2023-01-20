@@ -1,5 +1,6 @@
 import { flexRender } from "@tanstack/react-table";
 import type { TableHeadProps } from "../types";
+import { tableHeaderClass } from "../classes";
 
 export const TableHead = <T,>(props: TableHeadProps<T>) => {
   const { getHeaderGroups } = props;
@@ -8,10 +9,7 @@ export const TableHead = <T,>(props: TableHeadProps<T>) => {
       {getHeaderGroups().map((headerGroup) => (
         <tr key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
-            <th
-              key={header.id}
-              className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-700"
-            >
+            <th key={header.id} className={tableHeaderClass}>
               {header.isPlaceholder
                 ? null
                 : flexRender(
