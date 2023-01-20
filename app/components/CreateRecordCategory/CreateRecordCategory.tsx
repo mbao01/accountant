@@ -5,6 +5,7 @@ import { CreateRecordCategoryObjectSchema } from "~/schemas/record-category";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";
+import { Shimmer } from "~/ui/Shimmer";
 import { Spacing } from "~/ui/Spacing";
 import { Textarea } from "~/ui/Textarea";
 import type { CreateRecordCategoryProps } from "./types";
@@ -44,12 +45,16 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
       <Spacing />
       <Textarea size="sm" placeholder="Description" {...fields.description} />
       <Spacing />
-      <Select
-        size="sm"
-        label="Record type"
-        options={recordTypes}
-        {...fields.recordTypeId}
-      />
+      {fetcher.state === "loading" ? (
+        <Shimmer />
+      ) : (
+        <Select
+          size="sm"
+          label="Record type"
+          options={recordTypes}
+          {...fields.recordTypeId}
+        />
+      )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
         <Button type="submit" size="sm" disabled={validator.isInvalid}>
