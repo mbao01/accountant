@@ -5,15 +5,16 @@ CREATE TYPE "CurrencyCode" AS ENUM ('USD', 'NGN', 'EUR', 'RUB', 'GBP', 'CNY');
 CREATE TYPE "CurrencySign" AS ENUM ('$', '£', '¥', '₽', '₦', '€');
 
 -- CreateEnum
-CREATE TYPE "TagColor" AS ENUM ('Blue,HSL(80deg 50% 50%)', 'Green,HSL(40deg 50% 50%)');
+CREATE TYPE "TagColor" AS ENUM ('Red', 'Blue', 'Gray', 'Pink', 'Puce', 'Brown', 'Green', 'Smalt', 'Bisque', 'Damask', 'Jasper', 'Orange', 'Purple', 'Titian', 'Violet', 'Yellow', 'Cattleya', 'Bittersweet');
 
 -- CreateEnum
-CREATE TYPE "TagPattern" AS ENUM ('dotted', 'circles');
+CREATE TYPE "TagPattern" AS ENUM ('Wavy', 'Ombre', 'Plaid', 'Dotted', 'Floral', 'Zigzag', 'Chevron', 'Circles', 'Diamond', 'Lattice', 'Paisley', 'Rounded', 'Striped', 'Geometric', 'Basketweave');
 
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "firstname" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -33,14 +34,13 @@ CREATE TABLE "accounts" (
     "number" TEXT NOT NULL,
     "sortCode" TEXT,
     "currencyId" TEXT NOT NULL,
-    "startingBalance" INTEGER NOT NULL,
+    "startingBalance" DOUBLE PRECISION NOT NULL,
     "bankName" TEXT NOT NULL,
     "bankAddress" TEXT,
     "bankCountry" TEXT NOT NULL,
-    "tag" "TagPattern" DEFAULT 'dotted',
+    "tag" "TagPattern" DEFAULT 'Dotted',
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
-    "recordTypeId" TEXT,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
@@ -62,7 +62,7 @@ CREATE TABLE "record_types" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "tag" "TagColor" DEFAULT 'Blue,HSL(80deg 50% 50%)',
+    "tag" "TagColor" DEFAULT 'Blue',
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
 
@@ -76,7 +76,7 @@ CREATE TABLE "record_categories" (
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
-    "recordTypeId" TEXT,
+    "recordTypeId" TEXT NOT NULL,
 
     CONSTRAINT "record_categories_pkey" PRIMARY KEY ("id")
 );
@@ -85,7 +85,7 @@ CREATE TABLE "record_categories" (
 CREATE TABLE "records" (
     "id" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
-    "currency" "CurrencyCode" NOT NULL,
+    "currencyCode" "CurrencyCode" NOT NULL,
     "note" TEXT,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
@@ -94,6 +94,12 @@ CREATE TABLE "records" (
     "accountId" TEXT NOT NULL,
 
     CONSTRAINT "records_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_AccountToRecordType" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -126,6 +132,12 @@ CREATE UNIQUE INDEX "record_categories_id_key" ON "record_categories"("id");
 -- CreateIndex
 CREATE UNIQUE INDEX "records_id_key" ON "records"("id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_AccountToRecordType_AB_unique" ON "_AccountToRecordType"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_AccountToRecordType_B_index" ON "_AccountToRecordType"("B");
+
 -- AddForeignKey
 ALTER TABLE "passwords" ADD CONSTRAINT "passwords_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -133,13 +145,10 @@ ALTER TABLE "passwords" ADD CONSTRAINT "passwords_userId_fkey" FOREIGN KEY ("use
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_currencyId_fkey" FOREIGN KEY ("currencyId") REFERENCES "currencies"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "accounts" ADD CONSTRAINT "accounts_recordTypeId_fkey" FOREIGN KEY ("recordTypeId") REFERENCES "record_types"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "record_categories" ADD CONSTRAINT "record_categories_recordTypeId_fkey" FOREIGN KEY ("recordTypeId") REFERENCES "record_types"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "record_categories" ADD CONSTRAINT "record_categories_recordTypeId_fkey" FOREIGN KEY ("recordTypeId") REFERENCES "record_types"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "records" ADD CONSTRAINT "records_recordTypeId_fkey" FOREIGN KEY ("recordTypeId") REFERENCES "record_types"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -149,3 +158,9 @@ ALTER TABLE "records" ADD CONSTRAINT "records_recordCategoryId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "records" ADD CONSTRAINT "records_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "accounts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AccountToRecordType" ADD CONSTRAINT "_AccountToRecordType_A_fkey" FOREIGN KEY ("A") REFERENCES "accounts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AccountToRecordType" ADD CONSTRAINT "_AccountToRecordType_B_fkey" FOREIGN KEY ("B") REFERENCES "record_types"("id") ON DELETE CASCADE ON UPDATE CASCADE;
