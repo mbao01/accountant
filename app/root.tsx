@@ -11,7 +11,7 @@ import {
 
 import rootStylesheetUrl from "./styles/root.css";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { getUser } from "./session.server";
+import { getUser, requireUserId } from "./session.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -27,9 +27,12 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader({ request }: LoaderArgs) {
-  return json({
-    user: await getUser(request),
-  });
+  const url = new URL(request.url);
+
+  if (!["/login", "/logout"].includes(url.pathname))
+    await requireUserId(request);
+
+  return null;
 }
 
 export default function App() {
