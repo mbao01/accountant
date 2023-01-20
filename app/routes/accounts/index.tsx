@@ -16,8 +16,8 @@ import { Tag } from "~/ui/Tag";
 export const loader: LoaderFunction = async () => {
   const accounts = await prisma.account.findMany({
     include: {
-      currency: true,
-      user: true,
+      Currency: true,
+      User: true,
     },
   });
   return json({ success: true, data: accounts });
@@ -60,15 +60,15 @@ const AccountsIndex = () => {
         header: "Opening balance",
         cell: (info) => {
           const startingBalance = info.getValue();
-          const { currency } = info.row.original;
+          const { Currency } = info.row.original;
           return (
             <div className="w-10">
-              {formatCurrency(startingBalance, currency.code)}
+              {formatCurrency(startingBalance, Currency.code)}
             </div>
           );
         },
       }),
-      columnHelper.accessor((info) => info.user.email, {
+      columnHelper.accessor((info) => info.User.email, {
         header: "Owner",
       }),
       columnHelper.accessor("createdAt", {

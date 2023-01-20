@@ -14,7 +14,7 @@ export const RecordTypeObjectSchema = z.object({
 
 export interface CompleteRecordType extends z.infer<typeof RecordTypeObjectSchema> {
   Account: CompleteAccount[]
-  category: CompleteRecordCategory[]
+  Category: CompleteRecordCategory[]
   Record: CompleteRecord[]
 }
 
@@ -25,6 +25,6 @@ export interface CompleteRecordType extends z.infer<typeof RecordTypeObjectSchem
  */
 export const RelatedRecordTypeObjectSchema: z.ZodSchema<CompleteRecordType> = z.lazy(() => RecordTypeObjectSchema.extend({
   Account: RelatedAccountObjectSchema.array(),
-  category: RelatedRecordCategoryObjectSchema.array(),
+  Category: RelatedRecordCategoryObjectSchema.array(),
   Record: RelatedRecordObjectSchema.array(),
 }))

@@ -8,7 +8,7 @@ export const PasswordObjectSchema = z.object({
 })
 
 export interface CompletePassword extends z.infer<typeof PasswordObjectSchema> {
-  user: CompleteUser
+  User: CompleteUser
 }
 
 /**
@@ -17,5 +17,5 @@ export interface CompletePassword extends z.infer<typeof PasswordObjectSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedPasswordObjectSchema: z.ZodSchema<CompletePassword> = z.lazy(() => PasswordObjectSchema.extend({
-  user: RelatedUserObjectSchema,
+  User: RelatedUserObjectSchema,
 }))

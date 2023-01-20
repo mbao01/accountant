@@ -6,7 +6,7 @@ import { CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteRecordCatego
 export const RecordObjectSchema = z.object({
   id: z.string(),
   amount: z.number().int(),
-  currency: z.nativeEnum(CurrencyCode),
+  currencyCode: z.nativeEnum(CurrencyCode),
   note: z.string().nullish(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
@@ -16,9 +16,9 @@ export const RecordObjectSchema = z.object({
 })
 
 export interface CompleteRecord extends z.infer<typeof RecordObjectSchema> {
-  type: CompleteRecordType
-  category: CompleteRecordCategory
-  account: CompleteAccount
+  Type: CompleteRecordType
+  Category: CompleteRecordCategory
+  Account: CompleteAccount
 }
 
 /**
@@ -27,7 +27,7 @@ export interface CompleteRecord extends z.infer<typeof RecordObjectSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedRecordObjectSchema: z.ZodSchema<CompleteRecord> = z.lazy(() => RecordObjectSchema.extend({
-  type: RelatedRecordTypeObjectSchema,
-  category: RelatedRecordCategoryObjectSchema,
-  account: RelatedAccountObjectSchema,
+  Type: RelatedRecordTypeObjectSchema,
+  Category: RelatedRecordCategoryObjectSchema,
+  Account: RelatedAccountObjectSchema,
 }))

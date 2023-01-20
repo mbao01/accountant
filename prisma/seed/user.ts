@@ -2,7 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 export default async function seedUser(prisma: PrismaClient) {
-  const email = "sup@accountant.io";
+  const email = "hey@accountant.io";
 
   // cleanup the existing database
   await prisma.user.delete({ where: { email } }).catch(() => {
@@ -14,6 +14,7 @@ export default async function seedUser(prisma: PrismaClient) {
   await prisma.user.create({
     data: {
       email,
+      firstname: "Ayomide",
       Password: {
         create: {
           hash: hashedPassword,

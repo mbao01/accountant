@@ -8,11 +8,11 @@ export const RecordCategoryObjectSchema = z.object({
   description: z.string(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
-  recordTypeId: z.string().nullish(),
+  recordTypeId: z.string(),
 })
 
 export interface CompleteRecordCategory extends z.infer<typeof RecordCategoryObjectSchema> {
-  RecordType?: CompleteRecordType | null
+  RecordType: CompleteRecordType
   Record: CompleteRecord[]
 }
 
@@ -22,6 +22,6 @@ export interface CompleteRecordCategory extends z.infer<typeof RecordCategoryObj
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedRecordCategoryObjectSchema: z.ZodSchema<CompleteRecordCategory> = z.lazy(() => RecordCategoryObjectSchema.extend({
-  RecordType: RelatedRecordTypeObjectSchema.nullish(),
+  RecordType: RelatedRecordTypeObjectSchema,
   Record: RelatedRecordObjectSchema.array(),
 }))

@@ -20,10 +20,10 @@ export const AccountObjectSchema = z.object({
 })
 
 export interface CompleteAccount extends z.infer<typeof AccountObjectSchema> {
-  currency: CompleteCurrency
+  Currency: CompleteCurrency
   Record: CompleteRecord[]
   RecordType: CompleteRecordType[]
-  user: CompleteUser
+  User: CompleteUser
 }
 
 /**
@@ -32,8 +32,8 @@ export interface CompleteAccount extends z.infer<typeof AccountObjectSchema> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedAccountObjectSchema: z.ZodSchema<CompleteAccount> = z.lazy(() => AccountObjectSchema.extend({
-  currency: RelatedCurrencyObjectSchema,
+  Currency: RelatedCurrencyObjectSchema,
   Record: RelatedRecordObjectSchema.array(),
   RecordType: RelatedRecordTypeObjectSchema.array(),
-  user: RelatedUserObjectSchema,
+  User: RelatedUserObjectSchema,
 }))
