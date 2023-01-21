@@ -7,7 +7,9 @@ import type {
 export type TableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  isLoading?: boolean;
   showFooter?: boolean;
+  noDataText?: string;
 };
 
 export type TableHeadProps<T> = {
@@ -16,6 +18,8 @@ export type TableHeadProps<T> = {
 
 export type TableBodyProps<T> = {
   getRowModel: CoreInstance<T>["getRowModel"];
+  isLoading?: boolean;
+  noDataText?: string;
 };
 
 export type TableFootProps<T> = {

@@ -95,7 +95,11 @@ const AccountsIndex = () => {
           </Popover>
         </div>
       </div>
-      <Table columns={columns as any} data={accounts} />
+      <Table
+        columns={columns as any}
+        data={accounts}
+        noDataText="No accounts available"
+      />
     </div>
   );
 };

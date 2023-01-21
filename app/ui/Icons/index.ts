@@ -2,6 +2,8 @@ export { PlusIcon } from "./PlusIcon";
 export { CheckIcon } from "./CheckIcon";
 export { XCircleIcon } from "./XCircleIcon";
 export { ChevronUpIcon } from "./ChevronUpIcon";
+export { InfoCircleIcon } from "./InfoCircleIcon";
 export { ChevronDownIcon } from "./ChevronDownIcon";
 export { ChevronUpDownIcon } from "./ChevronUpDownIcon";
-
+export { EllipsisHorizontalIcon } from "./EllipsisHorizontalIcon";
+export { ArrowRightOnRectangleIcon } from "./ArrowRightOnRectangleIcon";

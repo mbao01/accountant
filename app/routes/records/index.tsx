@@ -72,7 +72,11 @@ const RecordsIndex = () => {
           <AddRecord />
         </Popover>
       </div>
-      <Table columns={columns as any} data={records} />
+      <Table
+        data={records}
+        columns={columns as any}
+        noDataText="No records to show"
+      />
     </div>
   );
 };

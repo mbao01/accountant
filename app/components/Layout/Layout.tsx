@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import { Route } from "~/routes.enum";
 import { Button } from "~/ui/Button";
-import { ArrowRightOnRectangleIcon } from "~/ui/Icons/ArrowRightOnRectangleIcon";
+import { ArrowRightOnRectangleIcon } from "~/ui/Icons";
 import { Header } from "./Header";
 import type { LayoutProps } from "./types";
 

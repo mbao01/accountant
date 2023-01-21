@@ -9,3 +9,6 @@ export const tableHeaderClass =
 export const tableRowClass = "odd:bg-gray-100";
 
 export const tableCellClass = "px-5 py-5 text-sm";
+
+export const noDataClass =
+  "flex flex-col gap-4 items-center justify-center py-6 my-20 text-sm";

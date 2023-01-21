@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Link, NavLink } from "react-router-dom";
 import { Route } from "~/routes.enum";
-import { ArrowRightOnRectangleIcon } from "~/ui/Icons/ArrowRightOnRectangleIcon";
+import { ArrowRightOnRectangleIcon } from "~/ui/Icons";
 import {
   activeNavLinkClass,
   headerClass,
