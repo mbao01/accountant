@@ -15,9 +15,16 @@ import { Tag } from "~/ui/Tag";
 
 export const loader: LoaderFunction = async () => {
   const accounts = await prisma.account.findMany({
-    include: {
-      Currency: true,
-      User: true,
+    select: {
+      tag: true,
+      _count: true,
+      name: true,
+      number: true,
+      sortCode: true,
+      createdAt: true,
+      startingBalance: true,
+      Currency: { select: { code: true } },
+      User: { select: { firstname: true } },
     },
   });
   return json({ success: true, data: accounts });
@@ -36,7 +43,7 @@ const AccountsIndex = () => {
           const name = info.getValue();
           const { tag } = info.row.original;
           return (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-gray-800">
               {tag && <Tag name={tag} />}
               {name}
             </div>
@@ -49,9 +56,9 @@ const AccountsIndex = () => {
           const number = info.getValue();
           const { sortCode } = info.row.original;
           return (
-            <div className="flex flex-col text-blue-500">
+            <div className="flex flex-col">
               {number}
-              {sortCode && <span className="text-xs">{sortCode}</span>}
+              {sortCode && <span className="text-xs text-gray-500">{sortCode}</span>}
             </div>
           );
         },
@@ -61,19 +68,18 @@ const AccountsIndex = () => {
         cell: (info) => {
           const startingBalance = info.getValue();
           const { Currency } = info.row.original;
-          return (
-            <div className="w-10">
-              {formatCurrency(startingBalance, Currency.code)}
-            </div>
-          );
+          return formatCurrency(startingBalance, Currency.code);
         },
       }),
-      columnHelper.accessor((info) => info.User.email, {
+      columnHelper.accessor((info) => info._count.Record, {
+        header: "Records",
+      }),
+      columnHelper.accessor((info) => info.User.firstname, {
         header: "Owner",
       }),
       columnHelper.accessor("createdAt", {
         header: "Created",
-        cell: (info) => formatDate(info.getValue()),
+        cell: (info) => formatDate(info.getValue(), 'MMM d, yyyy'),
       }),
     ];
   }, []);

@@ -46,12 +46,12 @@ model Account {
   id              String       @id @unique @default(cuid())
   name            String       /// @zod.min(3)
   number          String       @unique  /// @zod.min(3)
-  sortCode        String?      /// @zod.min(3)
+  sortCode        String?
   Currency        Currency     @relation(fields: [currencyId], references: [id])
-  currencyId      String       /// @zod.cuid()
+  currencyId      String       /// @zod.length(3)
   startingBalance Float        /// @zod.custom(z.coerce.number())
   bankName        String       /// @zod.min(3)
-  bankAddress     String?      /// @zod.min(3)
+  bankAddress     String?
   bankCountry     String       /// @zod.min(3)
   tag             TagPattern?  @default(DOTTED)
   createdAt       DateTime?    @default(now())
