@@ -14,7 +14,7 @@ import { Table } from "~/ui/Table";
 export const loader: LoaderFunction = async () => {
   const records = await prisma.record.findMany({
     select: {
-      account: {
+      Account: {
         select: {
           name: true,
         },
@@ -28,15 +28,17 @@ const RecordsIndex = () => {
   const { data: records } = useLoaderData<typeof loader>();
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Record & { account: Account }>();
+    const columnHelper = createColumnHelper<Record & { Account: Account }>();
 
     return [
       columnHelper.accessor("amount", {
         header: "Amount",
         cell: (info) => {
           const amount = info.getValue();
-          const { currency } = info.row.original;
-          return <div className="w-10">{formatCurrency(amount, currency)}</div>;
+          const { currencyCode } = info.row.original;
+          return (
+            <div className="w-10">{formatCurrency(amount, currencyCode)}</div>
+          );
         },
       }),
       columnHelper.accessor("note", {
@@ -45,7 +47,7 @@ const RecordsIndex = () => {
           return <div className="flex items-center gap-2">{note}</div>;
         },
       }),
-      columnHelper.accessor("account", {
+      columnHelper.accessor("Account", {
         header: "Number",
         cell: (info) => {
           const account = info.getValue();

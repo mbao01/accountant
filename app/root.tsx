@@ -1,4 +1,9 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import {
+  json,
+  type LinksFunction,
+  type LoaderArgs,
+  type MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,13 +11,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import rootStylesheetUrl from "./styles/root.css";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { requireUserId } from "./session.server";
+import { requireUser } from "./session.server";
 import { Layout } from "./components/Layout";
 import { Route } from "./routes.enum";
+import httpStatus from "http-status";
 
 export const links: LinksFunction = () => {
   return [
@@ -30,13 +37,16 @@ export const meta: MetaFunction = () => ({
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
 
-  if (!["", Route.LOGIN, Route.LOGOUT].includes(url.pathname))
-    await requireUserId(request);
+  if (!["", Route.LOGIN, Route.LOGOUT].includes(url.pathname)) {
+    const user = await requireUser(request);
+    return json({ success: true, data: user }, httpStatus.OK);
+  }
 
   return null;
 }
 
 export default function App() {
+  const loaderData = useLoaderData();
   return (
     <html lang="en" className="h-full">
       <head>
@@ -44,7 +54,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Layout>
+        <Layout user={loaderData?.data!}>
           <Outlet />
           <ScrollRestoration />
           <Scripts />

@@ -17,12 +17,14 @@ export const Button: React.FC<ButtonProps> = (props) => {
     outline,
     disabled,
     children,
+    className,
   } = props;
 
   return (
     <button
       type={type}
       className={clsx(
+        className,
         buttonClass,
         sizes[size],
         disabled && {
