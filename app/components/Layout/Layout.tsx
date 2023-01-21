@@ -1,4 +1,5 @@
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import { Route } from "~/routes.enum";
 import { Button } from "~/ui/Button";
 import { ArrowRightOnRectangleIcon } from "~/ui/Icons";
@@ -20,13 +21,15 @@ export const Layout = (props: LayoutProps) => {
                 <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75" />
                 <span className="absolute inline-flex h-2 w-2 rounded-full bg-green-500" />
               </div>
-              <Button
-                size="sm"
-                outline
-                className="flex h-5 w-5 items-center justify-center rounded-full px-0"
-              >
-                <ArrowRightOnRectangleIcon />
-              </Button>
+              <Link to={Route.LOGOUT}>
+                <Button
+                  size="sm"
+                  outline
+                  className="flex h-5 w-5 items-center justify-center rounded-full px-0"
+                >
+                  <ArrowRightOnRectangleIcon />
+                </Button>
+              </Link>
             </div>
           ) : (
             <Header title={user.firstname} />
