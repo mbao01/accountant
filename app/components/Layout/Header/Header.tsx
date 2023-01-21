@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Route } from "~/routes.enum";
+import { Button } from "~/ui/Button";
 import { ArrowRightOnRectangleIcon } from "~/ui/Icons";
 import {
   activeNavLinkClass,
@@ -25,7 +26,31 @@ const NAV_LINKS = [
 ];
 
 export const Header: React.FC<HeaderProps> = ({ title }) => {
-  return (
+  const location = useLocation();
+
+  return location.pathname === Route.ROOT ? (
+    <header className="flex flex-col items-center justify-center pt-28 pb-6">
+      <img
+        className={logoClass}
+        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+        alt="Accountant logo"
+      />
+      <div className="relative mb-2 text-lg">
+        {title}
+        <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75" />
+        <span className="absolute inline-flex h-2 w-2 rounded-full bg-green-500" />
+      </div>
+      <Link to={Route.LOGOUT}>
+        <Button
+          size="sm"
+          outline
+          className="flex h-5 w-5 items-center justify-center rounded-full px-0"
+        >
+          <ArrowRightOnRectangleIcon />
+        </Button>
+      </Link>
+    </header>
+  ) : (
     <header className={headerClass}>
       <nav className={navClass}>
         {NAV_LINKS.map(({ to, title }) => (

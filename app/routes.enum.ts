@@ -6,4 +6,5 @@ export enum Route {
   ACCOUNTS = "/accounts",
   REGISTER = "/register",
   RECORD_TYPE = "/records/type",
+  RECORD_CATEGORY = "/records/category",
 }

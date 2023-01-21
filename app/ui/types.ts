@@ -1,3 +1,5 @@
+// import type { colors } from '../../tailwind.config';
+
 export type TSize = "lg" | "md" | "sm";
 
 export type TVariant =
@@ -6,3 +8,13 @@ export type TVariant =
   | "danger"
   | "success"
   | "warning";
+
+export type TColor =
+  | "black"
+  | "white"
+  | "gray"
+  | "purple"
+  | "green"
+  | "red"
+  | "yellow"
+  | "blue";

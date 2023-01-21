@@ -88,7 +88,7 @@ const AccountsIndex = () => {
             size="sm"
             onClick={() => openModal(ModalId.CREATE_ACCOUNT)}
           >
-            Create
+            Create Account
           </Button>
           <Popover trigger={() => <Button size="sm">Add Record</Button>}>
             <AddRecord />

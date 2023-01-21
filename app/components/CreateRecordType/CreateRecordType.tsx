@@ -1,6 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
 import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { Route } from "~/routes.enum";
 import { CreateRecordTypeObjectSchema } from "~/schemas/record";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
@@ -18,7 +19,7 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
   return (
     <Form
       method="post"
-      action={`/records/type/add?redirect=${location.pathname}`}
+      action={`${Route.RECORD_TYPE}/add?redirect=${location.pathname}`}
       className="w-64 rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">
