@@ -18,7 +18,7 @@ export const NewAccount = () => {
     <Form
       method="post"
       action={`/accounts/new?redirect=${location.pathname}`}
-      className="w-96 rounded-lg border border-gray-200 bg-white px-6 py-4"
+      className="w-full max-w-md rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">New Account</h4>
       <Spacing />
