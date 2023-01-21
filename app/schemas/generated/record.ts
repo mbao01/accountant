@@ -10,9 +10,9 @@ export const RecordObjectSchema = z.object({
   note: z.string().nullish(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
-  recordTypeId: z.string(),
-  recordCategoryId: z.string(),
-  accountId: z.string(),
+  recordTypeId: z.string().cuid(),
+  recordCategoryId: z.string().cuid(),
+  accountId: z.string().cuid(),
 })
 
 export interface CompleteRecord extends z.infer<typeof RecordObjectSchema> {

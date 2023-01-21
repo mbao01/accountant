@@ -5,8 +5,8 @@ import { CompleteAccount, RelatedAccountObjectSchema, CompleteRecordCategory, Re
 
 export const RecordTypeObjectSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  description: z.string(),
+  name: z.string().min(3),
+  description: z.string().min(3),
   tag: z.nativeEnum(TagColor).nullish(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),

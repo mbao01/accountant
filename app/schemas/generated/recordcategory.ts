@@ -4,11 +4,11 @@ import { CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteRecord, Rela
 
 export const RecordCategoryObjectSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  description: z.string(),
+  name: z.string().min(3),
+  description: z.string().min(3),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
-  recordTypeId: z.string(),
+  recordTypeId: z.string().cuid(),
 })
 
 export interface CompleteRecordCategory extends z.infer<typeof RecordCategoryObjectSchema> {

@@ -9,7 +9,7 @@ generator client {
 
 generator zod {
   provider              = "zod-prisma"
-  output                = "../app/generated/schemas"
+  output                = "../app/schemas/generated"
   relationModel         = true
   modelCase             = "PascalCase"
   modelSuffix            = "ObjectSchema"
@@ -22,8 +22,8 @@ generator zod {
 
 model User {
   id        String    @id @default(cuid())
-  email     String    @unique
-  firstname  String
+  email     String    @unique /// @zod.email()
+  firstname  String    /// @zod.min(3)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Account   Account[]
@@ -37,7 +37,7 @@ model Password {
   hash String
 
   User   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
+  userId String @unique /// @zod.cuid()
 
   @@map("passwords")
 }
@@ -46,12 +46,12 @@ model Account {
   id              String       @id @unique @default(cuid())
   name            String       /// @zod.min(3)
   number          String       @unique  /// @zod.min(3)
-  sortCode        String?
+  sortCode        String?      /// @zod.min(3)
   Currency        Currency     @relation(fields: [currencyId], references: [id])
-  currencyId      String
+  currencyId      String       /// @zod.cuid()
   startingBalance Float        /// @zod.custom(z.coerce.number())
   bankName        String       /// @zod.min(3)
-  bankAddress     String?
+  bankAddress     String?      /// @zod.min(3)
   bankCountry     String       /// @zod.min(3)
   tag             TagPattern?  @default(DOTTED)
   createdAt       DateTime?    @default(now())
@@ -59,7 +59,7 @@ model Account {
   Record          Record[]
   RecordType      RecordType[]
   User            User         @relation(fields: [userId], references: [id])
-  userId          String
+  userId          String       /// @zod.cuid()
 
   @@map("accounts")
 }
@@ -77,8 +77,8 @@ model Currency {
 
 model RecordType {
   id          String           @id @unique @default(cuid())
-  name        String
-  description String
+  name        String           /// @zod.min(3)
+  description String           /// @zod.min(3)
   tag         TagColor?        @default(BLUE)
   Account     Account[]
   Category    RecordCategory[]
@@ -91,12 +91,12 @@ model RecordType {
 
 model RecordCategory {
   id           String      @id @unique @default(cuid())
-  name         String
-  description  String
+  name         String      /// @zod.min(3)
+  description  String      /// @zod.min(3)
   createdAt    DateTime?   @default(now())
   updatedAt    DateTime?   @updatedAt
-  RecordType   RecordType @relation(fields: [recordTypeId], references: [id])
-  recordTypeId String
+  RecordType   RecordType  @relation(fields: [recordTypeId], references: [id])
+  recordTypeId String      /// @zod.cuid()
   Record       Record[]
 
   @@map("record_categories")
@@ -112,9 +112,9 @@ model Record {
   note             String?
   createdAt        DateTime?      @default(now())
   updatedAt        DateTime?      @updatedAt
-  recordTypeId     String
-  recordCategoryId String
-  accountId        String
+  recordTypeId     String         /// @zod.cuid()
+  recordCategoryId String         /// @zod.cuid()
+  accountId        String         /// @zod.cuid()
 
   @@map("records")
 }

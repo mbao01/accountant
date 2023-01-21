@@ -1,7 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
 import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
-import { CreateRecordTypeObjectSchema } from "~/schemas/record-type";
+import { CreateRecordTypeObjectSchema } from "~/schemas/record";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";

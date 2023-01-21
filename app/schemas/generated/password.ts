@@ -4,7 +4,7 @@ import { CompleteUser, RelatedUserObjectSchema } from "./index"
 
 export const PasswordObjectSchema = z.object({
   hash: z.string(),
-  userId: z.string(),
+  userId: z.string().cuid(),
 })
 
 export interface CompletePassword extends z.infer<typeof PasswordObjectSchema> {

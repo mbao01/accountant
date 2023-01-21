@@ -1,4 +1,4 @@
-import { AccountObjectSchema } from "~/generated/schemas";
+import { AccountObjectSchema } from "./generated";
 
 export const CreateAccountObjectSchema = AccountObjectSchema.omit({
   id: true,

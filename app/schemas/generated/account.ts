@@ -7,16 +7,16 @@ export const AccountObjectSchema = z.object({
   id: z.string(),
   name: z.string().min(3),
   number: z.string().min(3),
-  sortCode: z.string().nullish(),
-  currencyId: z.string(),
+  sortCode: z.string().min(3).nullish(),
+  currencyId: z.string().cuid(),
   startingBalance: z.coerce.number(),
   bankName: z.string().min(3),
-  bankAddress: z.string().nullish(),
+  bankAddress: z.string().min(3).nullish(),
   bankCountry: z.string().min(3),
   tag: z.nativeEnum(TagPattern).nullish(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
-  userId: z.string(),
+  userId: z.string().cuid(),
 })
 
 export interface CompleteAccount extends z.infer<typeof AccountObjectSchema> {

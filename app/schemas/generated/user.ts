@@ -5,8 +5,8 @@ import { CompleteAccount, RelatedAccountObjectSchema, CompletePassword, RelatedP
 
 export const UserObjectSchema = z.object({
   id: z.string(),
-  email: z.string(),
-  firstname: z.string(),
+  email: z.string().email(),
+  firstname: z.string().min(3),
   createdAt: z.date(),
   updatedAt: z.date(),
   role: z.nativeEnum(Role),

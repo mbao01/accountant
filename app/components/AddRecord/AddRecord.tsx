@@ -1,8 +1,8 @@
 import { CurrencyCode } from "@prisma/client";
 import { Form, useLocation } from "@remix-run/react";
 import { useState } from "react";
-import { RecordObjectSchema } from "~/generated/schemas";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { CreateRecordObjectSchema } from "~/schemas/record";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Link } from "~/ui/Link";
@@ -14,9 +14,7 @@ import type { AddRecordProps } from "./types";
 export const AddRecord = ({ account }: AddRecordProps) => {
   const location = useLocation();
   const [showNoteInput, setShowNoteInput] = useState(false);
-  const validator = useFormValidator(
-    RecordObjectSchema.omit({ id: true, createdAt: true, updatedAt: true })
-  );
+  const validator = useFormValidator(CreateRecordObjectSchema);
   const fields = validator.fields;
 
   const accounts = [

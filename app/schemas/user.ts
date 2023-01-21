@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserObjectSchema } from "~/generated/schemas";
+import { UserObjectSchema } from "./generated";
 
 export const CreateUserObjectSchema = UserObjectSchema.omit({
   id: true,

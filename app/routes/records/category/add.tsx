@@ -6,7 +6,7 @@ import {
 import httpStatus from "http-status";
 import { prisma } from "~/db.server";
 import { redirectRequest, safeAction, validatePayload } from "~/helpers/api";
-import { CreateRecordCategoryObjectSchema } from "~/schemas/record-category";
+import { CreateRecordCategoryObjectSchema } from "~/schemas/record";
 
 export const loader: LoaderFunction = redirectRequest;
 
