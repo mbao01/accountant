@@ -1,4 +1,5 @@
-import type { FocusEventHandler, ReactNode } from "react";
+import type { ReactNode } from "react";
+import type { TValidator } from "~/hooks/useFormValidator/types";
 import type { TSize } from "../types";
 
 export type TOption = {
@@ -19,5 +20,5 @@ export type AutocompleteProps = {
   disabled?: boolean;
   required?: boolean;
   isInvalid?: boolean;
-  onBlur?: FocusEventHandler<HTMLUListElement>;
+  onValidate?: TValidator;
 };

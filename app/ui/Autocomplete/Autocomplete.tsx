@@ -19,25 +19,23 @@ import {
 } from "./classes";
 import type { AutocompleteProps, TOption } from "./types";
 import { ChevronUpDownIcon } from "../Icons";
-import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Autocomplete = (props: AutocompleteProps) => {
   const {
     name,
     size = "md",
     label,
-    onBlur,
     outline,
     options,
     disabled,
     required,
     isInvalid,
+    onValidate,
   } = props;
 
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(options[0]);
   const value = selected?.id ?? selected?.value ?? selected.label;
-  const inputRef = useDispatchInputEvent(value);
 
   const filteredOptions =
     query === ""
@@ -49,18 +47,19 @@ export const Autocomplete = (props: AutocompleteProps) => {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
-  const handleBlur = useCallback(
-    (e: any) => {
-      if (onBlur) {
-        e.target = inputRef.current;
-        onBlur(e);
+  const handleChange = useCallback(
+    (option: TOption) => {
+      setSelected(option);
+      if (name) {
+        const value = option?.id ?? option?.value ?? option.label;
+        onValidate?.({ name, value });
       }
     },
-    [inputRef, onBlur]
+    [name, onValidate]
   );
 
   return (
-    <Combobox value={selected} disabled={disabled} onChange={setSelected}>
+    <Combobox value={selected} disabled={disabled} onChange={handleChange}>
       <div className={containerClass}>
         {label && (
           <label
@@ -74,7 +73,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             {required && " *"}
           </label>
         )}
-        {name && <input ref={inputRef} id={name} name={name} type="hidden" />}
+        {name && <input id={name} name={name} type="hidden" value={value} />}
         <div className={comboboxContainerClass}>
           <div className={comboboxClass}>
             <Combobox.Input
@@ -109,10 +108,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             {...transitionClass}
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options
-              className={optionsContainerClass}
-              onBlur={handleBlur}
-            >
+            <Combobox.Options className={optionsContainerClass}>
               {filteredOptions.length === 0 && query !== "" ? (
                 <div className={emptyStateClass}>Nothing found.</div>
               ) : (

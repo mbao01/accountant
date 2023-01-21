@@ -1,13 +1,14 @@
-import type { FormEventHandler, MutableRefObject } from "react";
+import type debounce from "lodash.debounce";
 import type { z, ZodSchema } from "zod";
 
-export type TValidator = FormEventHandler<
-  | HTMLFormElement
-  | HTMLInputElement
-  | HTMLTextAreaElement
-  | HTMLButtonElement
-  | HTMLUListElement
+type DebouncedFunc<T extends (...args: any) => any> = ReturnType<
+  typeof debounce<T>
 >;
+
+export type TValidator = (args: {
+  name: string;
+  value: string | undefined;
+}) => void;
 
 export type TFieldValidation<T> = {
   name: keyof T;
@@ -16,7 +17,7 @@ export type TFieldValidation<T> = {
   isValid?: boolean;
   isDirty?: boolean;
   isInvalid?: boolean;
-  onBlur?: TValidator;
+  onValidate?: DebouncedFunc<TValidator>;
 };
 
 export type TField<T> = TFieldValidation<T>["name"];
@@ -25,7 +26,6 @@ export type ValidationState<T> = {
   isValid?: boolean;
   isDirty?: boolean;
   isInvalid?: boolean;
-  formRef: MutableRefObject<any>;
   fields: {
     readonly [K in TField<T>]-?: TFieldValidation<T>;
   };

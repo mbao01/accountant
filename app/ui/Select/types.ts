@@ -1,4 +1,5 @@
-import type { FocusEventHandler, ReactNode } from "react";
+import type { ReactNode } from "react";
+import type { TValidator } from "~/hooks/useFormValidator/types";
 import type { TSize } from "../types";
 
 export type TOption = {
@@ -21,5 +22,5 @@ export type SelectProps = {
   isInvalid?: boolean;
   className?: string;
   defaultValue?: TOption["value"];
-  onBlur?: FocusEventHandler<HTMLUListElement>;
+  onValidate?: TValidator;
 };

@@ -1,15 +1,16 @@
 import type { ZodObject, ZodRawShape } from "zod";
 import { useState, useCallback, useRef } from "react";
+import debounce from "lodash.debounce";
 import type { TErrors, TValidator, ValidationState } from "./types";
 
 export const useFormValidator = <T extends ZodRawShape>(
   schema: ZodObject<T>
 ) => {
   const valuesRef = useRef<Record<string, unknown>>({});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const validate: TValidator = useCallback(
-    (e) => {
+    debounce(({ name, value }) => {
       if (schema) {
-        const { name, value } = e.target as HTMLInputElement;
         valuesRef.current = { ...valuesRef.current, [name]: value };
         const c = schema.safeParse(valuesRef.current);
         const errors = (
@@ -39,7 +40,7 @@ export const useFormValidator = <T extends ZodRawShape>(
           };
         });
       }
-    },
+    }, 500),
     [schema]
   );
 
@@ -47,7 +48,7 @@ export const useFormValidator = <T extends ZodRawShape>(
     fields: Object.fromEntries(
       Object.keys(schema.keyof().enum).map((key) => [
         key,
-        { name: key, onBlur: validate },
+        { name: key, onValidate: validate },
       ])
     ),
     errors: {},

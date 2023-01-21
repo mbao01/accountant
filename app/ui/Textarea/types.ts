@@ -1,4 +1,5 @@
-import type { FocusEventHandler, ReactNode } from "react";
+import type { ReactNode } from "react";
+import type { TValidator } from "~/hooks/useFormValidator/types";
 import type { TSize } from "../types";
 
 export type TextareaProps = {
@@ -12,5 +13,5 @@ export type TextareaProps = {
   required?: boolean;
   isInvalid?: boolean;
   placeholder?: string;
-  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
+  onValidate?: TValidator;
 };

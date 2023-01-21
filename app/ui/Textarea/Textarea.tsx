@@ -19,10 +19,10 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
     hint,
     label,
     error,
-    onBlur,
     disabled,
     required,
     isInvalid,
+    onValidate,
     placeholder,
   } = props;
   const info = hint || error;
@@ -49,7 +49,7 @@ export const Textarea: React.FC<TextareaProps> = (props) => {
         id={name}
         rows={rows}
         name={name}
-        onBlur={onBlur}
+        onChange={(e) => onValidate?.({ name, value: e.target.value })}
         disabled={disabled}
         required={required}
         placeholder={placeholder}

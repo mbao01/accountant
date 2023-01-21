@@ -21,12 +21,12 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
     type = "text",
     label,
     error,
-    onBlur,
     disabled,
     required,
     autoFocus,
     isInvalid,
     placeholder,
+    onValidate,
     className,
   } = props;
   const info = hint || error;
@@ -54,7 +54,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
         name={name}
         step={step}
         type={type}
-        onBlur={onBlur}
+        onChange={(e) => onValidate?.({ name, value: e.target.value })}
         disabled={disabled}
         required={required}
         autoFocus={autoFocus}

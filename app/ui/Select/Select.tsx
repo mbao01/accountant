@@ -15,51 +15,50 @@ import {
   transitionClass,
   variants,
 } from "./classes";
-import type { SelectProps } from "./types";
+import type { SelectProps, TOption } from "./types";
 import { Option } from "./Option";
-import { useDispatchInputEvent } from "~/hooks/useDispatchInputEvent";
 
 export const Select: React.FC<SelectProps> = React.memo((props) => {
   const {
     name,
     size = "md",
     label,
-    onBlur,
     outline,
     options,
     disabled,
     required,
     isInvalid,
     className,
+    onValidate,
     defaultValue,
   } = props;
 
   const [selected, setSelected] = useState(
-    () => options.find((option) => option.value === defaultValue) // when `value` is available in option and `defaultValue` is not set, this acts like a typical dropdown
+    () =>
+      options.find((option) => option.value === defaultValue) ?? ({} as TOption) // when `value` is available in option and `defaultValue` is not set, this acts like a typical dropdown
   );
-  const inputValue = selected?.value ?? selected?.id;
-  const inputRef = useDispatchInputEvent(inputValue);
 
-  const handleBlur = useCallback(
-    (e: any) => {
-      if (onBlur) {
-        e.target = inputRef.current;
-        onBlur(e);
+  const handleSelect = useCallback(
+    (option: TOption) => {
+      setSelected(option);
+      if (name) {
+        const value = option.value;
+        onValidate?.({ name, value });
       }
     },
-    [inputRef, onBlur]
+    [name, onValidate]
   );
 
   useEffect(() => {
     // validate if default value is set
-    if (defaultValue) {
-      onBlur?.({ target: inputRef.current } as any);
+    if (defaultValue && name) {
+      onValidate?.({ name, value: defaultValue });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Listbox value={selected} disabled={disabled} onChange={setSelected}>
+    <Listbox value={selected} disabled={disabled} onChange={handleSelect}>
       <div className={containerClass}>
         {label && (
           <label
@@ -76,11 +75,10 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
         <div className={clsx(selectContainerClass, className)}>
           {name && (
             <input
-              ref={inputRef}
               id={name}
               name={name}
               type="hidden"
-              defaultValue={defaultValue}
+              value={selected?.value}
             />
           )}
           <Listbox.Button
@@ -111,10 +109,7 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
             )}
           </Listbox.Button>
           <Transition as={Fragment} {...transitionClass}>
-            <Listbox.Options
-              onBlur={handleBlur}
-              className={optionsContainerClass}
-            >
+            <Listbox.Options className={optionsContainerClass}>
               {options.map((option) => (
                 <Option
                   key={option.value ?? option.id}
