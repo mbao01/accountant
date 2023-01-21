@@ -68,7 +68,7 @@ export default function LoginPage() {
   return (
     <Form
       method="post"
-      className="mx-auto mt-40 w-full max-w-md rounded-lg px-6 py-4 shadow-lg shadow-gray-200 ring-1 ring-gray-200"
+      className="mx-auto mt-20 w-full max-w-md rounded-lg px-6 py-4 shadow-lg shadow-gray-200 ring-1 ring-gray-200"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Log in</h4>
       <Spacing />
