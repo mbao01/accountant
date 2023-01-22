@@ -22,6 +22,7 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = React.memo(
             type="number"
             size={size}
             className="pr-12"
+            inputMode="decimal"
             placeholder={placeholder}
             {...inputProps}
           />

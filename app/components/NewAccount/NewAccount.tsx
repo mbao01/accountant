@@ -24,11 +24,21 @@ export const NewAccount = () => {
       <Spacing />
       <div className="grid grid-cols-2 gap-4">
         <Input size="sm" label="Account name" {...fields.name} />
-        <Input size="sm" label="Account number" {...fields.number} />
+        <Input
+          size="sm"
+          label="Account number"
+          inputMode="numeric"
+          {...fields.number}
+        />
       </div>
       <Spacing />
       <div className="grid grid-cols-2 gap-4">
-        <Input size="sm" label="Sort code" {...fields.sortCode} />
+        <Input
+          size="sm"
+          label="Sort code"
+          inputMode="numeric"
+          {...fields.sortCode}
+        />
         <CurrencyInput
           size="sm"
           label="Starting balance"

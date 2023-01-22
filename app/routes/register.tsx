@@ -86,6 +86,7 @@ export default function Register() {
           size="sm"
           type="email"
           label="Email address"
+          inputMode="email"
           {...fields.email}
         />
         <Input

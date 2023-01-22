@@ -24,6 +24,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
     disabled,
     required,
     autoFocus,
+    inputMode,
     isInvalid,
     placeholder,
     onValidate,
@@ -58,6 +59,7 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
         disabled={disabled}
         required={required}
         autoFocus={autoFocus}
+        inputMode={inputMode}
         placeholder={placeholder}
         className={clsx(className, inputClass, sizes[size], {
           [disabledClass]: disabled,

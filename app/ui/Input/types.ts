@@ -13,6 +13,15 @@ export type InputProps = Partial<Pick<HTMLInputElement, "step">> & {
   required?: boolean;
   autoFocus?: boolean;
   className?: string;
+  inputMode?:
+    | "search"
+    | "text"
+    | "email"
+    | "tel"
+    | "url"
+    | "none"
+    | "numeric"
+    | "decimal";
   isInvalid?: boolean;
   placeholder?: string;
   onValidate?: TValidator;
