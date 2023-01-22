@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "~/db.server";
 import type {
   CreateRecord,
@@ -29,16 +30,34 @@ export const createRecord = async (request: Request, data: CreateRecord) => {
   return prisma.record.create({ data: { ...data, createdBy: userId } });
 };
 
-export const getRecordTypes = () => {
-  return prisma.recordType.findMany();
+export const getRecordTypes = (select?: Prisma.RecordTypeSelect) => {
+  return prisma.recordType.findMany({
+    select: {
+      id: true,
+      name: true,
+      tag: true,
+      description: true,
+      createdAt: true,
+      ...select,
+    },
+  });
 };
 
 export const createRecordType = (data: CreateRecordType) => {
   return prisma.recordType.create({ data });
 };
 
-export const getRecordCategories = () => {
-  return prisma.recordCategory.findMany();
+export const getRecordCategories = (select?: Prisma.RecordCategorySelect) => {
+  return prisma.recordCategory.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      createdAt: true,
+      recordTypeId: true,
+      ...select,
+    },
+  });
 };
 
 export const createRecordCategory = (data: CreateRecordCategory) => {

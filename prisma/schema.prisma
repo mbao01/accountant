@@ -77,15 +77,15 @@ model Currency {
 }
 
 model RecordType {
-  id          String           @id @unique @default(cuid())
-  name        String           /// @zod.min(3)
-  description String           /// @zod.min(3)
-  tag         TagColor?        @default(BLUE)
-  Account     Account[]
-  Category    RecordCategory[]
-  createdAt   DateTime?        @default(now())
-  updatedAt   DateTime?        @updatedAt
-  Record      Record[]
+  id              String           @id @unique @default(cuid())
+  name            String           /// @zod.min(3)
+  description     String           /// @zod.min(3)
+  tag             TagColor?        @default(BLUE)
+  Account         Account[]
+  RecordCategory  RecordCategory[]
+  createdAt       DateTime?        @default(now())
+  updatedAt       DateTime?        @updatedAt
+  Record          Record[]
 
   @@map("record_types")
 }

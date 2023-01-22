@@ -7,9 +7,10 @@ import { CreateRecordType } from "~/components/CreateRecordType";
 import { RecordCategoryList } from "~/components/RecordCategoryList";
 import { RecordTypeList } from "~/components/RecordTypeList";
 import { UserList } from "~/components/UserList";
-import { prisma } from "~/db.server";
 import { ModalId } from "~/hooks/useModalController/types";
 import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
+import { getRecordCategories, getRecordTypes } from "~/models/record.server";
+import { getUsers } from "~/models/user.server";
 import { Route } from "~/routes.enum";
 import { getUser } from "~/session.server";
 import { Button } from "~/ui/Button";
@@ -17,40 +18,16 @@ import { Popover } from "~/ui/Popover";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const currentUser = await getUser(request);
-  const recordTypes = await prisma.recordType.findMany({
-    select: {
-      _count: true,
-      id: true,
-      name: true,
-      tag: true,
-      description: true,
-    },
-  });
+  const recordTypes = await getRecordTypes({ _count: true });
 
-  const recordCategories = await prisma.recordCategory.findMany({
-    select: {
-      _count: true,
-      id: true,
-      name: true,
-      description: true,
-      RecordType: {
-        select: {
-          name: true,
-        },
-      },
-    },
+  const recordCategories = await getRecordCategories({
+    _count: true,
+    RecordType: { select: { name: true } },
   });
 
   let users = null;
   if (currentUser?.role === "OWNER") {
-    users = await prisma.user.findMany({
-      select: {
-        _count: true,
-        id: true,
-        firstname: true,
-        role: true,
-      },
-    });
+    users = await getUsers();
   }
 
   return json(

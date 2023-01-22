@@ -3,31 +3,18 @@ import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { AddRecord } from "~/components/AddRecord";
-import { prisma } from "~/db.server";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
 import { ModalId } from "~/hooks/useModalController/types";
 import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
+import { getAccounts } from "~/models/account.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
 import { Tag } from "~/ui/Tag";
 
 export const loader: LoaderFunction = async () => {
-  const accounts = await prisma.account.findMany({
-    select: {
-      id: true,
-      tag: true,
-      _count: true,
-      name: true,
-      number: true,
-      sortCode: true,
-      createdAt: true,
-      startingBalance: true,
-      Currency: { select: { code: true } },
-      User: { select: { firstname: true } },
-    },
-  });
+  const accounts = await getAccounts();
   return json({ success: true as const, data: accounts });
 };
 

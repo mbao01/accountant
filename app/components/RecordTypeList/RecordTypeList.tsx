@@ -26,7 +26,7 @@ export const RecordTypeList: React.FC<RecordTypeListProps> = (props) => (
               <Badge color="red" value={String(_count.Record)} />
             </Tooltip>
             <Tooltip text="No. of categories">
-              <Badge color="yellow" value={String(_count.Category)} />
+              <Badge color="yellow" value={String(_count.RecordCategory)} />
             </Tooltip>
           </div>
         </li>
