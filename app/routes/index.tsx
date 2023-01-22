@@ -65,7 +65,7 @@ export default function Index() {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-10 py-20">
+      <div className="flex flex-wrap justify-center gap-10">
         <Popover trigger={() => <Button size="md">New record type</Button>}>
           <CreateRecordType />
         </Popover>
@@ -85,7 +85,7 @@ export default function Index() {
           <AddRecord />
         </Popover>
       </div>
-      <div className="flex flex-wrap justify-center gap-10 pb-20">
+      <div className="flex flex-wrap justify-center gap-10 py-20">
         <RecordTypeList items={loaderData.data?.recordTypes} />
         <RecordCategoryList items={loaderData.data?.recordCategories} />
         {loaderData.data?.users && <UserList items={loaderData.data?.users} />}

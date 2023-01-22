@@ -49,6 +49,21 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           <ArrowRightOnRectangleIcon />
         </Button>
       </Link>
+      <nav className={clsx(navClass, "py-10")}>
+        {NAV_LINKS.map(({ to, title }) => (
+          <NavLink
+            to={to}
+            key={to}
+            className={({ isActive }) =>
+              clsx(navLinkClass, {
+                [activeNavLinkClass]: isActive,
+              })
+            }
+          >
+            {title}
+          </NavLink>
+        ))}
+      </nav>
     </header>
   ) : (
     <header className={headerClass}>
@@ -67,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           </NavLink>
         ))}
       </nav>
-      <Link to="/" className={homeLinkClass}>
+      <Link to={Route.ROOT} className={homeLinkClass}>
         <img
           className={logoClass}
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"

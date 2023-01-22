@@ -16,6 +16,7 @@ export const loader: LoaderFunction = async () => {
       id: true,
       note: true,
       amount: true,
+      createdAt: true,
       currencyCode: true,
       Account: { select: { name: true } },
       Category: { select: { name: true } },
@@ -80,7 +81,7 @@ const RecordsIndex = () => {
       }),
       columnHelper.accessor("createdAt", {
         header: "Date",
-        cell: (info) => formatDate(info.getValue()),
+        cell: (info) => formatDate(info.getValue(), "MMM d, yyyy"),
       }),
     ];
   }, []);
