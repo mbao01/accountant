@@ -8,7 +8,7 @@ import { Form, useFetcher, useLocation } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Route } from "~/routes.enum";
-import { CreateRecordObjectSchema } from "~/schemas/record";
+import { CreateRecordObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Link } from "~/ui/Link";

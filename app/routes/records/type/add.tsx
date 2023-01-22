@@ -4,9 +4,9 @@ import {
   type LoaderFunction,
 } from "@remix-run/server-runtime";
 import httpStatus from "http-status";
-import { prisma } from "~/db.server";
 import { redirectRequest, safeAction, validatePayload } from "~/helpers/api";
-import { CreateRecordTypeObjectSchema } from "~/schemas/record";
+import { createRecordType } from "~/models/record.server";
+import { CreateRecordTypeObjectSchema } from "~/schemas/record.schema";
 
 export const loader: LoaderFunction = redirectRequest;
 
@@ -17,6 +17,7 @@ export const action: ActionFunction = ({ request }) =>
       CreateRecordTypeObjectSchema,
       Object.fromEntries(formData)
     );
-    const res = await prisma.recordType.create({ data });
+
+    const res = await createRecordType(data);
     return json({ success: true, data: res }, httpStatus.OK);
   });

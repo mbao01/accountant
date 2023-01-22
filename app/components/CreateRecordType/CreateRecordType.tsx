@@ -2,7 +2,7 @@ import { Form, useLocation } from "@remix-run/react";
 import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Route } from "~/routes.enum";
-import { CreateRecordTypeObjectSchema } from "~/schemas/record";
+import { CreateRecordTypeObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";

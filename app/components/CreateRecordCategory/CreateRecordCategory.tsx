@@ -2,7 +2,7 @@ import { Form, useFetcher, useLocation } from "@remix-run/react";
 import { useEffect, useMemo } from "react";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Route } from "~/routes.enum";
-import { CreateRecordCategoryObjectSchema } from "~/schemas/record";
+import { CreateRecordCategoryObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Select } from "~/ui/Select";

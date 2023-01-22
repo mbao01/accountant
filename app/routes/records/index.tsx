@@ -3,27 +3,15 @@ import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { AddRecord } from "~/components/AddRecord";
-import { prisma } from "~/db.server";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
+import { getRecords } from "~/models/record.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
 
 export const loader: LoaderFunction = async () => {
-  const records = await prisma.record.findMany({
-    select: {
-      id: true,
-      note: true,
-      amount: true,
-      createdAt: true,
-      currencyCode: true,
-      Account: { select: { name: true } },
-      Category: { select: { name: true } },
-      Type: { select: { name: true } },
-      User: { select: { firstname: true } },
-    },
-  });
+  const records = await getRecords();
   return json({ success: true, data: records });
 };
 
