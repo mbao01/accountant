@@ -1,4 +1,8 @@
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { tableClass, tableContainerClass } from "./classes";
 import { TableBody } from "./components/TableBody";
 import { TableFoot } from "./components/TableFoot";
@@ -11,6 +15,7 @@ export const Table = <T,>(props: TableProps<T>) => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
