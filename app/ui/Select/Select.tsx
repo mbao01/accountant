@@ -36,7 +36,8 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
 
   const [selected, setSelected] = useState(
     () =>
-      options.find((option) => option.value === defaultValue) ?? ({} as TOption) // when `value` is available in option and `defaultValue` is not set, this acts like a typical dropdown
+      options.find((option) => option.value === defaultValue) ??
+      ({ value: "" } as TOption) // when `value` is available in option and `defaultValue` is not set, this acts like a typical dropdown
   );
 
   const handleSelect = useCallback(

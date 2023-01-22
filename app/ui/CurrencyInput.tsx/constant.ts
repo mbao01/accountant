@@ -16,4 +16,4 @@ export const CURRENCY_OPTIONS = [
   { value: CurrencyCode.EUR, label: CURRENCY_MAP[CurrencyCode.EUR] },
   { value: CurrencyCode.RUB, label: CURRENCY_MAP[CurrencyCode.RUB] },
   { value: CurrencyCode.CNY, label: CURRENCY_MAP[CurrencyCode.CNY] },
-] as const;
+];

@@ -104,7 +104,7 @@ model RecordCategory {
 
 model Record {
   id               String         @id @unique @default(cuid())
-  amount           Int
+  amount           Float          /// @zod.custom(z.coerce.number())
   Type             RecordType     @relation(fields: [recordTypeId], references: [id])
   Category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
   Account          Account        @relation(fields: [accountId], references: [id])

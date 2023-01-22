@@ -29,6 +29,8 @@ export const useFormValidator = <T extends ZodRawShape>(
           isDirty: value !== undefined,
         };
 
+        console.log("XXX: ", errors);
+
         setValidation((v) => {
           const normField = { ...v.fields[name], ...field };
           return {

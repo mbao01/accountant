@@ -148,6 +148,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
           <CurrencyInput
             size="sm"
             code={(defaultAccount ?? account)?.Currency.code}
+            currencyProps={fields.currencyCode}
             {...fields.amount}
           />
         </div>
