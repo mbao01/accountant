@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   let users = null;
   if (currentUser?.role === "OWNER") {
-    users = await getUsers();
+    users = await getUsers({ _count: true });
   }
 
   return json(

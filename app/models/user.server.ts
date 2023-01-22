@@ -10,7 +10,16 @@ export const getUserCount = () => {
 };
 
 export const getUsers = (select?: Prisma.UserSelect) => {
-  return prisma.user.findMany({ select });
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      firstname: true,
+      createdAt: true,
+      role: true,
+      ...select,
+    },
+  });
 };
 
 export const getUserById = (id: User["id"]) => {
