@@ -1,4 +1,3 @@
-import type { Account, Record } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -14,11 +13,14 @@ import { Table } from "~/ui/Table";
 export const loader: LoaderFunction = async () => {
   const records = await prisma.record.findMany({
     select: {
-      Account: {
-        select: {
-          name: true,
-        },
-      },
+      id: true,
+      note: true,
+      amount: true,
+      currencyCode: true,
+      Account: { select: { name: true } },
+      Category: { select: { name: true } },
+      Type: { select: { name: true } },
+      User: { select: { firstname: true } },
     },
   });
   return json({ success: true, data: records });
@@ -28,7 +30,7 @@ const RecordsIndex = () => {
   const { data: records } = useLoaderData<typeof loader>();
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<Record & { Account: Account }>();
+    const columnHelper = createColumnHelper<typeof records>();
 
     return [
       columnHelper.accessor("amount", {
@@ -41,14 +43,7 @@ const RecordsIndex = () => {
           );
         },
       }),
-      columnHelper.accessor("note", {
-        cell: (info) => {
-          const note = info.getValue();
-          return <div className="flex items-center gap-2">{note}</div>;
-        },
-      }),
       columnHelper.accessor("Account", {
-        header: "Number",
         cell: (info) => {
           const account = info.getValue();
           return (
@@ -56,8 +51,35 @@ const RecordsIndex = () => {
           );
         },
       }),
+      columnHelper.accessor("Type", {
+        cell: (info) => {
+          const type = info.getValue();
+          return <div className="flex items-center gap-2">{type.name}</div>;
+        },
+      }),
+      columnHelper.accessor("Category", {
+        cell: (info) => {
+          const category = info.getValue();
+          return <div className="flex items-center gap-2">{category.name}</div>;
+        },
+      }),
+      columnHelper.accessor("note", {
+        cell: (info) => {
+          const note = info.getValue();
+          return <div className="flex items-center gap-2">{note ?? "-"}</div>;
+        },
+      }),
+      columnHelper.accessor("User", {
+        header: "Created By",
+        cell: (info) => {
+          const user = info.getValue();
+          return (
+            <div className="flex items-center gap-2">{user.firstname}</div>
+          );
+        },
+      }),
       columnHelper.accessor("createdAt", {
-        header: "Created",
+        header: "Date",
         cell: (info) => formatDate(info.getValue()),
       }),
     ];

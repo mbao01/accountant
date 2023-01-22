@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../../../prisma/null"
 import { CurrencyCode } from "@prisma/client"
-import { CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteRecordCategory, RelatedRecordCategoryObjectSchema, CompleteAccount, RelatedAccountObjectSchema } from "./index"
+import { CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteRecordCategory, RelatedRecordCategoryObjectSchema, CompleteAccount, RelatedAccountObjectSchema, CompleteUser, RelatedUserObjectSchema } from "./index"
 
 export const RecordObjectSchema = z.object({
   id: z.string(),
@@ -13,12 +13,14 @@ export const RecordObjectSchema = z.object({
   recordTypeId: z.string().cuid(),
   recordCategoryId: z.string().cuid(),
   accountId: z.string().cuid(),
+  createdBy: z.string().cuid(),
 })
 
 export interface CompleteRecord extends z.infer<typeof RecordObjectSchema> {
   Type: CompleteRecordType
   Category: CompleteRecordCategory
   Account: CompleteAccount
+  User: CompleteUser
 }
 
 /**
@@ -30,4 +32,5 @@ export const RelatedRecordObjectSchema: z.ZodSchema<CompleteRecord> = z.lazy(() 
   Type: RelatedRecordTypeObjectSchema,
   Category: RelatedRecordCategoryObjectSchema,
   Account: RelatedAccountObjectSchema,
+  User: RelatedUserObjectSchema,
 }))

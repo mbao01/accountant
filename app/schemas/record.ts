@@ -7,6 +7,7 @@ import {
 export const CreateRecordObjectSchema = RecordObjectSchema.omit({
   id: true,
   createdAt: true,
+  createdBy: true,
   updatedAt: true,
 });
 

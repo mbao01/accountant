@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../../../prisma/null"
 import { Role } from "@prisma/client"
-import { CompleteAccount, RelatedAccountObjectSchema, CompletePassword, RelatedPasswordObjectSchema } from "./index"
+import { CompleteAccount, RelatedAccountObjectSchema, CompleteRecord, RelatedRecordObjectSchema, CompletePassword, RelatedPasswordObjectSchema } from "./index"
 
 export const UserObjectSchema = z.object({
   id: z.string(),
@@ -14,6 +14,7 @@ export const UserObjectSchema = z.object({
 
 export interface CompleteUser extends z.infer<typeof UserObjectSchema> {
   Account: CompleteAccount[]
+  Record: CompleteRecord[]
   Password?: CompletePassword | null
 }
 
@@ -24,5 +25,6 @@ export interface CompleteUser extends z.infer<typeof UserObjectSchema> {
  */
 export const RelatedUserObjectSchema: z.ZodSchema<CompleteUser> = z.lazy(() => UserObjectSchema.extend({
   Account: RelatedAccountObjectSchema.array(),
+  Record: RelatedRecordObjectSchema.array(),
   Password: RelatedPasswordObjectSchema.nullish(),
 }))
