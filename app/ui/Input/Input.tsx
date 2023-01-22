@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { type ChangeEventHandler } from "react";
 import {
   sizes,
   infoClass,
@@ -21,7 +21,9 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
     type = "text",
     label,
     error,
+    value,
     disabled,
+    onChange,
     required,
     autoFocus,
     inputMode,
@@ -31,6 +33,14 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
     className,
   } = props;
   const info = hint || error;
+
+  const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (onChange) {
+      onChange(e);
+    } else {
+      onValidate?.({ name, value: e.target.value });
+    }
+  };
 
   return (
     <label
@@ -55,11 +65,12 @@ export const Input: React.FC<InputProps> = React.memo((props) => {
         name={name}
         step={step}
         type={type}
-        onChange={(e) => onValidate?.({ name, value: e.target.value })}
+        value={value}
         disabled={disabled}
         required={required}
         autoFocus={autoFocus}
         inputMode={inputMode}
+        onChange={handleOnChange}
         placeholder={placeholder}
         className={clsx(className, inputClass, sizes[size], {
           [disabledClass]: disabled,

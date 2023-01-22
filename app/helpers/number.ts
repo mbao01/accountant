@@ -6,6 +6,11 @@ export const isNumberKey: KeyboardEventHandler = (evt) => {
   return true;
 };
 
-export const numberWithCommas = (num: number) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export const getNumberFromString = (str: string) => {
+  return Number(str.replaceAll(/[^\d.]/gi, ""));
+};
+
+export const formatNumberWithCommas = (num: number) => {
+  const nf = new Intl.NumberFormat("en");
+  return nf.format(num);
 };

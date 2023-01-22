@@ -22,14 +22,12 @@ export const useFormValidator = <T extends ZodRawShape>(
 
         const field = {
           name,
-          value,
           isValid,
+          fieldValue: value,
           errors: fieldError,
           isInvalid: isValid === false,
           isDirty: value !== undefined,
         };
-
-        console.log("XXX: ", errors);
 
         setValidation((v) => {
           const normField = { ...v.fields[name], ...field };

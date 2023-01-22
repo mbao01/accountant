@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ChangeEventHandler, ReactNode } from "react";
 import type { TValidator } from "~/hooks/useFormValidator/types";
 import type { TSize } from "../types";
 
@@ -9,7 +9,10 @@ export type InputProps = Partial<Pick<HTMLInputElement, "step">> & {
   hint?: string;
   error?: string;
   label?: ReactNode;
+  value?: string;
+  controlledValue?: string;
   disabled?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   required?: boolean;
   autoFocus?: boolean;
   className?: string;

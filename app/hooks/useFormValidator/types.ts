@@ -12,10 +12,10 @@ export type TValidator = (args: {
 
 export type TFieldValidation<T> = {
   name: keyof T;
-  value?: unknown;
   errors: readonly string[];
   isValid?: boolean;
   isDirty?: boolean;
+  fieldValue?: unknown;
   isInvalid?: boolean;
   onValidate?: DebouncedFunc<TValidator>;
 };
