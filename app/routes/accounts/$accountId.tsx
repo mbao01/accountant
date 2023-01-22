@@ -1,11 +1,13 @@
 import { useLoaderData } from "@remix-run/react";
 import { json, type LoaderArgs } from "@remix-run/server-runtime";
 import httpStatus from "http-status";
+import invariant from "tiny-invariant";
 import { getAccount } from "~/models/account.server";
 
 export const loader = async ({ params }: LoaderArgs) => {
   try {
-    const { accountId = "" } = params;
+    const { accountId } = params;
+    invariant(accountId, "account id required");
     const account = await getAccount(accountId);
     return json({ success: true as const, data: account });
   } catch (e: any) {
