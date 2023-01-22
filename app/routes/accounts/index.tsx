@@ -16,6 +16,7 @@ import { Tag } from "~/ui/Tag";
 export const loader: LoaderFunction = async () => {
   const accounts = await prisma.account.findMany({
     select: {
+      id: true,
       tag: true,
       _count: true,
       name: true,
@@ -27,7 +28,7 @@ export const loader: LoaderFunction = async () => {
       User: { select: { firstname: true } },
     },
   });
-  return json({ success: true, data: accounts });
+  return json({ success: true as const, data: accounts });
 };
 
 const AccountsIndex = () => {

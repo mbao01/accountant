@@ -13,23 +13,24 @@ import type { CreateRecordCategoryProps } from "./types";
 
 export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const location = useLocation();
-  const fetcher = useFetcher();
+  const recordTypesFetcher = useFetcher();
   const validator = useFormValidator(CreateRecordCategoryObjectSchema);
   const fields = validator.fields;
 
   useEffect(() => {
-    fetcher.load(`${Route.RECORD_TYPE}?index`);
+    if (recordTypesFetcher.type === "init")
+      recordTypesFetcher.load(`${Route.RECORD_TYPE}?index`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const recordTypes = useMemo(
     () =>
-      (fetcher.data?.data ?? []).map(({ id, name }: any) => ({
+      (recordTypesFetcher.data?.data ?? []).map(({ id, name }: any) => ({
         id,
         label: name,
         value: id,
       })),
-    [fetcher.data]
+    [recordTypesFetcher.data]
   );
 
   return (
@@ -46,8 +47,8 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
       <Spacing />
       <Textarea size="sm" placeholder="Description" {...fields.description} />
       <Spacing />
-      {fetcher.state === "loading" ? (
-        <Shimmer />
+      {recordTypesFetcher.state === "loading" ? (
+        <Shimmer spacing="6" />
       ) : (
         <Select
           size="sm"

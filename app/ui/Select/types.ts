@@ -19,6 +19,7 @@ export type SelectProps = {
   outline?: boolean;
   disabled?: boolean;
   required?: boolean;
+  onSelect?: (option: TOption) => void;
   isInvalid?: boolean;
   className?: string;
   defaultValue?: TOption["value"];

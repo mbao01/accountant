@@ -1,20 +1,20 @@
 import { useLoaderData } from "@remix-run/react";
-import { json, type LoaderFunction } from "@remix-run/server-runtime";
+import { json, type LoaderArgs } from "@remix-run/server-runtime";
 import httpStatus from "http-status";
 import { prisma } from "~/db.server";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: LoaderArgs) => {
   try {
     const { accountId } = params;
     const account = await prisma.account.findUniqueOrThrow({
       where: { id: accountId },
     });
-    return json({ success: true, data: account });
+    return json({ success: true as const, data: account });
   } catch (e: any) {
     const { name, code } = e;
     return json(
       {
-        success: false,
+        success: false as const,
         error: { name, code, message: "No account found", stack: e },
       },
       httpStatus.NOT_FOUND

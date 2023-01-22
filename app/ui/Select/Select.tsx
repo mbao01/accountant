@@ -27,6 +27,7 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
     options,
     disabled,
     required,
+    onSelect,
     isInvalid,
     className,
     onValidate,
@@ -43,10 +44,11 @@ export const Select: React.FC<SelectProps> = React.memo((props) => {
       setSelected(option);
       if (name) {
         const value = option.value;
+        onSelect?.(option);
         onValidate?.({ name, value });
       }
     },
-    [name, onValidate]
+    [name, onValidate, onSelect]
   );
 
   useEffect(() => {

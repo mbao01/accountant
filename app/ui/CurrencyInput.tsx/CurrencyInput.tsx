@@ -27,7 +27,7 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = React.memo(
           />
         </div>
         <div className="absolute right-0 bottom-0">
-          {code && <div className={currencyClass}>{CURRENCY_MAP["NGN"]}</div>}
+          {code && <div className={currencyClass}>{CURRENCY_MAP[code]}</div>}
           {!code && (
             <Select
               size={size}

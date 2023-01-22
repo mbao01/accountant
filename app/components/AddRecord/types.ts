@@ -1,3 +1,5 @@
+import type { Account, Currency } from "@prisma/client";
+
 export type AddRecordProps = {
-  account?: any;
+  account?: Account & { Currency: Currency };
 };
