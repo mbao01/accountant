@@ -25,8 +25,9 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   const accountsFetcher = useFetcher<{
     data?: (Account & { Currency: Currency })[];
   }>();
-  const recordTypesFetcher = useFetcher<{ data?: RecordType[] }>();
-  const recordCategoriesFetcher = useFetcher<{ data?: RecordCategory[] }>();
+  const recordTypesFetcher = useFetcher<{
+    data?: (RecordType & { RecordCategory: RecordCategory[] })[];
+  }>();
   const [showNoteInput, setShowNoteInput] = useState(false);
   const validator = useFormValidator(CreateRecordObjectSchema);
   const fields = validator.fields;
@@ -36,14 +37,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
       accountsFetcher.load(`${Route.ACCOUNTS}?index`);
     if (recordTypesFetcher.type === "init")
       recordTypesFetcher.load(`${Route.RECORD_TYPE}?index`);
-    if (recordCategoriesFetcher.type === "init")
-      recordCategoriesFetcher.load(`${Route.RECORD_CATEGORY}?index`);
-  }, [
-    defaultAccount,
-    accountsFetcher,
-    recordTypesFetcher,
-    recordCategoriesFetcher,
-  ]);
+  }, [defaultAccount, accountsFetcher, recordTypesFetcher]);
 
   const accounts = useMemo(
     () =>
@@ -63,18 +57,18 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
     [recordTypesFetcher.data]
   );
 
-  const recordCategories = useMemo(
-    () =>
-      (recordCategoriesFetcher.data?.data ?? [])
-        .filter(
-          (category) => !recordTypeId || category.recordTypeId === recordTypeId
-        )
-        .map(({ id, name }) => ({
-          value: id,
-          label: name,
-        })),
-    [recordCategoriesFetcher.data, recordTypeId]
-  );
+  const recordCategories = useMemo(() => {
+    const recordType = (recordTypesFetcher.data?.data ?? []).find(
+      (type) => type.id === recordTypeId
+    );
+    const categories = (recordType?.RecordCategory ?? []).map(
+      ({ id, name }) => ({
+        value: id,
+        label: name,
+      })
+    );
+    return categories;
+  }, [recordTypesFetcher.data?.data, recordTypeId]);
 
   const handleAccountChange = useCallback(
     ({ value }: any) => {
@@ -116,24 +110,26 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
         ))}
       <Spacing />
       {recordTypesFetcher.state === "loading" ? (
-        <Shimmer />
+        <>
+          <Shimmer />
+          <Spacing />
+          <Shimmer />
+        </>
       ) : (
-        <Select
-          size="sm"
-          options={recordTypes}
-          onSelect={handleRecordTypeChange}
-          {...fields.recordTypeId}
-        />
-      )}
-      <Spacing />
-      {recordCategoriesFetcher.state === "loading" ? (
-        <Shimmer />
-      ) : (
-        <Select
-          size="sm"
-          options={recordCategories}
-          {...fields.recordCategoryId}
-        />
+        <>
+          <Select
+            size="sm"
+            options={recordTypes}
+            onSelect={handleRecordTypeChange}
+            {...fields.recordTypeId}
+          />
+          <Spacing />
+          <Select
+            size="sm"
+            options={recordCategories}
+            {...fields.recordCategoryId}
+          />
+        </>
       )}
       <Spacing />
       <div className="grid grid-cols-3 items-center gap-2">
