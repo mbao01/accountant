@@ -49,7 +49,7 @@ export default function Index() {
         <Popover trigger={() => <Button size="md">New record category</Button>}>
           <CreateRecordCategory />
         </Popover>
-        <Link to={Route.REGISTER}>
+        <Link to={Route.REGISTER} prefetch="intent">
           <Button size="md">Add User</Button>
         </Link>
         <Button

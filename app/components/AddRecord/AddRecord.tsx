@@ -134,6 +134,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
       <Spacing />
       <div className="grid grid-cols-3 items-center gap-2">
         <Link
+          as="a"
           underline
           className="text-xs"
           onClick={() => setShowNoteInput((b) => !b)}

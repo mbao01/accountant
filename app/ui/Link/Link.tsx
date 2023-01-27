@@ -1,3 +1,4 @@
+import { Link as RemixLink } from "@remix-run/react";
 import clsx from "clsx";
 import { createElement } from "react";
 import { linkClass, variants } from "./classes";
@@ -5,7 +6,7 @@ import type { LinkProps } from "./types";
 
 export const Link: React.FC<LinkProps> = (props) => {
   const {
-    as = "a",
+    as = RemixLink,
     size,
     variant = "secondary",
     children,

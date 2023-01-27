@@ -129,6 +129,7 @@ export default function Register() {
         </Button>
         <Spacing />
         <Link
+          prefetch="intent"
           className="text-xs text-gray-500 underline"
           to={{
             pathname: Route.LOGIN,

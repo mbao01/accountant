@@ -1,5 +1,5 @@
+import { Link, NavLink, useLocation } from "@remix-run/react";
 import clsx from "clsx";
-import { Link, NavLink, useLocation } from "react-router-dom";
 import { Route } from "~/routes.enum";
 import { Button } from "~/ui/Button";
 import { ArrowRightOnRectangleIcon } from "~/ui/Icons";
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75" />
         <span className="absolute inline-flex h-2 w-2 rounded-full bg-green-500" />
       </div>
-      <Link to={Route.LOGOUT}>
+      <Link to={Route.LOGOUT} prefetch="intent">
         <Button
           size="sm"
           outline
@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           </NavLink>
         ))}
       </nav>
-      <Link to={Route.ROOT} className={homeLinkClass}>
+      <Link to={Route.ROOT} className={homeLinkClass} prefetch="intent">
         <img
           className={logoClass}
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         />
         <span className="">{title}</span>
       </Link>
-      <Link to={Route.LOGOUT} className={logOutLinkClass}>
+      <Link to={Route.LOGOUT} className={logOutLinkClass} prefetch="intent">
         Log out
         <ArrowRightOnRectangleIcon />
       </Link>
