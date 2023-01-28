@@ -35,9 +35,7 @@ const RecordsIndex = () => {
       columnHelper.accessor("Account", {
         cell: (info) => {
           const account = info.getValue();
-          return (
-            <div className="flex flex-col text-blue-500">{account.name}</div>
-          );
+          return <div className="flex flex-col">{account.name}</div>;
         },
       }),
       columnHelper.accessor("Type", {

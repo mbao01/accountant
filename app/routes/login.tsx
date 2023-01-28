@@ -8,7 +8,7 @@ import { Route } from "~/routes.enum";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Spacing } from "~/ui/Spacing";
-import { useFormValidator } from "~/hooks/useFormValidator";
+import { useForm } from "~/hooks/useForm";
 import { LoginUserObjectSchema } from "~/schemas/user";
 import { typedjson, useTypedActionData } from "remix-typedjson";
 
@@ -61,8 +61,8 @@ export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || Route.RECORDS;
   const actionData = useTypedActionData();
-  const validator = useFormValidator(LoginUserObjectSchema);
-  const fields = validator.fields;
+  const form = useForm(LoginUserObjectSchema);
+  const fields = form.fields;
 
   return (
     <Form
@@ -96,7 +96,12 @@ export default function LoginPage() {
             <Spacing />
           </>
         )}
-        <Button size="sm" type="submit" disabled={validator.isInvalid}>
+        <Button
+          size="sm"
+          type="submit"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Log in
         </Button>
         <Spacing />

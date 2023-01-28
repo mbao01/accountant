@@ -1,5 +1,5 @@
 import type { CurrencyCode } from "@prisma/client";
-import type { TFieldValidation } from "~/hooks/useFormValidator/types";
+import type { TFieldValidation } from "~/hooks/useForm/types";
 import type { InputProps } from "../Input/types";
 
 export type CurrencyInputProps = Omit<

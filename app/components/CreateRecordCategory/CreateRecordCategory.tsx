@@ -1,7 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
 import { useEffect, useMemo } from "react";
 import { useTypedFetcher } from "remix-typedjson";
-import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { useForm } from "~/hooks/useForm/useForm";
 import { Route } from "~/routes.enum";
 import type { loader as recordTypeLoader } from "~/routes/records/type";
 import { CreateRecordCategoryObjectSchema } from "~/schemas/record.schema";
@@ -16,8 +16,11 @@ import type { CreateRecordCategoryProps } from "./types";
 export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const location = useLocation();
   const recordTypesFetcher = useTypedFetcher<typeof recordTypeLoader>();
-  const validator = useFormValidator(CreateRecordCategoryObjectSchema);
-  const fields = validator.fields;
+  const form = useForm(
+    CreateRecordCategoryObjectSchema,
+    `${Route.RECORD_CATEGORY}/add?redirect=${location.pathname}`
+  );
+  const fields = form.fields;
 
   useEffect(() => {
     if (recordTypesFetcher.type === "init")
@@ -38,7 +41,7 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   return (
     <Form
       method="post"
-      action={`${Route.RECORD_CATEGORY}/add?redirect=${location.pathname}`}
+      action={form.action}
       className="w-64 rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">
@@ -61,7 +64,12 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
       )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm" disabled={validator.isInvalid}>
+        <Button
+          type="submit"
+          size="sm"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Create Category
         </Button>
       </div>

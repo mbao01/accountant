@@ -2,7 +2,7 @@ import { Form, useLocation } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTypedFetcher } from "remix-typedjson";
 import type { ItemType } from "~/helpers/types";
-import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { useForm } from "~/hooks/useForm/useForm";
 import { Route } from "~/routes.enum";
 import type { loader as accountLoader } from "~/routes/accounts/index";
 import type { loader as recordTypeLoader } from "~/routes/records/type";
@@ -25,12 +25,13 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   const [account, setAccount] =
     useState<ItemType<typeof accountsFetcher.data.data>>();
   const [showNoteInput, setShowNoteInput] = useState(false);
-  const validator = useFormValidator(
+  const form = useForm(
     defaultAccount
       ? CreateRecordObjectSchema.omit({ accountId: true, currencyCode: true })
-      : CreateRecordObjectSchema
+      : CreateRecordObjectSchema,
+    `${Route.ADD_RECORD}?redirect=${location.pathname}`
   );
-  const fields = validator.fields;
+  const fields = form.fields;
 
   useEffect(() => {
     if (!defaultAccount && accountsFetcher.type === "init")
@@ -85,7 +86,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   return (
     <Form
       method="post"
-      action={`${Route.ADD_RECORD}?redirect=${location.pathname}`}
+      action={form.action}
       className="w-64 rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">Add Record</h4>
@@ -164,7 +165,12 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
       )}
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm" disabled={validator.isInvalid}>
+        <Button
+          type="submit"
+          size="sm"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Add Record
         </Button>
       </div>

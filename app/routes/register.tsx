@@ -13,7 +13,7 @@ import { Spacing } from "~/ui/Spacing";
 import { Select } from "~/ui/Select";
 import { Button } from "~/ui/Button";
 import { ROLE_OPTIONS } from "~/helpers/role";
-import { useFormValidator } from "~/hooks/useFormValidator";
+import { useForm } from "~/hooks/useForm";
 import { CreateUserObjectSchema } from "~/schemas/user";
 import { validatePayload } from "~/helpers/api";
 import { typedjson, useTypedActionData } from "remix-typedjson";
@@ -68,8 +68,8 @@ export default function Register() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useTypedActionData();
-  const validator = useFormValidator(CreateUserObjectSchema);
-  const fields = validator.fields;
+  const form = useForm(CreateUserObjectSchema);
+  const fields = form.fields;
 
   return (
     <Form
@@ -124,7 +124,12 @@ export default function Register() {
             <Spacing />
           </>
         )}
-        <Button size="sm" type="submit" disabled={validator.isInvalid}>
+        <Button
+          size="sm"
+          type="submit"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Create User
         </Button>
         <Spacing />

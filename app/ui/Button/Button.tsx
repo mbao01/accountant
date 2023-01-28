@@ -14,6 +14,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     type = "button",
     variant = "primary",
     onClick,
+    loading,
     outline,
     disabled,
     children,
@@ -34,9 +35,10 @@ export const Button: React.FC<ButtonProps> = (props) => {
         !disabled && {
           [variants[variant]]: !outline,
           [outlines[variant]]: outline,
-        }
+        },
+        loading && "animate-pulse"
       )}
-      disabled={disabled}
+      disabled={loading || disabled}
       onClick={onClick}
     >
       {children}

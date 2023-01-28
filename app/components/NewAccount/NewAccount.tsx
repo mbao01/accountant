@@ -1,6 +1,6 @@
 import { Form, useLocation } from "@remix-run/react";
 import { TAG_PATTERN_OPTIONS } from "~/helpers/tag";
-import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { useForm } from "~/hooks/useForm/useForm";
 import { CreateAccountObjectSchema } from "~/schemas/account";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
@@ -11,13 +11,16 @@ import { Tag } from "~/ui/Tag";
 
 export const NewAccount = () => {
   const location = useLocation();
-  const validator = useFormValidator(CreateAccountObjectSchema);
-  const fields = validator.fields;
+  const form = useForm(
+    CreateAccountObjectSchema,
+    `/accounts/new?redirect=${location.pathname}`
+  );
+  const fields = form.fields;
 
   return (
     <Form
       method="post"
-      action={`/accounts/new?redirect=${location.pathname}`}
+      action={form.action}
       className="w-full max-w-md rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">New Account</h4>
@@ -70,7 +73,12 @@ export const NewAccount = () => {
       </div>
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button type="submit" size="sm" disabled={validator.isInvalid}>
+        <Button
+          type="submit"
+          size="sm"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Create Account
         </Button>
       </div>

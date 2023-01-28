@@ -1,6 +1,6 @@
 import { Form, useLocation } from "@remix-run/react";
 import { TAG_COLOR_OPTIONS } from "~/helpers/tag";
-import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
+import { useForm } from "~/hooks/useForm/useForm";
 import { Route } from "~/routes.enum";
 import { CreateRecordTypeObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
@@ -13,13 +13,16 @@ import type { CreateRecordTypeProps } from "./types";
 
 export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
   const location = useLocation();
-  const validator = useFormValidator(CreateRecordTypeObjectSchema);
-  const fields = validator.fields;
+  const form = useForm(
+    CreateRecordTypeObjectSchema,
+    `${Route.RECORD_TYPE}/add?redirect=${location.pathname}`
+  );
+  const fields = form.fields;
 
   return (
     <Form
       method="post"
-      action={`${Route.RECORD_TYPE}/add?redirect=${location.pathname}`}
+      action={form.action}
       className="w-64 rounded-lg border border-gray-200 bg-white px-6 py-4"
     >
       <h4 className="my-0 text-lg font-bold text-gray-900">
@@ -42,7 +45,12 @@ export const CreateRecordType: React.FC<CreateRecordTypeProps> = () => {
       />
       <Spacing vertical="4" />
       <div className="flex justify-center">
-        <Button size="sm" type="submit" disabled={validator.isInvalid}>
+        <Button
+          size="sm"
+          type="submit"
+          loading={form.isSubmitting}
+          disabled={form.isSubmitting || form.isInvalid}
+        >
           Create Type
         </Button>
       </div>

@@ -5,6 +5,7 @@ export type ButtonProps = {
   size?: TSize;
   type?: "button" | "submit";
   variant?: TVariant;
+  loading?: boolean;
   outline?: boolean;
   disabled?: boolean;
   children: ReactNode;
