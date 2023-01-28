@@ -110,7 +110,7 @@ const AccountRoute = () => {
         <div className="w-68 relative flex h-28 flex-col justify-between gap-2 overflow-hidden rounded bg-gray-100 px-5 pt-4 pb-2 shadow shadow-gray-200">
           <span className="absolute top-0 left-0 block h-full w-1.5 bg-purple-600" />
           <h5 className="text-lg leading-none">
-            {account.name}
+            {account.name}{" "}
             <span className="text-sm text-gray-500">({account.number})</span>
           </h5>
           <div className="align-center flex flex-wrap gap-x-4 gap-y-2 rounded bg-gray-100">
