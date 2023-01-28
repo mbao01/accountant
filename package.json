@@ -106,9 +106,6 @@
     "vitest": "^0.24.5",
     "zod-prisma": "^0.5.4"
   },
-  "peerDependencies": {
-    "@remix-run/server-runtime": "1.11.1"
-  },
   "engines": {
     "node": ">=14"
   },
