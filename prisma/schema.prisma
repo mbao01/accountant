@@ -50,7 +50,7 @@ model Account {
   sortCode        String?
   Currency        Currency     @relation(fields: [currencyId], references: [id])
   currencyId      String       /// @zod.length(3)
-  startingBalance Float        /// @zod.custom(z.coerce.number())
+  startingBalance Float        /// @zod.custom(z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber)
   bankName        String       /// @zod.min(3)
   bankAddress     String?
   bankCountry     String       /// @zod.min(3)
