@@ -6,7 +6,8 @@ import invariant from "tiny-invariant";
 import { AddRecord } from "~/components/AddRecord";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
-import { getAccount } from "~/models/account.server";
+import { TAG_LABEL } from "~/helpers/tag";
+import { getAccount, getAccountAnalytics } from "~/models/account.server";
 import { getAccountRecords } from "~/models/record.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
@@ -16,13 +17,33 @@ export const loader = async ({ params }: LoaderArgs) => {
   const { accountId } = params;
   invariant(accountId, "account id required");
   const account = await getAccount(accountId);
+  const analytics = await getAccountAnalytics(accountId);
   const records = await getAccountRecords(accountId);
-  return json({ success: true as const, data: { account, records } });
+  return json({
+    success: true as const,
+    data: { account, analytics, records },
+  });
+};
+
+const Detail = ({ title, value, footer, tag }: any) => {
+  const color = (TAG_LABEL as any)[tag].toLowerCase?.() ?? "gray";
+  return (
+    <div
+      className={`relative flex h-28 w-52 flex-col overflow-hidden rounded bg-gray-100 px-5 pt-4 pb-2 shadow shadow-gray-200`}
+    >
+      <h6 className="text-xs uppercase text-gray-500">{title}</h6>
+      <div className={`my-1 text-2xl text-${color}-800`}>{value}</div>
+      <div className="mt-auto text-sm text-gray-500">{footer}</div>
+      <span
+        className={`bg-${color}-600 absolute top-0 left-0 block h-1.5 w-full`}
+      />
+    </div>
+  );
 };
 
 const AccountRoute = () => {
   const { data } = useLoaderData();
-  const { account, records } = data;
+  const { account, records, analytics } = data;
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<typeof records>();
@@ -75,21 +96,48 @@ const AccountRoute = () => {
   return (
     <div className="py-6 px-6">
       <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold leading-tight">
+        <div className="flex flex-col gap-1">
+          <h5 className="text-lg leading-none">
             {account.name}
-            <span className="ml-2 text-sm text-gray-500">
-              ({account.number})
+            <span className="text-sm text-gray-500">({account.number})</span>
+          </h5>
+          <div className="align-center flex flex-wrap gap-x-4 gap-y-2 rounded bg-gray-100 p-2">
+            <span className="text-xs text-gray-500">
+              Starting balance of <br />
+              <span className="text-sm text-gray-500">
+                {formatCurrency(account.startingBalance, account.Currency.code)}
+              </span>
             </span>
-          </h2>
-          <div>
-            {formatCurrency(account.startingBalance, account.currencyCode)}
+            <span className="text-xs text-gray-500">
+              Current balance is <br />
+              <span className="text-sm text-gray-900">
+                {formatCurrency(
+                  analytics.accountBalance,
+                  account.Currency.code
+                )}
+              </span>
+            </span>
           </div>
+          <Popover trigger={() => <Button size="sm">Add Record</Button>}>
+            <AddRecord account={account} />
+          </Popover>
         </div>
-
-        <Popover trigger={() => <Button size="sm">Add Record</Button>}>
-          <AddRecord account={account} />
-        </Popover>
+        <div className="flex gap-12">
+          {Object.values(analytics.groups).map(
+            ({ recordType, _sum, _max }: any) => (
+              <Detail
+                key={recordType.id}
+                tag={recordType.tag}
+                title={recordType.name}
+                value={formatCurrency(_sum.amount, account.Currency.code)}
+                footer={`Highest ${formatCurrency(
+                  _max.amount,
+                  account.Currency.code
+                )}`}
+              />
+            )
+          )}
+        </div>
       </div>
       <Table
         data={records}

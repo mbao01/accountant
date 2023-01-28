@@ -29,7 +29,11 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
     data?: (RecordType & { RecordCategory: RecordCategory[] })[];
   }>();
   const [showNoteInput, setShowNoteInput] = useState(false);
-  const validator = useFormValidator(CreateRecordObjectSchema);
+  const validator = useFormValidator(
+    defaultAccount
+      ? CreateRecordObjectSchema.omit({ accountId: true, currencyCode: true })
+      : CreateRecordObjectSchema
+  );
   const fields = validator.fields;
 
   useEffect(() => {
@@ -105,7 +109,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
             size="sm"
             options={accounts}
             onSelect={handleAccountChange}
-            {...fields.accountId}
+            {...(fields as any).accountId}
           />
         ))}
       <Spacing />
@@ -145,7 +149,9 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
           <CurrencyInput
             size="sm"
             code={(defaultAccount ?? account)?.Currency?.code}
-            currencyProps={fields.currencyCode}
+            currencyProps={
+              (fields as any).currencyCode ?? { name: "currencyCode" }
+            }
             {...fields.amount}
           />
         </div>
