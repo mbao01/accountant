@@ -1,18 +1,17 @@
-import type {
-  Account,
-  Currency,
-  RecordCategory,
-  RecordType,
-} from "@prisma/client";
-import { Form, useFetcher, useLocation } from "@remix-run/react";
+import { Form, useLocation } from "@remix-run/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTypedFetcher } from "remix-typedjson";
+import type { ItemType } from "~/helpers/types";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Route } from "~/routes.enum";
+import type { loader as accountLoader } from "~/routes/accounts/index";
+import type { loader as recordTypeLoader } from "~/routes/records/type";
 import { CreateRecordObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Link } from "~/ui/Link";
 import { Select } from "~/ui/Select";
+import type { TOption } from "~/ui/Select/types";
 import { Shimmer } from "~/ui/Shimmer";
 import { Spacing } from "~/ui/Spacing";
 import { Textarea } from "~/ui/Textarea";
@@ -21,13 +20,10 @@ import type { AddRecordProps } from "./types";
 export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   const location = useLocation();
   const [recordTypeId, setRecordTypeId] = useState<string>();
-  const [account, setAccount] = useState<Account & { Currency: Currency }>();
-  const accountsFetcher = useFetcher<{
-    data?: (Account & { Currency: Currency })[];
-  }>();
-  const recordTypesFetcher = useFetcher<{
-    data?: (RecordType & { RecordCategory: RecordCategory[] })[];
-  }>();
+  const accountsFetcher = useTypedFetcher<typeof accountLoader>();
+  const recordTypesFetcher = useTypedFetcher<typeof recordTypeLoader>();
+  const [account, setAccount] =
+    useState<ItemType<typeof accountsFetcher.data.data>>();
   const [showNoteInput, setShowNoteInput] = useState(false);
   const validator = useFormValidator(
     defaultAccount
@@ -75,14 +71,14 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   }, [recordTypesFetcher.data?.data, recordTypeId]);
 
   const handleAccountChange = useCallback(
-    ({ value }: any) => {
+    ({ value }: TOption) => {
       const accounts = accountsFetcher.data?.data ?? [];
-      setAccount(accounts.find((a) => a.id === value) as any);
+      setAccount(accounts.find((a) => a.id === value));
     },
     [accountsFetcher.data?.data]
   );
 
-  const handleRecordTypeChange = useCallback(({ value }: any) => {
+  const handleRecordTypeChange = useCallback(({ value }: TOption) => {
     setRecordTypeId(value);
   }, []);
 
@@ -150,7 +146,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
             size="sm"
             code={(defaultAccount ?? account)?.Currency?.code}
             currencyProps={
-              (fields as any).currencyCode ?? { name: "currencyCode" }
+              (fields as any)?.currencyCode ?? { name: "currencyCode" }
             }
             {...fields.amount}
           />

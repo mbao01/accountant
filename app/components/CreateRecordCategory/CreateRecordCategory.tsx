@@ -1,7 +1,9 @@
-import { Form, useFetcher, useLocation } from "@remix-run/react";
+import { Form, useLocation } from "@remix-run/react";
 import { useEffect, useMemo } from "react";
+import { useTypedFetcher } from "remix-typedjson";
 import { useFormValidator } from "~/hooks/useFormValidator/useFormValidator";
 import { Route } from "~/routes.enum";
+import type { loader as recordTypeLoader } from "~/routes/records/type";
 import { CreateRecordCategoryObjectSchema } from "~/schemas/record.schema";
 import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
@@ -13,7 +15,7 @@ import type { CreateRecordCategoryProps } from "./types";
 
 export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
   const location = useLocation();
-  const recordTypesFetcher = useFetcher();
+  const recordTypesFetcher = useTypedFetcher<typeof recordTypeLoader>();
   const validator = useFormValidator(CreateRecordCategoryObjectSchema);
   const fields = validator.fields;
 
@@ -25,7 +27,7 @@ export const CreateRecordCategory: React.FC<CreateRecordCategoryProps> = () => {
 
   const recordTypes = useMemo(
     () =>
-      (recordTypesFetcher.data?.data ?? []).map(({ id, name }: any) => ({
+      (recordTypesFetcher.data?.data ?? []).map(({ id, name }) => ({
         id,
         label: name,
         value: id,

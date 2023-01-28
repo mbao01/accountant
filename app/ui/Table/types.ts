@@ -6,7 +6,7 @@ import type {
 
 export type TableProps<T> = {
   data: T[];
-  columns: ColumnDef<T>[];
+  columns: (ColumnDef<T> | any)[];
   isLoading?: boolean;
   showFooter?: boolean;
   noDataText?: string;

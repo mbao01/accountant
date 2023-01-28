@@ -1,3 +1,4 @@
+import type { TagColor } from "@prisma/client";
 import { type LoaderArgs } from "@remix-run/node";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -25,8 +26,18 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-const Detail = ({ title, value, footer, tag }: any) => {
-  const color = (TAG_LABEL as any)[tag]?.toLowerCase?.() ?? "gray";
+const Detail = ({
+  title,
+  value,
+  footer,
+  tag,
+}: {
+  tag: TagColor | null;
+  title: string;
+  value: string;
+  footer: string;
+}) => {
+  const color = (tag ? TAG_LABEL[tag] : TAG_LABEL.GRAY).toLowerCase();
   return (
     <div
       className={`relative flex h-28 w-52 flex-col overflow-hidden rounded bg-gray-100 px-5 pt-4 pb-2 shadow shadow-gray-200`}
@@ -139,11 +150,7 @@ const AccountRoute = () => {
           <AddRecord account={account} />
         </Popover>
       </div>
-      <Table
-        data={records}
-        columns={columns as any}
-        noDataText="No records to show"
-      />
+      <Table data={records} columns={columns} noDataText="No records to show" />
     </div>
   );
 };

@@ -94,7 +94,7 @@ const AccountsIndex = () => {
       </div>
       <Table
         data={accounts}
-        columns={columns as any}
+        columns={columns}
         noDataText="No accounts available"
       />
     </div>
