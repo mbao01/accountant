@@ -25,6 +25,23 @@ export const getRecords = () => {
   });
 };
 
+export const getAccountRecords = (accountId: string) => {
+  return prisma.record.findMany({
+    where: { accountId },
+    select: {
+      id: true,
+      note: true,
+      amount: true,
+      createdAt: true,
+      currencyCode: true,
+      Account: { select: { name: true } },
+      Category: { select: { name: true } },
+      Type: { select: { name: true } },
+      User: { select: { firstname: true } },
+    },
+  });
+};
+
 export const createRecord = async (request: Request, data: CreateRecord) => {
   const userId = await requireUserId(request);
   return prisma.record.create({ data: { ...data, createdBy: userId } });

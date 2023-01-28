@@ -3,6 +3,7 @@ import type { TSize, TVariant } from "../types";
 
 export type LinkProps<T = ElementType> = {
   as?: T;
+  to?: string;
   size?: TSize;
   variant?: TVariant;
   children: ReactNode;

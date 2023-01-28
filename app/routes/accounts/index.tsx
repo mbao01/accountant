@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, Link } from "@remix-run/react";
 import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -29,11 +29,11 @@ const AccountsIndex = () => {
       columnHelper.accessor("name", {
         cell: (info) => {
           const name = info.getValue();
-          const { tag } = info.row.original;
+          const { tag, id } = info.row.original;
           return (
             <div className="flex items-center gap-2 text-gray-800">
               {tag && <Tag name={tag} />}
-              {name}
+              <Link to={id}>{name}</Link>
             </div>
           );
         },
@@ -46,7 +46,9 @@ const AccountsIndex = () => {
           return (
             <div className="flex flex-col">
               {number}
-              {sortCode && <span className="text-xs text-gray-500">{sortCode}</span>}
+              {sortCode && (
+                <span className="text-xs text-gray-500">{sortCode}</span>
+              )}
             </div>
           );
         },
@@ -67,7 +69,7 @@ const AccountsIndex = () => {
       }),
       columnHelper.accessor("createdAt", {
         header: "Created",
-        cell: (info) => formatDate(info.getValue(), 'MMM d, yyyy'),
+        cell: (info) => formatDate(info.getValue(), "MMM d, yyyy"),
       }),
     ];
   }, []);
@@ -90,8 +92,8 @@ const AccountsIndex = () => {
         </div>
       </div>
       <Table
-        columns={columns as any}
         data={accounts}
+        columns={columns as any}
         noDataText="No accounts available"
       />
     </div>

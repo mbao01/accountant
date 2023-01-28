@@ -23,6 +23,18 @@ export const getAccounts = () => {
 export const getAccount = (accountId: string) => {
   return prisma.account.findUniqueOrThrow({
     where: { id: accountId },
+    select: {
+      id: true,
+      tag: true,
+      _count: true,
+      name: true,
+      number: true,
+      sortCode: true,
+      createdAt: true,
+      startingBalance: true,
+      Currency: { select: { code: true } },
+      User: { select: { firstname: true } },
+    },
   });
 };
 
