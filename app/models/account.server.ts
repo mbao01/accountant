@@ -2,6 +2,8 @@ import type { CurrencyCode } from "@prisma/client";
 import type { CreateAccount } from "~/schemas/types";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
+import { aggregateFunc, groupBy } from "~/helpers/utils";
+import { getRecordTypes } from "./record.server";
 
 export const getAccounts = () => {
   return prisma.account.findMany({
@@ -38,42 +40,43 @@ export const getAccount = (accountId: string) => {
   });
 };
 
-export const getAccountAnalytics = async (accountId: string) => {
-  const records = await prisma.record.groupBy({
-    by: ["recordTypeId"],
+export const getAccountRecords = (accountId: string) => {
+  return prisma.record.findMany({
     where: { accountId },
-    _avg: { amount: true },
-    _max: { amount: true },
-    _min: { amount: true },
-    _sum: { amount: true },
-  });
-
-  const recordTypes = await prisma.recordType.findMany({
-    where: {
-      OR: records.map(({ recordTypeId }) => ({
-        id: recordTypeId,
-      })),
-    },
     select: {
       id: true,
-      tag: true,
-      name: true,
+      note: true,
+      amount: true,
+      createdAt: true,
+      currencyCode: true,
+      Category: { select: { name: true } },
+      Type: { select: { name: true } },
+      User: { select: { firstname: true } },
     },
   });
+};
 
-  const groups = recordTypes.reduce((acc, recordType) => {
-    acc[recordType.name.toLowerCase()] = {
-      recordType,
-      ...records.find(({ recordTypeId }) => recordTypeId === recordType.id),
-    };
-    return acc;
-  }, {} as any);
+export const getAccountAnalytics = async (accountId: string) => {
+  const account = await getAccount(accountId);
+  const recordTypes = await getRecordTypes();
+  const records = await getAccountRecords(accountId);
+  const groupedRecords = groupBy(records, (r) => r.Type.name);
+  const aggregate = Object.entries<typeof records>(groupedRecords).reduce(
+    (acc, [key, items]) => {
+      const recordType = recordTypes.find(({ name }) => name === key);
+      acc[key] = aggregateFunc(items, (item) => item.amount);
+      acc[key].recordType = recordType;
+      return acc;
+    },
+    {} as any
+  );
 
-  const accountBalance =
-    Number(groups["income"]?._sum.amount ?? "") -
-    Number(groups["expense"]?._sum.amount ?? "");
+  const balance =
+    Number(account.startingBalance) +
+    Number(aggregate["Income"]?.$sum ?? "") -
+    Number(aggregate["Expense"]?.$sum ?? "");
 
-  return { groups, accountBalance };
+  return { account, records, balance, aggregate };
 };
 
 export const createAccount = async (request: Request, data: CreateAccount) => {
