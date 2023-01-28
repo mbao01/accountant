@@ -5,7 +5,7 @@ import { CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteRecordCatego
 
 export const RecordObjectSchema = z.object({
   id: z.string(),
-  amount: z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()),
+  amount: z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber,
   currencyCode: z.nativeEnum(CurrencyCode),
   note: z.string().nullish(),
   createdAt: z.date().nullish(),

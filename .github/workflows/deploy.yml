@@ -131,7 +131,7 @@ jobs:
 
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
-        id: app_name
+        id: app
         with:
           field: "app"
 
