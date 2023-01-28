@@ -20,6 +20,7 @@ export const NewAccount = () => {
   return (
     <Form
       method="post"
+      ref={form.formRef}
       action={form.action}
       className="w-full max-w-md rounded-lg border border-gray-200 bg-white px-6 py-4"
     >

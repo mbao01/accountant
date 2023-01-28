@@ -86,6 +86,7 @@ export const AddRecord = ({ account: defaultAccount }: AddRecordProps) => {
   return (
     <Form
       method="post"
+      ref={form.formRef}
       action={form.action}
       className="w-64 rounded-lg border border-gray-200 bg-white px-6 py-4"
     >

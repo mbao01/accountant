@@ -8,7 +8,7 @@ export const useForm = <T extends ZodRawShape>(
   schema: ZodObject<T>,
   action?: HTMLFormElement["action"]
 ) => {
-  const formRef = useRef<HTMLFormElement>();
+  const formRef = useRef<HTMLFormElement>(null);
   const valuesRef = useRef<Record<string, unknown>>({});
   const transition = useTransition();
 
