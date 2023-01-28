@@ -1,8 +1,9 @@
-import { useLoaderData } from "@remix-run/react";
-import { json, type LoaderArgs } from "@remix-run/server-runtime";
+import { type LoaderArgs } from "@remix-run/node";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import invariant from "tiny-invariant";
+import type { ItemType } from "~/helpers/types";
 import { AddRecord } from "~/components/AddRecord";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
@@ -18,7 +19,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   const { account, records, balance, aggregate } = await getAccountAnalytics(
     accountId
   );
-  return json({
+  return typedjson({
     success: true as const,
     data: { account, records, balance, aggregate },
   });
@@ -41,11 +42,11 @@ const Detail = ({ title, value, footer, tag }: any) => {
 };
 
 const AccountRoute = () => {
-  const { data } = useLoaderData();
+  const { data } = useTypedLoaderData<typeof loader>();
   const { account, records, aggregate, balance } = data;
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<typeof records>();
+    const columnHelper = createColumnHelper<ItemType<typeof records>>();
 
     return [
       columnHelper.accessor("amount", {
@@ -117,7 +118,7 @@ const AccountRoute = () => {
           </div>
         </div>
         <div className="flex gap-12">
-          {Object.values(aggregate).map(({ $sum, $max, recordType }: any) => {
+          {Object.values(aggregate).map(({ $sum, $max, recordType }) => {
             return (
               <Detail
                 key={recordType.id}

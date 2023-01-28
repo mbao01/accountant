@@ -1,9 +1,6 @@
-import {
-  type ActionFunction,
-  json,
-  type LoaderFunction,
-} from "@remix-run/server-runtime";
+import { type ActionFunction, type LoaderFunction } from "@remix-run/node";
 import httpStatus from "http-status";
+import { typedjson } from "remix-typedjson";
 import { redirectRequest, safeAction, validatePayload } from "~/helpers/api";
 import { createAccount } from "~/models/account.server";
 import { CreateAccountObjectSchema } from "~/schemas/account";
@@ -19,5 +16,5 @@ export const action: ActionFunction = ({ request }) =>
     );
 
     const res = await createAccount(request, data);
-    return json({ success: true, data: res }, httpStatus.OK);
+    return typedjson({ success: true, data: res }, httpStatus.OK);
   });

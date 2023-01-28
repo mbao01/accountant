@@ -18,3 +18,6 @@ export type TServerError =
   | PrismaClientKnownRequestError
   | PrismaClientInitializationError
   | PrismaClientUnknownRequestError;
+
+
+export type ItemType<T extends unknown[]> = T extends (infer U)[] ? U : never;

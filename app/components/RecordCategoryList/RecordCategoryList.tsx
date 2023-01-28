@@ -4,9 +4,7 @@ import { InfoCircleIcon } from "~/ui/Icons";
 import { Tooltip } from "~/ui/Tooltip";
 import type { RecordCategoryListProps } from "./types";
 
-export const RecordCategoryList: React.FC<RecordCategoryListProps> = (
-  props
-) => (
+export const RecordCategoryList: React.FC<RecordCategoryListProps> = (props) => (
   <div className="w-full max-w-xs">
     <h3 className="px-2 py-2 text-xs uppercase text-gray-500">
       Record Categories
@@ -23,10 +21,12 @@ export const RecordCategoryList: React.FC<RecordCategoryListProps> = (
               <InfoCircleIcon size="sm" />
             </Tooltip>
           </div>
-          <Badge
-            color={RECORD_TYPE_BADGE_COLOR[RecordType.name]}
-            value={RecordType.name}
-          />
+          {RecordType && (
+            <Badge
+              color={RECORD_TYPE_BADGE_COLOR[RecordType.name]}
+              value={RecordType.name}
+            />
+          )}
         </li>
       ))}
     </ul>

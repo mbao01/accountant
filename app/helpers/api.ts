@@ -1,5 +1,6 @@
 import { PrismaClientValidationError } from "@prisma/client/runtime";
-import { type ActionArgs, redirect, json } from "@remix-run/server-runtime";
+import { type ActionArgs, redirect } from "@remix-run/node";
+import { typedjson } from "remix-typedjson";
 import { type AnyZodObject, type z, ZodError } from "zod";
 import httpStatus, { type HttpStatus } from "http-status";
 import type { TServerError } from "./types";
@@ -36,7 +37,7 @@ export const safeAction = async (callback: () => Promise<unknown>) => {
     return await callback();
   } catch (e: any) {
     const res = handleError(e);
-    return json(res, res.status);
+    return typedjson(res, res.status);
   }
 };
 

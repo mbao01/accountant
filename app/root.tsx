@@ -1,5 +1,4 @@
 import {
-  json,
   type LinksFunction,
   type LoaderArgs,
   type MetaFunction,
@@ -11,8 +10,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from "@remix-run/react";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 
 import rootStylesheetUrl from "./styles/root.css";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
@@ -37,16 +36,18 @@ export const meta: MetaFunction = () => ({
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
 
-  if (!["", Route.LOGIN, Route.LOGOUT].includes(url.pathname)) {
-    const user = await requireUser(request);
-    return json({ success: true, data: user }, httpStatus.OK);
+  if (["", Route.LOGIN, Route.LOGOUT].includes(url.pathname)) {
+    return typedjson({ success: true, data: null }, httpStatus.OK);
   }
 
-  return null;
+  // authentication required for protected resources
+  const user = await requireUser(request);
+  return typedjson({ success: true, data: user }, httpStatus.OK);
 }
 
 export default function App() {
-  const loaderData = useLoaderData();
+  const { data: user } = useTypedLoaderData<typeof loader>();
+
   return (
     <html lang="en" className="h-full">
       <head>
@@ -54,7 +55,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Layout user={loaderData?.data!}>
+        <Layout user={user}>
           <Outlet />
           <ScrollRestoration />
           <Scripts />

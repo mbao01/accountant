@@ -1,6 +1,7 @@
-import { Link, useLoaderData } from "@remix-run/react";
-import { json, type LoaderFunction } from "@remix-run/server-runtime";
+import { Link } from "@remix-run/react";
+import { type LoaderArgs } from "@remix-run/node";
 import httpStatus from "http-status";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import { AddRecord } from "~/components/AddRecord";
 import { CreateRecordCategory } from "~/components/CreateRecordCategory";
 import { CreateRecordType } from "~/components/CreateRecordType";
@@ -16,7 +17,7 @@ import { getUser } from "~/session.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const currentUser = await getUser(request);
   const recordTypes = await getRecordTypes({ _count: true });
 
@@ -30,7 +31,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     users = await getUsers({ _count: true });
   }
 
-  return json(
+  return typedjson(
     { success: true, data: { users, recordTypes, recordCategories } },
     httpStatus.OK
   );
@@ -38,7 +39,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Index() {
   const openModal = useOpenModal();
-  const loaderData = useLoaderData();
+  const {
+    data: { users, recordTypes, recordCategories },
+  } = useTypedLoaderData<typeof loader>();
 
   return (
     <>
@@ -63,9 +66,9 @@ export default function Index() {
         </Popover>
       </div>
       <div className="flex flex-wrap justify-center gap-10 py-20">
-        <RecordTypeList items={loaderData.data?.recordTypes} />
-        <RecordCategoryList items={loaderData.data?.recordCategories} />
-        {loaderData.data?.users && <UserList items={loaderData.data?.users} />}
+        <RecordTypeList items={recordTypes} />
+        <RecordCategoryList items={recordCategories} />
+        {users && <UserList items={users} />}
       </div>
     </>
   );

@@ -1,10 +1,11 @@
-import { useLoaderData, Link } from "@remix-run/react";
-import { json, type LoaderFunction } from "@remix-run/server-runtime";
+import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import { AddRecord } from "~/components/AddRecord";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
+import type { ItemType } from "~/helpers/types";
 import { ModalId } from "~/hooks/useModalController/types";
 import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
 import { getAccounts } from "~/models/account.server";
@@ -13,17 +14,17 @@ import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
 import { Tag } from "~/ui/Tag";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const accounts = await getAccounts();
-  return json({ success: true as const, data: accounts });
+  return typedjson({ success: true as const, data: accounts });
 };
 
 const AccountsIndex = () => {
-  const { data: accounts } = useLoaderData<typeof loader>();
+  const { data: accounts } = useTypedLoaderData<typeof loader>();
   const openModal = useOpenModal();
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<typeof accounts>();
+    const columnHelper = createColumnHelper<ItemType<typeof accounts>>();
 
     return [
       columnHelper.accessor("name", {

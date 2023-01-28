@@ -1,4 +1,4 @@
-import type { CurrencyCode } from "@prisma/client";
+import type { CurrencyCode, RecordType } from "@prisma/client";
 import type { CreateAccount } from "~/schemas/types";
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
@@ -63,12 +63,16 @@ export const getAccountAnalytics = async (accountId: string) => {
   const groupedRecords = groupBy(records, (r) => r.Type.name);
   const aggregate = Object.entries<typeof records>(groupedRecords).reduce(
     (acc, [key, items]) => {
-      const recordType = recordTypes.find(({ name }) => name === key);
-      acc[key] = aggregateFunc(items, (item) => item.amount);
-      acc[key].recordType = recordType;
+      const recordType = recordTypes.find(
+        ({ name }) => name === key
+      ) as RecordType;
+      acc[key] = { recordType, ...aggregateFunc(items, (item) => item.amount) };
       return acc;
     },
-    {} as any
+    {} as Record<
+      string,
+      ReturnType<typeof aggregateFunc> & { recordType: RecordType }
+    >
   );
 
   const balance =

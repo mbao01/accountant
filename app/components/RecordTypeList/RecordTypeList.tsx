@@ -20,13 +20,13 @@ export const RecordTypeList: React.FC<RecordTypeListProps> = (props) => (
           </div>
           <div className="flex flex-nowrap gap-2">
             <Tooltip text="No. of accounts">
-              <Badge color="blue" value={String(_count.Account)} />
+              <Badge color="blue" value={String(_count?.Account)} />
             </Tooltip>
             <Tooltip text="No. of records">
-              <Badge color="red" value={String(_count.Record)} />
+              <Badge color="red" value={String(_count?.Record)} />
             </Tooltip>
             <Tooltip text="No. of categories">
-              <Badge color="yellow" value={String(_count.RecordCategory)} />
+              <Badge color="yellow" value={String(_count?.RecordCategory)} />
             </Tooltip>
           </div>
         </li>

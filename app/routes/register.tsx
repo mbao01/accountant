@@ -1,7 +1,6 @@
-import * as React from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import { Form, Link, useSearchParams } from "@remix-run/react";
 
 import { requireUser } from "~/session.server";
 
@@ -17,12 +16,13 @@ import { ROLE_OPTIONS } from "~/helpers/role";
 import { useFormValidator } from "~/hooks/useFormValidator";
 import { CreateUserObjectSchema } from "~/schemas/user";
 import { validatePayload } from "~/helpers/api";
+import { typedjson, useTypedActionData } from "remix-typedjson";
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
   if (user.role !== Role.OWNER) return redirect(Route.ROOT);
 
-  return json({});
+  return typedjson({});
 }
 
 export async function action({ request }: ActionArgs) {
@@ -32,20 +32,20 @@ export async function action({ request }: ActionArgs) {
   const redirectTo = safeRedirect(formData.get("redirectTo"), Route.ROOT);
 
   if (!validateEmail(user.email)) {
-    return json({ error: "Email is invalid" }, { status: 400 });
+    return typedjson({ error: "Email is invalid" }, { status: 400 });
   }
 
   if (typeof password !== "string" || password.length === 0) {
-    return json({ error: "Password is required" }, { status: 400 });
+    return typedjson({ error: "Password is required" }, { status: 400 });
   }
 
   if (password.length < 8) {
-    return json({ error: "Password is too short" }, { status: 400 });
+    return typedjson({ error: "Password is too short" }, { status: 400 });
   }
 
   const existingUser = await getUserByEmail(user.email);
   if (existingUser) {
-    return json(
+    return typedjson(
       {
         error: "A user already exists with this email",
       },
@@ -67,7 +67,7 @@ export const meta: MetaFunction = () => {
 export default function Register() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
-  const actionData = useActionData<typeof action>();
+  const actionData = useTypedActionData();
   const validator = useFormValidator(CreateUserObjectSchema);
   const fields = validator.fields;
 

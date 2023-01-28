@@ -1,8 +1,6 @@
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useSearchParams } from "@remix-run/react";
-import * as React from "react";
-
+import { redirect } from "@remix-run/node";
+import { Form, useSearchParams } from "@remix-run/react";
 import { createUserSession, getUserId } from "~/session.server";
 import { verifyLogin } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
@@ -12,11 +10,12 @@ import { Input } from "~/ui/Input";
 import { Spacing } from "~/ui/Spacing";
 import { useFormValidator } from "~/hooks/useFormValidator";
 import { LoginUserObjectSchema } from "~/schemas/user";
+import { typedjson, useTypedActionData } from "remix-typedjson";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
   if (userId) return redirect(Route.ROOT);
-  return json({});
+  return typedjson({});
 }
 
 export async function action({ request }: ActionArgs) {
@@ -27,21 +26,21 @@ export async function action({ request }: ActionArgs) {
   const remember = formData.get("remember");
 
   if (!validateEmail(email)) {
-    return json({ error: "Email is invalid" }, { status: 400 });
+    return typedjson({ error: "Email is invalid" }, { status: 400 });
   }
 
   if (typeof password !== "string" || password.length === 0) {
-    return json({ error: "Password is required" }, { status: 400 });
+    return typedjson({ error: "Password is required" }, { status: 400 });
   }
 
   if (password.length < 8) {
-    return json({ error: "Password is too short" }, { status: 400 });
+    return typedjson({ error: "Password is too short" }, { status: 400 });
   }
 
   const user = await verifyLogin(email, password);
 
   if (!user) {
-    return json({ error: "Invalid email or password" }, { status: 400 });
+    return typedjson({ error: "Invalid email or password" }, { status: 400 });
   }
 
   return createUserSession({
@@ -61,7 +60,7 @@ export const meta: MetaFunction = () => {
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || Route.RECORDS;
-  const actionData = useActionData<typeof action>();
+  const actionData = useTypedActionData();
   const validator = useFormValidator(LoginUserObjectSchema);
   const fields = validator.fields;
 

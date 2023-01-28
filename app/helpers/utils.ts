@@ -25,7 +25,7 @@ export const groupBy = <T extends Record<string, any>>(
       ...result,
       [key]: [...(result[key] || []), item],
     };
-  }, {} as Record<ReturnType<typeof byFunc>, T[]>);
+  }, {} as Record<string, T[]>);
 
   return grouped;
 };

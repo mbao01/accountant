@@ -1,25 +1,25 @@
-import { useLoaderData } from "@remix-run/react";
-import { json, type LoaderFunction } from "@remix-run/server-runtime";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import { AddRecord } from "~/components/AddRecord";
 import { formatCurrency } from "~/helpers/currency";
 import { formatDate } from "~/helpers/date";
+import type { ItemType } from "~/helpers/types";
 import { getRecords } from "~/models/record.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const records = await getRecords();
-  return json({ success: true, data: records });
+  return typedjson({ success: true, data: records });
 };
 
 const RecordsIndex = () => {
-  const { data: records } = useLoaderData<typeof loader>();
+  const { data: records } = useTypedLoaderData<typeof loader>();
 
   const columns = useMemo(() => {
-    const columnHelper = createColumnHelper<typeof records>();
+    const columnHelper = createColumnHelper<ItemType<typeof records>>();
 
     return [
       columnHelper.accessor("amount", {

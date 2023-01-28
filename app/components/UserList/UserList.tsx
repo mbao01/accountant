@@ -17,7 +17,7 @@ export const UserList: React.FC<UserListProps> = (props) => (
             <Badge color="gray" value={ROLE_MAP[role]} />
           </div>
           <Tooltip text="No. of accounts">
-            <Badge color="blue" value={String(_count.Account)} />
+            <Badge color="blue" value={String(_count?.Account)} />
           </Tooltip>
         </li>
       ))}
