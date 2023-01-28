@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { typedjson, useTypedLoaderData } from "remix-typedjson";
@@ -10,6 +9,7 @@ import { ModalId } from "~/hooks/useModalController/types";
 import { useOpenModal } from "~/hooks/useModalController/useOpenModal";
 import { getAccounts } from "~/models/account.server";
 import { Button } from "~/ui/Button";
+import { Link } from "~/ui/Link";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
 import { Tag } from "~/ui/Tag";

@@ -40,7 +40,7 @@ export const useFormValidator = <T extends ZodRawShape>(
           };
         });
       }
-    }, 500),
+    }, 300),
     [schema]
   );
 
