@@ -83,6 +83,7 @@ model RecordType {
   name            String           /// @zod.min(3)
   description     String           /// @zod.min(3)
   tag             TagColor?        @default(BLUE)
+  hidden          Boolean?         @default(false)
   Account         Account[]
   RecordCategory  RecordCategory[]
   createdAt       DateTime?        @default(now())
@@ -96,6 +97,7 @@ model RecordCategory {
   id           String      @id @unique @default(cuid())
   name         String      /// @zod.min(3)
   description  String      /// @zod.min(3)
+  hidden       Boolean?    @default(false)
   createdAt    DateTime?   @default(now())
   updatedAt    DateTime?   @updatedAt
   RecordType   RecordType  @relation(fields: [recordTypeId], references: [id])

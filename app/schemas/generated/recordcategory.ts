@@ -6,6 +6,7 @@ export const RecordCategoryObjectSchema = z.object({
   id: z.string(),
   name: z.string().min(3),
   description: z.string().min(3),
+  hidden: z.boolean().nullish(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
   recordTypeId: z.string().cuid(),
