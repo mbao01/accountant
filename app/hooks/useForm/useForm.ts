@@ -1,8 +1,8 @@
 import type { ZodObject, ZodRawShape } from "zod";
-import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { useActionData, useTransition } from "@remix-run/react";
 import debounce from "lodash.debounce";
 import type { TErrors, TValidator, ValidationState } from "./types";
-import { useTransition } from "@remix-run/react";
 
 export const useForm = <T extends ZodRawShape>(
   schema: ZodObject<T>,
@@ -11,15 +11,15 @@ export const useForm = <T extends ZodRawShape>(
   const formRef = useRef<HTMLFormElement>(null);
   const valuesRef = useRef<Record<string, unknown>>({});
   const transition = useTransition();
+  const actionData = useActionData();
 
-  const formState = useMemo(() => {
-    const isCurrentForm = transition.submission?.action === action;
-    return isCurrentForm ? transition.state : "inactive";
-  }, [action, transition.submission?.action, transition.state]);
+  const formState = transition.state;
+  const success = actionData?.success;
+  const error = actionData?.error;
 
   useEffect(() => {
-    if (formState === "idle") formRef.current?.reset();
-  }, [action, formState]);
+    if (formState === "loading" && success) formRef.current?.reset();
+  }, [action, formState, success]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validate: TValidator = useCallback(
@@ -76,5 +76,6 @@ export const useForm = <T extends ZodRawShape>(
     action,
     formRef,
     isSubmitting: formState === "submitting",
+    response: { success, error },
   };
 };
