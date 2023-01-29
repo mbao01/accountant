@@ -114,10 +114,10 @@ export const makeAccountTransfer = async (
   const recipient = await getAccount(recipientId);
   const transferType = await getTransferRecordType();
 
-  invariant(sender.id, `sender with ID ${senderId} does not exist`);
-  invariant(recipient.id, `recipient with ID ${recipientId} does not exist`);
+  invariant(sender?.id, `sender with ID ${senderId} does not exist`);
+  invariant(recipient?.id, `recipient with ID ${recipientId} does not exist`);
   invariant(
-    transferType.id && transferType.RecordCategory?.[0].id,
+    transferType?.id && transferType.RecordCategory?.[0].id,
     `transfer cannot proceed - invalid record type`
   );
 
