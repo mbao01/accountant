@@ -4,6 +4,8 @@ import { CompleteRecord, RelatedRecordObjectSchema, CompleteAccount, RelatedAcco
 
 export const TransferObjectSchema = z.object({
   id: z.string(),
+  exchangeRate: z.number(),
+  receivedAmount: z.number(),
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
   recordId: z.string().cuid(),

@@ -22,6 +22,7 @@ export const AccountTransfer = ({ fromAccount }: AccountTransferProps) => {
     CreateTransferObjectSchema.omit({
       senderId: true,
       currencyCode: true,
+      exchangeRate: true,
     }),
     `${Route.ACCOUNT_TRANSFER}?redirect=${location.pathname}`
   );

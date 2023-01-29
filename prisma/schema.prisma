@@ -129,6 +129,8 @@ model Record {
 
 model Transfer {
   id                String      @id @unique @default(cuid())
+  exchangeRate      Float       @default(1)
+  receivedAmount    Float
   Record            Record      @relation(fields: [recordId], references: [id])
   Sender            Account     @relation(name: "Sender", fields: [senderId], references: [id])
   Recipient         Account     @relation(name: "Recipient", fields: [recipientId], references: [id])

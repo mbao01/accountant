@@ -11,4 +11,6 @@ node_modules
 
 /app/styles/tailwind.css
 
-/artefacts/**/*
+/artefacts
+
+/backup

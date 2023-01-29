@@ -107,9 +107,11 @@ export const makeAccountTransfer = async (
     amount: number;
     senderId: string;
     recipientId: string;
+    exchangeRate: number;
   }
 ) => {
-  const { senderId, recipientId, amount, currencyCode, note } = data;
+  const { senderId, recipientId, amount, exchangeRate, currencyCode, note } =
+    data;
   const sender = await getAccount(senderId);
   const recipient = await getAccount(recipientId);
   const transferType = await getTransferRecordType();
@@ -121,10 +123,12 @@ export const makeAccountTransfer = async (
     `transfer cannot proceed - invalid record type`
   );
 
+  const positiveAmount = Math.abs(amount);
+  const positiveExchangeRate = Math.abs(exchangeRate ?? 1);
   const record = await createRecord(request, {
     note,
     accountId: sender.id,
-    amount: Math.abs(amount),
+    amount: positiveAmount,
     currencyCode,
     recordTypeId: transferType.id,
     recordCategoryId: transferType.RecordCategory[0].id,
@@ -136,6 +140,8 @@ export const makeAccountTransfer = async (
     data: {
       recordId: record.id,
       senderId: sender.id,
+      exchangeRate: positiveExchangeRate,
+      receivedAmount: positiveAmount * positiveExchangeRate,
       recipientId: recipient.id,
     },
   });
