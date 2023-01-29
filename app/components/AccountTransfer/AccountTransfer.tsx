@@ -19,7 +19,10 @@ export const AccountTransfer = ({ fromAccount }: AccountTransferProps) => {
   const accountsFetcher = useTypedFetcher<typeof accountLoader>();
   const [showNoteInput, setShowNoteInput] = useState(false);
   const form = useForm(
-    CreateTransferObjectSchema,
+    CreateTransferObjectSchema.omit({
+      senderId: true,
+      currencyCode: true,
+    }),
     `${Route.ACCOUNT_TRANSFER}?redirect=${location.pathname}`
   );
   const fields = form.fields;
@@ -56,11 +59,7 @@ export const AccountTransfer = ({ fromAccount }: AccountTransferProps) => {
       <h4 className="my-0 text-lg font-bold text-gray-900">Transfer</h4>
       <Spacing />
       <div className="flex h-8 items-center justify-between text-sm">
-        <input
-          type="hidden"
-          value={fromAccount.id}
-          name={fields.senderId.name}
-        />
+        <input type="hidden" value={fromAccount.id} name="senderId" />
         <span>{fromAccount.name}</span>{" "}
         <span className="text-gray-500">({fromAccount.number})</span>
       </div>
@@ -89,7 +88,7 @@ export const AccountTransfer = ({ fromAccount }: AccountTransferProps) => {
           <CurrencyInput
             size="sm"
             code={fromAccount?.Currency.code}
-            currencyProps={{ name: fields.currencyCode.name, errors: [] }}
+            currencyProps={{ name: "currencyCode", errors: [] }}
             {...fields.amount}
           />
         </div>
