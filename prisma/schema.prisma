@@ -59,6 +59,8 @@ model Account {
   updatedAt       DateTime?    @updatedAt
   Record          Record[]
   RecordType      RecordType[]
+  Debit           Transfer[]   @relation("Sender")
+  Credit          Transfer[]   @relation("Recipient")
   User            User         @relation(fields: [userId], references: [id])
   userId          String       /// @zod.cuid()
 
@@ -110,6 +112,7 @@ model Record {
   Category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
   Account          Account        @relation(fields: [accountId], references: [id])
   User             User           @relation(fields: [createdBy], references: [id])
+  Transfer         Transfer?
   currencyCode     CurrencyCode
   note             String?
   createdAt        DateTime?      @default(now())
@@ -120,6 +123,20 @@ model Record {
   createdBy        String         /// @zod.cuid()
 
   @@map("records")
+}
+
+model Transfer {
+  id                String      @id @unique @default(cuid())
+  Record            Record      @relation(fields: [recordId], references: [id])
+  Sender            Account     @relation(name: "Sender", fields: [senderId], references: [id])
+  Recipient         Account     @relation(name: "Recipient", fields: [recipientId], references: [id])
+  createdAt         DateTime?   @default(now())
+  updatedAt         DateTime?   @updatedAt
+  recordId          String      @unique /// @zod.cuid()
+  senderId          String      /// @zod.cuid()
+  recipientId       String      /// @zod.cuid()
+
+  @@map("transfers")
 }
 
 enum Role {

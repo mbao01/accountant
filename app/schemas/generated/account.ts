@@ -1,7 +1,7 @@
 import * as z from "zod"
 import * as imports from "../../../prisma/null"
 import { TagPattern } from "@prisma/client"
-import { CompleteCurrency, RelatedCurrencyObjectSchema, CompleteRecord, RelatedRecordObjectSchema, CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteUser, RelatedUserObjectSchema } from "./index"
+import { CompleteCurrency, RelatedCurrencyObjectSchema, CompleteRecord, RelatedRecordObjectSchema, CompleteRecordType, RelatedRecordTypeObjectSchema, CompleteTransfer, RelatedTransferObjectSchema, CompleteUser, RelatedUserObjectSchema } from "./index"
 
 export const AccountObjectSchema = z.object({
   id: z.string(),
@@ -23,6 +23,8 @@ export interface CompleteAccount extends z.infer<typeof AccountObjectSchema> {
   Currency: CompleteCurrency
   Record: CompleteRecord[]
   RecordType: CompleteRecordType[]
+  Debit: CompleteTransfer[]
+  Credit: CompleteTransfer[]
   User: CompleteUser
 }
 
@@ -35,5 +37,7 @@ export const RelatedAccountObjectSchema: z.ZodSchema<CompleteAccount> = z.lazy((
   Currency: RelatedCurrencyObjectSchema,
   Record: RelatedRecordObjectSchema.array(),
   RecordType: RelatedRecordTypeObjectSchema.array(),
+  Debit: RelatedTransferObjectSchema.array(),
+  Credit: RelatedTransferObjectSchema.array(),
   User: RelatedUserObjectSchema,
 }))
