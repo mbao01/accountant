@@ -50,7 +50,7 @@ model Account {
   sortCode        String?
   Currency        Currency     @relation(fields: [currencyId], references: [id])
   currencyId      String       /// @zod.length(3)
-  startingBalance Float        /// @zod.custom(z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber)
+  startingBalance Float        /// @zod.custom(z.preprocess((a) => parseFloat(String((z.string().safeParse(a) as any).data).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber)
   bankName        String       /// @zod.min(3)
   bankAddress     String?
   bankCountry     String       /// @zod.min(3)
@@ -80,7 +80,7 @@ model Currency {
 
 model RecordType {
   id              String           @id @unique @default(cuid())
-  name            String           /// @zod.min(3)
+  name            String           @unique /// @zod.min(3)
   description     String           /// @zod.min(3)
   tag             TagColor?        @default(BLUE)
   hidden          Boolean?         @default(false)
@@ -109,7 +109,7 @@ model RecordCategory {
 
 model Record {
   id               String         @id @unique @default(cuid())
-  amount           Float          /// @zod.custom(z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber)
+  amount           Float          /// @zod.custom(z.preprocess((a) => parseFloat(String((z.string().safeParse(a) as any).data).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber)
   Type             RecordType     @relation(fields: [recordTypeId], references: [id])
   Category         RecordCategory @relation(fields: [recordCategoryId], references: [id])
   Account          Account        @relation(fields: [accountId], references: [id])

@@ -9,7 +9,7 @@ export const AccountObjectSchema = z.object({
   number: z.string().min(3),
   sortCode: z.string().nullish(),
   currencyId: z.string().length(3),
-  startingBalance: z.preprocess((a) => parseFloat(String(z.string().parse(a)).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber,
+  startingBalance: z.preprocess((a) => parseFloat(String((z.string().safeParse(a) as any).data).replaceAll(/[^\d.]/gi, '')), z.number().positive()) as unknown as z.ZodNumber,
   bankName: z.string().min(3),
   bankAddress: z.string().nullish(),
   bankCountry: z.string().min(3),
