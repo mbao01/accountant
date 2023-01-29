@@ -2,6 +2,7 @@ import {
   RecordObjectSchema,
   RecordTypeObjectSchema,
   RecordCategoryObjectSchema,
+  TransferObjectSchema,
 } from "./generated";
 
 export const CreateRecordObjectSchema = RecordObjectSchema.omit({
@@ -24,3 +25,16 @@ export const CreateRecordCategoryObjectSchema = RecordCategoryObjectSchema.omit(
     updatedAt: true,
   }
 );
+
+export const CreateTransferObjectSchema = TransferObjectSchema.merge(
+  RecordObjectSchema
+).omit({
+  id: true,
+  recordId: true,
+  accountId: true,
+  createdBy: true,
+  createdAt: true,
+  updatedAt: true,
+  recordTypeId: true,
+  recordCategoryId: true,
+});

@@ -1,9 +1,11 @@
 import type { CurrencyCode, RecordType } from "@prisma/client";
 import type { CreateAccount } from "~/schemas/types";
 import { prisma } from "~/db.server";
+import { createRecord, getTransferRecordType } from "~/models/record.server";
 import { requireUserId } from "~/session.server";
 import { aggregateFunc, groupBy } from "~/helpers/utils";
 import { getRecordTypes } from "./record.server";
+import invariant from "tiny-invariant";
 
 export const getAccounts = () => {
   return prisma.account.findMany({
@@ -94,5 +96,47 @@ export const createAccount = async (request: Request, data: CreateAccount) => {
 
   return prisma.account.create({
     data: { ...data, userId, currencyId: currency?.id! },
+  });
+};
+
+export const makeAccountTransfer = async (
+  request: Request,
+  data: {
+    note?: string | null | undefined;
+    currencyCode: CurrencyCode;
+    amount: number;
+    senderId: string;
+    recipientId: string;
+  }
+) => {
+  const { senderId, recipientId, amount, currencyCode, note } = data;
+  const sender = await getAccount(senderId);
+  const recipient = await getAccount(recipientId);
+  const transferType = await getTransferRecordType();
+
+  invariant(sender.id, `sender with ID ${senderId} does not exist`);
+  invariant(recipient.id, `recipient with ID ${recipientId} does not exist`);
+  invariant(
+    transferType.id && transferType.RecordCategory?.[0].id,
+    `transfer cannot proceed - invalid record type`
+  );
+
+  const record = await createRecord(request, {
+    note,
+    accountId: sender.id,
+    amount: Math.abs(amount),
+    currencyCode,
+    recordTypeId: transferType.id,
+    recordCategoryId: transferType.RecordCategory[0].id,
+  });
+
+  invariant(record.id, `unable to create transfer record`);
+
+  return prisma.transfer.create({
+    data: {
+      recordId: record.id,
+      senderId: sender.id,
+      recipientId: recipient.id,
+    },
   });
 };

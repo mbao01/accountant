@@ -1,6 +1,7 @@
 import { Form, useLocation } from "@remix-run/react";
 import { TAG_PATTERN_OPTIONS } from "~/helpers/tag";
 import { useForm } from "~/hooks/useForm/useForm";
+import { Route } from "~/routes.enum";
 import { CreateAccountObjectSchema } from "~/schemas/account";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
@@ -13,7 +14,7 @@ export const NewAccount = () => {
   const location = useLocation();
   const form = useForm(
     CreateAccountObjectSchema,
-    `/accounts/new?redirect=${location.pathname}`
+    `${Route.NEW_ACCOUNT}?redirect=${location.pathname}`
   );
   const fields = form.fields;
 

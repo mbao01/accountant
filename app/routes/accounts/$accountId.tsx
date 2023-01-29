@@ -13,6 +13,7 @@ import { getAccountAnalytics } from "~/models/account.server";
 import { Button } from "~/ui/Button";
 import { Popover } from "~/ui/Popover";
 import { Table } from "~/ui/Table";
+import { AccountTransfer } from "~/components/AccountTransfer";
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { accountId } = params;
@@ -145,7 +146,16 @@ const AccountRoute = () => {
           })}
         </div>
       </div>
-      <div className="mb-4 flex justify-end">
+      <div className="mb-4 flex justify-end gap-6">
+        <Popover
+          trigger={() => (
+            <Button size="sm" outline>
+              Transfer
+            </Button>
+          )}
+        >
+          <AccountTransfer fromAccount={account} />
+        </Popover>
         <Popover trigger={() => <Button size="sm">Add Record</Button>}>
           <AddRecord account={account} />
         </Popover>
