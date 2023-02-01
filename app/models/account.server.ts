@@ -73,7 +73,12 @@ export const getAccountAnalytics = async (accountId: string) => {
       const recordType = recordTypes.find(
         ({ name }) => name === key
       ) as RecordType;
-      acc[key] = { recordType, ...aggregateFunc(items, (item) => item.amount) };
+      if (recordType) {
+        acc[key] = {
+          recordType,
+          ...aggregateFunc(items, (item) => item.amount),
+        };
+      }
       return acc;
     },
     {} as Record<

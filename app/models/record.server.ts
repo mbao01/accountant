@@ -53,11 +53,9 @@ export const getRecordType = (
   });
 };
 
-export const getRecordTypes = (
-  select?: Prisma.RecordTypeSelect,
-  where?: Prisma.RecordTypeWhereInput
-) => {
+export const getRecordTypes = (select?: Prisma.RecordTypeSelect) => {
   return prisma.recordType.findMany({
+    where: { hidden: false },
     select: {
       id: true,
       name: true,
