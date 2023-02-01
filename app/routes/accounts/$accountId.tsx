@@ -130,8 +130,6 @@ const AccountRoute = () => {
     ];
   }, []);
 
-  console.log("Aggrgate: ", aggregate);
-
   return (
     <div className="py-6 px-6">
       <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
@@ -158,16 +156,16 @@ const AccountRoute = () => {
         </div>
         <div className="flex gap-12">
           <Detail
-            tag="GREEN"
+            tag="PURPLE"
             title="Transfer In"
             value={formatCurrency(totalCredit, account.Currency.code)}
-            footer={totalCredit > 0 ? `${noOfCredits} transfers` : undefined}
+            footer={noOfCredits > 0 ? `${noOfCredits} transfers` : undefined}
           />
           <Detail
-            tag="RED"
+            tag="YELLOW"
             title="Transfer Out"
             value={formatCurrency(totalDebit, account.Currency.code)}
-            footer={totalCredit > 0 ? `${noOfDebits} transfers` : undefined}
+            footer={noOfDebits > 0 ? `${noOfDebits} transfers` : undefined}
           />
           {Object.values(aggregate).map(({ $sum, $max, recordType }) => {
             return (
