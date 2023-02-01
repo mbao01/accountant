@@ -1,5 +1,4 @@
 import type { Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 import type {
   CreateRecord,
@@ -54,9 +53,11 @@ export const getRecordType = (
   });
 };
 
-export const getRecordTypes = (select?: Prisma.RecordTypeSelect) => {
+export const getRecordTypes = (
+  select?: Prisma.RecordTypeSelect,
+  where?: Prisma.RecordTypeWhereInput
+) => {
   return prisma.recordType.findMany({
-    where: { hidden: false },
     select: {
       id: true,
       name: true,
@@ -96,6 +97,24 @@ export const getTransferRecordType = async () => {
     });
   }
   return transferType;
+};
+
+export const getTransfersInRecord = (recipientId: string) => {
+  return prisma.transfer.findMany({
+    where: { recipientId },
+    include: {
+      Record: true,
+    },
+  });
+};
+
+export const getTransfersOutRecord = (senderId: string) => {
+  return prisma.transfer.findMany({
+    where: { senderId },
+    include: {
+      Record: true,
+    },
+  });
 };
 
 export const createRecordType = (data: CreateRecordType) => {

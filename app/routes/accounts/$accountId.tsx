@@ -18,12 +18,28 @@ import { AccountTransfer } from "~/components/AccountTransfer";
 export const loader = async ({ params }: LoaderArgs) => {
   const { accountId } = params;
   invariant(accountId, "account id required");
-  const { account, records, balance, aggregate } = await getAccountAnalytics(
-    accountId
-  );
+  const {
+    account,
+    records,
+    balance,
+    aggregate,
+    totalCredit,
+    totalDebit,
+    noOfCredits,
+    noOfDebits,
+  } = await getAccountAnalytics(accountId);
   return typedjson({
     success: true as const,
-    data: { account, records, balance, aggregate },
+    data: {
+      account,
+      records,
+      balance,
+      aggregate,
+      totalCredit,
+      totalDebit,
+      noOfCredits,
+      noOfDebits,
+    },
   });
 };
 
@@ -36,7 +52,7 @@ const Detail = ({
   tag: TagColor | null;
   title: string;
   value: string;
-  footer: string;
+  footer?: string;
 }) => {
   const color = (tag ? TAG_LABEL[tag] : TAG_LABEL.GRAY).toLowerCase();
   return (
@@ -45,7 +61,7 @@ const Detail = ({
     >
       <h6 className="text-xs uppercase text-gray-500">{title}</h6>
       <div className={`my-1 text-2xl text-${color}-800`}>{value}</div>
-      <div className="mt-auto text-sm text-gray-500">{footer}</div>
+      {footer && <div className="mt-auto text-sm text-gray-500">{footer}</div>}
       <span
         className={`bg-${color}-600 absolute top-0 left-0 block h-1.5 w-full`}
       />
@@ -55,7 +71,16 @@ const Detail = ({
 
 const AccountRoute = () => {
   const { data } = useTypedLoaderData<typeof loader>();
-  const { account, records, aggregate, balance } = data;
+  const {
+    account,
+    records,
+    aggregate,
+    balance,
+    totalCredit,
+    totalDebit,
+    noOfCredits,
+    noOfDebits,
+  } = data;
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<ItemType<typeof records>>();
@@ -105,6 +130,8 @@ const AccountRoute = () => {
     ];
   }, []);
 
+  console.log("Aggrgate: ", aggregate);
+
   return (
     <div className="py-6 px-6">
       <div className="mb-6 flex flex-row flex-nowrap items-center justify-between">
@@ -130,6 +157,18 @@ const AccountRoute = () => {
           </div>
         </div>
         <div className="flex gap-12">
+          <Detail
+            tag="GREEN"
+            title="Transfer In"
+            value={formatCurrency(totalCredit, account.Currency.code)}
+            footer={totalCredit > 0 ? `${noOfCredits} transfers` : undefined}
+          />
+          <Detail
+            tag="RED"
+            title="Transfer Out"
+            value={formatCurrency(totalDebit, account.Currency.code)}
+            footer={totalCredit > 0 ? `${noOfDebits} transfers` : undefined}
+          />
           {Object.values(aggregate).map(({ $sum, $max, recordType }) => {
             return (
               <Detail

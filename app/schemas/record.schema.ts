@@ -36,5 +36,7 @@ export const CreateTransferObjectSchema = TransferObjectSchema.merge(
   createdAt: true,
   updatedAt: true,
   recordTypeId: true,
+  receivedAmount: true,
+  exchangeRate: true,
   recordCategoryId: true,
 });

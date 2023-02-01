@@ -20,9 +20,11 @@ export const AccountTransfer = ({ fromAccount }: AccountTransferProps) => {
   const [showNoteInput, setShowNoteInput] = useState(false);
   const form = useForm(
     CreateTransferObjectSchema.omit({
+      node: true,
       senderId: true,
       currencyCode: true,
       exchangeRate: true,
+      receivedAmount: true,
     }),
     `${Route.ACCOUNT_TRANSFER}?redirect=${location.pathname}`
   );

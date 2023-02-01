@@ -1,7 +1,12 @@
 import type { CurrencyCode, RecordType } from "@prisma/client";
 import type { CreateAccount } from "~/schemas/types";
 import { prisma } from "~/db.server";
-import { createRecord, getTransferRecordType } from "~/models/record.server";
+import {
+  createRecord,
+  getTransfersInRecord,
+  getTransfersOutRecord,
+  getTransferRecordType,
+} from "~/models/record.server";
 import { requireUserId } from "~/session.server";
 import { aggregateFunc, groupBy } from "~/helpers/utils";
 import { getRecordTypes } from "./record.server";
@@ -77,12 +82,37 @@ export const getAccountAnalytics = async (accountId: string) => {
     >
   );
 
+  const creditTransfers = await getTransfersInRecord(account.id);
+  const noOfCredits = creditTransfers.length;
+  const totalCredit = creditTransfers.reduce(
+    (acc, transfer) => acc + transfer?.receivedAmount,
+    0
+  );
+
+  const debitTransfers = await getTransfersOutRecord(account.id);
+  const noOfDebits = debitTransfers.length;
+  const totalDebit = debitTransfers.reduce(
+    (acc, transfer) => acc + transfer?.receivedAmount,
+    0
+  );
+
   const balance =
     Number(account.startingBalance) +
+    Number(totalCredit) -
+    Number(totalDebit) -
     Number(aggregate["Income"]?.$sum ?? "") -
     Number(aggregate["Expense"]?.$sum ?? "");
 
-  return { account, records, balance, aggregate };
+  return {
+    account,
+    records,
+    balance,
+    aggregate,
+    totalCredit,
+    totalDebit,
+    noOfCredits,
+    noOfDebits,
+  };
 };
 
 export const createAccount = async (request: Request, data: CreateAccount) => {
@@ -107,11 +137,17 @@ export const makeAccountTransfer = async (
     amount: number;
     senderId: string;
     recipientId: string;
-    exchangeRate: number;
+    exchangeRate?: number;
   }
 ) => {
-  const { senderId, recipientId, amount, exchangeRate, currencyCode, note } =
-    data;
+  const {
+    senderId,
+    recipientId,
+    amount,
+    exchangeRate = 1,
+    currencyCode,
+    note,
+  } = data;
   const sender = await getAccount(senderId);
   const recipient = await getAccount(recipientId);
   const transferType = await getTransferRecordType();
