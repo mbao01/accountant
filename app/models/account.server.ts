@@ -92,7 +92,7 @@ export const getAccountAnalytics = async (accountId: string) => {
   const debitTransfers = await getTransfersOutRecord(account.id);
   const noOfDebits = debitTransfers.length;
   const totalDebit = debitTransfers.reduce(
-    (acc, transfer) => acc + transfer?.receivedAmount,
+    (acc, transfer) => acc + transfer?.Record.amount,
     0
   );
 
