@@ -13,7 +13,7 @@ export const Layout = (props: LayoutProps) => {
         <div className="flex flex-col items-center justify-center pt-28 pb-6">
           <img
             className={logoClass}
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            src="/accountant.png"
             alt="Accountant logo"
           />
         </div>

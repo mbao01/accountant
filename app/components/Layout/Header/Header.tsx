@@ -30,12 +30,8 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
   return location.pathname === Route.ROOT ? (
     <header className="flex flex-col items-center justify-center pt-28 pb-6">
-      <img
-        className={logoClass}
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Accountant logo"
-      />
-      <div className="relative mb-2 text-lg">
+      <img className={logoClass} src="/accountant.png" alt="Accountant logo" />
+      <div className="relative my-2 text-lg">
         {title}
         <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75" />
         <span className="absolute inline-flex h-2 w-2 rounded-full bg-green-500" />
@@ -85,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
       <Link to={Route.ROOT} className={homeLinkClass} prefetch="intent">
         <img
           className={logoClass}
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+          src="/accountant.png"
           alt="Accountant logo"
         />
         <span className="">{title}</span>

@@ -11,6 +11,6 @@ export const activeNavLinkClass = "text-purple-700";
 export const logOutLinkClass =
   "flex flex-1 flex-nowrap items-center justify-end text-sm text-purple-500 gap-2";
 
-export const homeLinkClass = "flex items-center justify-center gap-4";
+export const homeLinkClass = "flex items-center justify-center gap-3";
 
-export const logoClass = "h-8 w-auto sm:h-10";
+export const logoClass = "h-8 w-auto";
