@@ -99,7 +99,7 @@ export const getAccountAnalytics = async (accountId: string) => {
   const balance =
     Number(account.startingBalance) +
     Number(totalCredit) -
-    Number(totalDebit) -
+    Number(totalDebit) +
     Number(aggregate["Income"]?.$sum ?? "") -
     Number(aggregate["Expense"]?.$sum ?? "");
 
