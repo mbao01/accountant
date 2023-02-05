@@ -148,7 +148,7 @@ const AccountRoute = () => {
             footer={credits.count > 0 ? `${credits.count} credits` : undefined}
           />
           <Detail
-            tag="YELLOW"
+            tag="GRAY"
             title="Transfer Out"
             value={formatCurrency(debits.amount, account.Currency.code)}
             footer={debits.count > 0 ? `${debits.count} debits` : undefined}
