@@ -14,7 +14,7 @@ import { Select } from "~/ui/Select";
 import { Button } from "~/ui/Button";
 import { ROLE_OPTIONS } from "~/helpers/role";
 import { useForm } from "~/hooks/useForm";
-import { CreateUserObjectSchema } from "~/schemas/user";
+import { CreateUserObjectSchema } from "~/schemas/user.schema";
 import { validatePayload } from "~/helpers/api";
 import { typedjson, useTypedActionData } from "remix-typedjson";
 

@@ -3,14 +3,17 @@ import type { CreateAccount } from "~/schemas/types";
 import { prisma } from "~/db.server";
 import {
   createRecord,
-  getTransfersInRecord,
-  getTransfersOutRecord,
   getTransferRecordType,
+  getCreditTransfers,
+  getDebitTransfers,
 } from "~/models/record.server";
 import { requireUserId } from "~/session.server";
 import { aggregateFunc, groupBy } from "~/helpers/utils";
 import { getRecordTypes } from "./record.server";
 import invariant from "tiny-invariant";
+import { TRANSFER_RECORD } from "~/helpers/api";
+import { getTime } from "date-fns";
+import { formatCurrency } from "~/helpers/currency";
 
 export const getAccounts = () => {
   return prisma.account.findMany({
@@ -49,7 +52,14 @@ export const getAccount = (accountId: string) => {
 
 export const getAccountRecords = (accountId: string) => {
   return prisma.record.findMany({
-    where: { accountId },
+    where: {
+      accountId,
+      Type: {
+        NOT: {
+          name: TRANSFER_RECORD.name,
+        },
+      },
+    },
     select: {
       id: true,
       note: true,
@@ -87,18 +97,46 @@ export const getAccountAnalytics = async (accountId: string) => {
     >
   );
 
-  const creditTransfers = await getTransfersInRecord(account.id);
-  const noOfCredits = creditTransfers.length;
+  const creditTransfers = await getCreditTransfers(account.id);
   const totalCredit = creditTransfers.reduce(
-    (acc, transfer) => acc + transfer?.receivedAmount,
+    (total, transfer) => total + transfer?.receivedAmount,
     0
   );
+  const creditRecords = creditTransfers.map((transfer) => {
+    transfer.Record.currencyCode = transfer.Recipient.Currency.code;
+    transfer.Record.Category.name = "Credit";
+    const senderName = transfer.Sender.name;
+    const amountReceived = formatCurrency(
+      transfer.receivedAmount,
+      transfer.Sender.Currency.code
+    );
+    transfer.Record.note = `From: ${senderName} <br /> Amount: ${amountReceived} <br /> ${
+      transfer.Record.note ?? ""
+    }`;
+    return transfer.Record;
+  });
 
-  const debitTransfers = await getTransfersOutRecord(account.id);
-  const noOfDebits = debitTransfers.length;
+  const debitTransfers = await getDebitTransfers(account.id);
   const totalDebit = debitTransfers.reduce(
-    (acc, transfer) => acc + transfer?.Record.amount,
+    (total, transfer) => total + transfer?.Record.amount,
     0
+  );
+  const debitRecords = debitTransfers.map((transfer) => {
+    transfer.Record.currencyCode = transfer.Sender.Currency.code;
+    transfer.Record.Category.name = "Debit";
+    const recipientName = transfer.Recipient.name;
+    const amountSent = formatCurrency(
+      transfer.receivedAmount,
+      transfer.Recipient.Currency.code
+    );
+    transfer.Record.note = `To: ${recipientName} <br /> Amount: ${amountSent} <br /> ${
+      transfer.Record.note ?? ""
+    }`;
+    return transfer.Record;
+  });
+
+  const allRecords = [...records, ...creditRecords, ...debitRecords].sort(
+    (a, b) => getTime(new Date(b.createdAt!)) - getTime(new Date(a.createdAt!))
   );
 
   const balance =
@@ -110,13 +148,11 @@ export const getAccountAnalytics = async (accountId: string) => {
 
   return {
     account,
-    records,
     balance,
+    records: allRecords,
     aggregate,
-    totalCredit,
-    totalDebit,
-    noOfCredits,
-    noOfDebits,
+    debits: { amount: totalDebit, count: debitTransfers.length },
+    credits: { amount: totalCredit, count: creditTransfers.length },
   };
 };
 
@@ -160,7 +196,7 @@ export const makeAccountTransfer = async (
   invariant(sender?.id, `sender with ID ${senderId} does not exist`);
   invariant(recipient?.id, `recipient with ID ${recipientId} does not exist`);
   invariant(
-    transferType?.id && transferType.RecordCategory?.[0].id,
+    transferType?.id && transferType.RecordCategory.length > 0,
     `transfer cannot proceed - invalid record type`
   );
 
@@ -168,8 +204,8 @@ export const makeAccountTransfer = async (
   const positiveExchangeRate = Math.abs(exchangeRate ?? 1);
   const record = await createRecord(request, {
     note,
-    accountId: sender.id,
     amount: positiveAmount,
+    accountId: sender.id,
     currencyCode,
     recordTypeId: transferType.id,
     recordCategoryId: transferType.RecordCategory[0].id,
@@ -181,9 +217,9 @@ export const makeAccountTransfer = async (
     data: {
       recordId: record.id,
       senderId: sender.id,
+      recipientId: recipient.id,
       exchangeRate: positiveExchangeRate,
       receivedAmount: positiveAmount * positiveExchangeRate,
-      recipientId: recipient.id,
     },
   });
 };

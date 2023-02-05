@@ -9,7 +9,7 @@ import { Button } from "~/ui/Button";
 import { Input } from "~/ui/Input";
 import { Spacing } from "~/ui/Spacing";
 import { useForm } from "~/hooks/useForm";
-import { LoginUserObjectSchema } from "~/schemas/user";
+import { LoginUserObjectSchema } from "~/schemas/user.schema";
 import { typedjson, useTypedActionData } from "remix-typedjson";
 
 export async function loader({ request }: LoaderArgs) {

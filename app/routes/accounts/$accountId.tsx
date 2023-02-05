@@ -18,27 +18,17 @@ import { AccountTransfer } from "~/components/AccountTransfer";
 export const loader = async ({ params }: LoaderArgs) => {
   const { accountId } = params;
   invariant(accountId, "account id required");
-  const {
-    account,
-    records,
-    balance,
-    aggregate,
-    totalCredit,
-    totalDebit,
-    noOfCredits,
-    noOfDebits,
-  } = await getAccountAnalytics(accountId);
+  const { debits, credits, account, records, balance, aggregate } =
+    await getAccountAnalytics(accountId);
   return typedjson({
     success: true as const,
     data: {
+      debits,
+      credits,
       account,
       records,
       balance,
       aggregate,
-      totalCredit,
-      totalDebit,
-      noOfCredits,
-      noOfDebits,
     },
   });
 };
@@ -71,16 +61,7 @@ const Detail = ({
 
 const AccountRoute = () => {
   const { data } = useTypedLoaderData<typeof loader>();
-  const {
-    account,
-    records,
-    aggregate,
-    balance,
-    totalCredit,
-    totalDebit,
-    noOfCredits,
-    noOfDebits,
-  } = data;
+  const { debits, credits, account, records, aggregate, balance } = data;
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<ItemType<typeof records>>();
@@ -111,7 +92,12 @@ const AccountRoute = () => {
       columnHelper.accessor("note", {
         cell: (info) => {
           const note = info.getValue();
-          return <div className="flex items-center gap-2">{note ?? "-"}</div>;
+          return (
+            <div
+              className="flex items-center gap-2"
+              dangerouslySetInnerHTML={{ __html: note ?? "-" }}
+            />
+          );
         },
       }),
       columnHelper.accessor("User", {
@@ -158,14 +144,14 @@ const AccountRoute = () => {
           <Detail
             tag="PURPLE"
             title="Transfer In"
-            value={formatCurrency(totalCredit, account.Currency.code)}
-            footer={noOfCredits > 0 ? `${noOfCredits} transfers` : undefined}
+            value={formatCurrency(credits.amount, account.Currency.code)}
+            footer={credits.count > 0 ? `${credits.count} credits` : undefined}
           />
           <Detail
             tag="YELLOW"
             title="Transfer Out"
-            value={formatCurrency(totalDebit, account.Currency.code)}
-            footer={noOfDebits > 0 ? `${noOfDebits} transfers` : undefined}
+            value={formatCurrency(debits.amount, account.Currency.code)}
+            footer={debits.count > 0 ? `${debits.count} debits` : undefined}
           />
           {Object.values(aggregate).map(({ $sum, $max, recordType }) => {
             return (

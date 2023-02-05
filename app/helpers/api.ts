@@ -6,6 +6,10 @@ import httpStatus, { type HttpStatus } from "http-status";
 import type { TServerError } from "./types";
 import { Route } from "~/routes.enum";
 
+export const TRANSFER_RECORD = {
+  name: "Transfer",
+} as const;
+
 export const redirectRequest = ({ request }: ActionArgs) => {
   const url = new URL(request.url);
   const params = new URLSearchParams(url.search);

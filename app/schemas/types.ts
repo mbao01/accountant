@@ -4,7 +4,7 @@ import type {
   CreateRecordTypeObjectSchema,
 } from "~/schemas/record.schema";
 import type { z } from "zod";
-import type { CreateAccountObjectSchema } from "./account";
+import type { CreateAccountObjectSchema } from "./account.schema";
 
 export type CreateRecordType = z.infer<typeof CreateRecordTypeObjectSchema>;
 

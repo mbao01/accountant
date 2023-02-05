@@ -2,7 +2,7 @@ import { Form, useLocation } from "@remix-run/react";
 import { TAG_PATTERN_OPTIONS } from "~/helpers/tag";
 import { useForm } from "~/hooks/useForm/useForm";
 import { Route } from "~/routes.enum";
-import { CreateAccountObjectSchema } from "~/schemas/account";
+import { CreateAccountObjectSchema } from "~/schemas/account.schema";
 import { Button } from "~/ui/Button";
 import { CurrencyInput } from "~/ui/CurrencyInput.tsx";
 import { Input } from "~/ui/Input";

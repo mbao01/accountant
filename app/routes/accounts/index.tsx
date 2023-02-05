@@ -62,7 +62,7 @@ const AccountsIndex = () => {
           return formatCurrency(startingBalance, Currency.code);
         },
       }),
-      columnHelper.accessor((info) => info._count.Record, {
+      columnHelper.accessor((info) => info._count.Record + info._count.Credit, {
         header: "Records",
       }),
       columnHelper.accessor((info) => info.User.firstname, {

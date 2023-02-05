@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { typedjson } from "remix-typedjson";
 import { redirectRequest, safeAction, validatePayload } from "~/helpers/api";
 import { createAccount } from "~/models/account.server";
-import { CreateAccountObjectSchema } from "~/schemas/account";
+import { CreateAccountObjectSchema } from "~/schemas/account.schema";
 
 export const loader: LoaderFunction = redirectRequest;
 

@@ -1,5 +1,6 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "~/db.server";
+import { TRANSFER_RECORD } from "~/helpers/api";
 import type {
   CreateRecord,
   CreateRecordType,
@@ -69,7 +70,7 @@ export const getRecordTypes = (select?: Prisma.RecordTypeSelect) => {
 
 export const getTransferRecordType = async () => {
   const transferType = await prisma.recordType.findUnique({
-    where: { name: "Transfer" },
+    where: { name: TRANSFER_RECORD.name },
     include: {
       RecordCategory: true,
     },
@@ -78,13 +79,13 @@ export const getTransferRecordType = async () => {
     return await prisma.recordType.create({
       data: {
         hidden: true,
-        name: "Transfer",
+        name: TRANSFER_RECORD.name,
         description: "",
         tag: "SMALT",
         RecordCategory: {
           create: {
             hidden: true,
-            name: "Transfer",
+            name: TRANSFER_RECORD.name,
             description: "",
           },
         },
@@ -97,20 +98,84 @@ export const getTransferRecordType = async () => {
   return transferType;
 };
 
-export const getTransfersInRecord = (recipientId: string) => {
+export const getCreditTransfers = (recipientId: string) => {
   return prisma.transfer.findMany({
     where: { recipientId },
-    include: {
-      Record: true,
+    select: {
+      id: true,
+      exchangeRate: true,
+      receivedAmount: true,
+      Sender: {
+        select: {
+          name: true,
+          number: true,
+          Currency: {
+            select: { code: true },
+          },
+        },
+      },
+      Recipient: {
+        select: {
+          name: true,
+          number: true,
+          Currency: {
+            select: { code: true },
+          },
+        },
+      },
+      Record: {
+        select: {
+          id: true,
+          note: true,
+          amount: true,
+          createdAt: true,
+          currencyCode: true,
+          Category: { select: { name: true } },
+          Type: { select: { name: true } },
+          User: { select: { firstname: true } },
+        },
+      },
     },
   });
 };
 
-export const getTransfersOutRecord = (senderId: string) => {
+export const getDebitTransfers = (senderId: string) => {
   return prisma.transfer.findMany({
     where: { senderId },
-    include: {
-      Record: true,
+    select: {
+      id: true,
+      exchangeRate: true,
+      receivedAmount: true,
+      Sender: {
+        select: {
+          name: true,
+          number: true,
+          Currency: {
+            select: { code: true },
+          },
+        },
+      },
+      Recipient: {
+        select: {
+          name: true,
+          number: true,
+          Currency: {
+            select: { code: true },
+          },
+        },
+      },
+      Record: {
+        select: {
+          id: true,
+          note: true,
+          amount: true,
+          createdAt: true,
+          currencyCode: true,
+          Category: { select: { name: true } },
+          Type: { select: { name: true } },
+          User: { select: { firstname: true } },
+        },
+      },
     },
   });
 };
