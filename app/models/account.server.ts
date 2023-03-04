@@ -144,7 +144,8 @@ export const getAccountAnalytics = async (accountId: string) => {
     Number(totalCredit) -
     Number(totalDebit) +
     Number(aggregate["Income"]?.$sum ?? "") -
-    Number(aggregate["Expense"]?.$sum ?? "");
+    Number(aggregate["Expense"]?.$sum ?? "") -
+    Number(aggregate["Investment"]?.$sum ?? "");
 
   return {
     account,
