@@ -30,13 +30,8 @@ export async function action({ request }: ActionArgs) {
   }
 
   const existingUser = await getUserByEmail(email);
-  if (existingUser) {
-    return typedjson(
-      {
-        error: "A user already exists with this email",
-      },
-      { status: 400 }
-    );
+  if (!existingUser) {
+    return redirect(Route.LOGIN);
   }
 
   await resetPassword(email, password);
