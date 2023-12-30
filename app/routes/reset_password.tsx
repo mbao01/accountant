@@ -41,7 +41,7 @@ export async function action({ request }: ActionArgs) {
 
   await resetPassword(email, password);
 
-  return redirect("/login");
+  return redirect(Route.LOGIN);
 }
 
 export const meta: MetaFunction = () => {

@@ -2,6 +2,7 @@ export enum Route {
   ROOT = "/",
   LOGIN = "/login",
   LOGOUT = "/logout",
+  RESET_PASSWORD = "/reset_password",
   RECORDS = "/records",
   ACCOUNTS = "/accounts",
   REGISTER = "/register",

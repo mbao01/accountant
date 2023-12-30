@@ -36,7 +36,9 @@ export const meta: MetaFunction = () => ({
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
 
-  if (["", Route.LOGIN, Route.LOGOUT].includes(url.pathname)) {
+  if (
+    ["", Route.LOGIN, Route.LOGOUT, Route.RESET_PASSWORD].includes(url.pathname)
+  ) {
     return typedjson({ success: true, data: null }, httpStatus.OK);
   }
 
