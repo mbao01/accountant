@@ -8,7 +8,7 @@ import { Input } from "~/ui/Input";
 import { Spacing } from "~/ui/Spacing";
 import { Button } from "~/ui/Button";
 import { useForm } from "~/hooks/useForm";
-import { CreateUserObjectSchema } from "~/schemas/user.schema";
+import { ResetPasswordObjectSchema } from "~/schemas/user.schema";
 import { typedjson } from "remix-typedjson";
 import { Route } from "~/routes.enum";
 
@@ -53,7 +53,7 @@ export const meta: MetaFunction = () => {
 export default function Register() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
-  const form = useForm(CreateUserObjectSchema);
+  const form = useForm(ResetPasswordObjectSchema);
   const fields = form.fields;
 
   return (
@@ -75,15 +75,15 @@ export default function Register() {
           {...fields.email}
         />
         <Input
+          required
           size="sm"
           type="password"
-          name="password"
           label="Password"
-          required
+          {...fields.password}
         />
       </div>
       <Spacing />
-      <Input size="sm" type="text" name="secret" label="Secret" required />
+      <Input required size="sm" type="text" label="Secret" {...fields.secret} />
       <Spacing />
       <Button
         size="sm"
